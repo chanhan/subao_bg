@@ -1,0 +1,41 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* tabbasketball   篮球 美足 冰球赛事*/
+/*--border+padding+width=1079---*/
+.tabbasketball dd li:first-child {
+    width: 43px;
+}
+.tabbasketball dd li:nth-child(2) {
+    width: 50px;
+}
+.tabbasketball dd li:nth-child(3) {
+    width: 120px;
+}
+.tabbasketball dd li:nth-child(4) {
+    width: 60px;
+}
+.tabbasketball dd li:nth-child(5) {
+    width: 50px;
+}
+.tabbasketball dd li:nth-child(6) {
+    width: 150px;
+}
+.tabbasketball dd li:nth-child(7) {
+    width: 150px;
+}
+.tabbasketball dd li:nth-child(8) {
+    width: 60px;
+}
+.tabbasketball dd li:nth-child(9)  {
+    width: 70px;
+}
+.tabbasketball dd li:nth-child(10)  {
+    width: 80px;
+}
+.tabbasketball dd li:nth-child(11)  {
+    width: 125px;
+}
+.tabbasketball dd:first-child ul li {
+    height: 50px;
+}

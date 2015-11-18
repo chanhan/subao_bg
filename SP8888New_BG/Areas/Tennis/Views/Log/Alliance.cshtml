@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.TennisAlliance>, List<Models.TennisAlliance>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "AllianceAdd" : (Model.Item3 == 2 ? "AllianceDelete" : "AllianceEdit");
+    List<Models.TennisAlliance> tennis = new List<Models.TennisAlliance>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            tennis.Add(olditem);
+        }
+        index++;
+        tennis.Add(newitem);
+        @Html.DisplayFor(p => tennis, viewName)
+        tennis.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            tennis.Add(newitem);
+            @Html.DisplayFor(p => tennis, viewName)
+            tennis.Clear();
+        }
+    }
+}

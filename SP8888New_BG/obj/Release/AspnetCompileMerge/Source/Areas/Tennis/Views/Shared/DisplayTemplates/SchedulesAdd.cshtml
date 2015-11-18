@@ -1,0 +1,41 @@
+﻿@model List<Models.ViewModel.Tennis>
+@{
+    Models.ViewModel.Tennis newdata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName("TN")
+        <br>(大聯盟)：
+        <font color="red">
+            @newdata.AllianceName
+        </font>
+        <br>
+        (日期)：
+        <font color="red">
+            @newdata.GameDate.ToString("yyyy-MM-dd")
+        </font>
+        <br>
+        (時間)：
+        <font color="red">
+            @newdata.GameTime.ToString(@"hh\:mm")
+        </font>
+        <br>
+        (选手)：
+        <font color="red">
+            @newdata.TeamAName<text>(@newdata.AllianceShowName)</text>
+        </font>
+        <br>
+        (选手)：
+        <font color="red">
+            @newdata.TeamBName<text>(@newdata.AllianceShowName)</text>
+        </font>
+        <br>
+        (賽程狀態)：
+        <font color="red">
+            @Common.AppData.GetStatesText(newdata.GameStates)
+        </font>
+        <br>
+        (顯示狀態)：
+        <font color="red">@(newdata.IsDeleted == true ? "显示" : "隐藏")</font>
+    </b>
+</div>

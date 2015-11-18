@@ -1,0 +1,17 @@
+﻿@model List<Models.Employee>
+@{
+    Models.Employee olddata = Model[0];
+}
+<div>
+    <b>
+        工程師帳號：
+        <font color="blue">@olddata.EmployeeName</font>
+        <br>
+        工程師
+        <font color="blue">@Common.AppData.GetEmployeeRankName(olddata.Rank)</font>
+        <br>
+        (密碼)：
+        <font color="blue">*****</font>
+        <br>
+    </b>
+</div>

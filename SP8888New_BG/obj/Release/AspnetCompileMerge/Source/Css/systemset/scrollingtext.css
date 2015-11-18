@@ -1,0 +1,84 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.guanggaoguanli-title {
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 5px;
+    color: #43434b;
+}
+.tabdl-paomaleft dl dd  li:first-child {
+    background-color: #e6eed5;
+    width:90px;
+}
+.tabdl-paomaright dl dd  li:first-child {
+    background-color: #d2eaf1;
+    width:100px;
+}
+.tabdl-guanggao   dl  dd  li:last-child {
+    width:418px;
+}
+.tabdl-guanggao dl dd:last-child ul li {
+    text-align: center;
+    padding-bottom: 8px;
+    width: 519px;
+}
+.tabdl-paomaright dl dd:last-child ul li {
+    width: 529px;
+}
+.paomadeng-contentl {
+    float: left;
+    width: 531px;
+}
+
+.paomadeng-contentr {
+    float:right;
+    width: 541px;
+    margin-left: 6px;
+}
+
+.tabdl-guanggao dd li:last-child input[type="text"] {
+    height: 24px;
+}
+.tabdl-guanggao dd li:last-child textarea {
+    width: 427px;
+}
+
+
+.shedingpaoma dd li:first-child {
+    width: 30px;
+}
+.shedingpaoma dd li:nth-child(2) {
+    width: 96px;
+}
+
+.shedingpaoma dd li:nth-child(3) {
+    width: 96px;
+}
+
+.shedingpaoma dd li:nth-child(4) {
+    width:76px;
+}
+
+.shedingpaoma dd li:nth-child(5) {
+    width:60px;
+}
+.shedingpaoma dd li:nth-child(6) {
+    width:230px;
+    text-align: left;
+}
+.shedingpaoma dd li:nth-child(7) {
+    width:200px;
+    text-align: left;
+
+}
+.shedingpaoma dd li:nth-child(8) {
+    width:60px;
+}
+.shedingpaoma dd li:nth-child(9) {
+    width:60px;
+}
+
+.shedingpaoma dl dd li:last-child {
+    width: 60px;
+}
+

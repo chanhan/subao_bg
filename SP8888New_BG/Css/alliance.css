@@ -1,0 +1,30 @@
+﻿@charset "utf-8";
+/* CSS Document *
+
+/* taballiance  美棒 篮球 美足 冰球 >联盟资料*/
+/*--border+padding+width=1079---*/
+.taballiance dd li:first-child {
+    width: 90px;
+}
+.taballiance dd li:nth-child(2) {
+    width: 150px;
+}
+
+.taballiance dd li:nth-child(3) {
+    width: 180px;
+}
+
+.taballiance dd li:nth-child(4) {
+    width: 200px;
+}
+
+.taballiance dd li:nth-child(5) {
+    width: 292px;
+    font-size: 12px;
+}
+
+.taballiance dl  li:last-child {
+    width: 100px;
+}
+
+

@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+/* CSS Document *
+/* tabteam  美棒 篮球 美足 冰球 >隊伍資料*/
+/*--border+padding+width=1079---*/
+.tabteam dd li:first-child {
+    width: 50px;
+}
+.tabteam dd li:nth-child(2),.tabteam dd li:nth-child(3),.tabteam dd li:nth-child(4) {
+    width: 170px;
+}
+
+.tabteam dd li:nth-child(5) {
+    width: 260px;
+}
+
+.tabteam dd li:nth-child(6),.tabteam dd li:nth-child(7),.tabteam dd li:nth-child(8) {
+    width: 20px;
+}
+
+.tabteam dl dd ul li:last-child {
+    width: 99px;
+}
+
+
+.tabteam dd li {
+    height: 60px;
+    line-height: 60px;
+}

@@ -1,0 +1,31 @@
+﻿@model List<Models.ViewModel.AFBAllianceTeam>
+@{
+    Models.ViewModel.AFBAllianceTeam olddata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName(olddata.GameType)
+        <br>
+        (隊伍名稱)：
+        <font color="blue">@olddata.TeamName</font>
+        <br>
+        (顯示名稱)：
+        <font color="blue">@olddata.ShowName</font>
+        <br>
+        (來源名稱)：
+        <font color="blue">@olddata.WebName</font>
+        <br>
+        (所屬聯盟)：
+        <font color="blue">@olddata.AllianceName</font>
+        <br>
+        (勝)：
+        <font color="blue">@olddata.W</font>
+        <br>
+        (敗)：
+        <font color="blue">@olddata.L</font>
+        <br>
+        (和)：
+        <font color="blue">@olddata.T</font>
+        <br>
+    </b>
+</div>

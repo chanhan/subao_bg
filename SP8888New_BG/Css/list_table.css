@@ -1,0 +1,45 @@
+﻿body {
+}
+#tabdl dl dd {
+	clear: both;
+	overflow: hidden;
+	color: #434343;
+}
+#tabdl dd li {
+	float: left;
+	border-left: #A2C0D4 solid 1px;
+	border-top: #A2C0D4 solid 1px;
+	overflow: hidden;
+	text-align: center;
+	height:60px;
+	line-height:60px;
+}
+#tabdl dd li input {
+	display: inline-block;
+	vertical-align: middle;
+}
+#tabdl dd:last-child li {
+	border-bottom: #A2C0D4 solid 1px;
+}
+#tabdl dd li:last-child {
+	border-right: #A2C0D4 solid 1px;
+}
+
+#tabdl dl dd:first-child li:last-child {
+	text-align: center;
+}
+#tabdl dd:first-child ul li {
+	background-color: #4F7B95;
+	color: #FCFCFC;
+	font-weight: bold;
+	border-top: #A2C0D4 solid 1px;
+	height: 30px;
+	line-height: 30px;
+	padding-top: 0;
+}
+#tabdl dd:nth-child(2n+1) li {
+	background-color: #E3EDED
+}
+#tabdl dd:nth-child(2n) li {
+	background-color: #FFFFFF;
+}

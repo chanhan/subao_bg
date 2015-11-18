@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <title>后台管理系统</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/public")
+    @{
+        Models.ViewModel.Navigation navigation = ViewBag.Navigation;
+        bool firstLoad = navigation == null;
+        string rightStyle = firstLoad ? "style=\"display:none\"" : string.Empty;
+    }
+</head>
+<body>
+    <div id="warpper">
+        @Html.Partial("TopPartial")
+        <div id="main_box">
+            @Html.Partial("MenuPartial")
+            <div id="right" @Html.Raw(rightStyle)>
+                @if (!firstLoad)
+                {
+                    <div class="MianBaoXie">
+                        <img src="/images/home_icon.png" width="16" height="16" style="margin-top:0; margin-left:10px;" />
+                        <span style="color:#5d5d5d; padding:0 2px;">@string.Join(" > ", navigation.Level)</span>
+                        @if (navigation.HaveButton)
+                        {
+                            string url = string.Empty;
+                            List<string> parameter = new List<string>();
+                            if (navigation.Parameter.Count > 0)
+                            {
+                                navigation.Parameter.ForEach(p => parameter.Add(p.ToString()));
+                                url = string.Format("{0}?{1}", Url.Action(navigation.Action, navigation.Controller, new { area = navigation.Area }), string.Join("&", parameter));
+                            }
+                            <a href="@url" class="HuiDao_But">@navigation.ButtonText</a>
+                        }
+                    </div>
+                }
+                <div style="clear:both"></div>
+                @RenderBody()
+            </div> <!--/#right-->
+        </div> <!--/#main_box-->
+    </div>
+    <!--/#warpper-->
+</body>
+
+</html>

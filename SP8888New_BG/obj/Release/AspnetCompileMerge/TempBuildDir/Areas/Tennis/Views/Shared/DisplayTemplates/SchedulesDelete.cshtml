@@ -1,0 +1,32 @@
+﻿@model List<Models.ViewModel.Tennis>
+@{
+    Models.ViewModel.Tennis olddata = Model[0];
+}
+<div>
+    <b>
+        (ID)：
+        <font color="blue">
+            @olddata.GID
+        </font>
+        <br>
+        (聯盟)：
+        <font color="blue">
+            @olddata.AllianceShowName
+        </font>
+        <br>
+        (日期)：
+        <font color="blue">
+            @olddata.GameDate.ToString("yyyy-MM-dd") @olddata.GameTime.ToString(@"hh\:mm")
+        </font>
+        <br>
+        (选手)：
+        <font color="blue">
+            @olddata.TeamAName<text>(@olddata.AllianceShowName)</text>
+        </font>
+        <br>
+        (选手)：
+        <font color="blue">
+            @olddata.TeamBName<text>(@olddata.AllianceShowName)</text>
+        </font>
+    </b>
+</div>

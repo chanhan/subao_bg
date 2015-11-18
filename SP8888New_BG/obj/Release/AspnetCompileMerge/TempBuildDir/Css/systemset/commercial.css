@@ -1,0 +1,72 @@
+﻿@charset "utf-8";
+/* CSS Document */
+#guanggaoguanlibox {
+    overflow: hidden;
+}
+
+.guanggaoguanli-title {
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 5px;
+    color: #43434b;
+}
+
+.tabdl-guanggaoleft {
+    float: left;
+    font-size: 16px;
+}
+.guanggaoguanli-content{ padding-bottom: 30px;}
+.guanggaoguanli-contentl {
+    float: left;
+    width: 512px;
+}
+
+.guanggaoguanli-contentr {
+    float: right;
+    width: 512px;
+}
+
+.tabdl-guanggaodefault dl dd:last-child ul li {
+    width: 499px;
+    text-align: left;
+    padding-bottom: 10px;
+    background-color: #f8e7da;
+}
+
+.tabdl-guanggaoleft dd ul li:first-child {
+    background-color: #e6eed5;
+}
+
+.tabdl-guanggaoright dd ul li:first-child {
+    background-color: #d2eaf1;
+}
+
+.tabdl-guanggao dd li:last-child input[type="text"] {
+    height: 24px;
+}
+
+.tabdl-guanggao dd li:last-child textarea {
+    width: 427px;
+}
+
+.guganggaoimg {
+    width: 420px;
+    height: 185px;
+}
+
+.guganggaoimg img {
+    width: 420px;
+    height: auto;
+}
+
+.gaunggaobtns {
+    padding:6px 10px 0 10px;
+}
+
+.gaunggaobtns a {
+    width: 68px;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}

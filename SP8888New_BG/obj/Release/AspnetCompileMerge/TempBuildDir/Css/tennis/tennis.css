@@ -1,0 +1,35 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+
+.tabdl-tennis dl dd:first-child ul li:first-child{
+	line-height:inherit;
+}
+.tabdl-tennis dl ul li:first-child {
+	width: 90px;
+}
+.tabdl-tennis dl ul li:nth-child(2){
+	width: 90px;
+}
+.tabdl-tennis dl ul li:nth-child(3){
+	width: 200px;
+}
+.tabdl-tennis dl dd ul li:last-child  {
+	width: 664px;
+	padding:0;
+	text-align: left;
+}
+.tabdl-tennis dl dd:first-child ul li:last-child  {
+	text-align:center;
+}
+.tabdl-tennis dl dd ul li:last-child  div {
+	height: 22px;
+	line-height: 22px;
+	padding: 0 5px;
+}
+.tabdl-tennis dl dd ul li:last-child  div:first-child {
+	border-bottom: #A2C0D4 solid 1px;
+}
+.tabdl-tennis dl dd:nth-child(1) li div{
+    margin-top:3px;
+}

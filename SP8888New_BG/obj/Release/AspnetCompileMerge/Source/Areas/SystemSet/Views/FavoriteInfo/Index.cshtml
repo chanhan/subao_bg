@@ -1,0 +1,173 @@
+﻿@model  List<Models.FavoriteInfo>
+
+@{
+    ViewBag.Title = "Index";
+    bool isEdit = ViewBag.isEdit == null ? false : (bool)ViewBag.isEdit;
+}
+<form id="form1" action="">
+    <div class="sc-tabbox">
+        <div class="tabdl-edits  tabdl-teamedit" id="div_marquee">
+            <dl>
+                <dd>
+                    <ul>
+                        <li> 簡體顯示名稱</li>
+                        <li>
+                            @Html.Hidden("FavoriteID", isEdit ? Model[0].FavoriteID : 0)
+                            @Html.TextBox("SimplifiedDisplay", isEdit ? Model[0].SimplifiedDisplay : "", new { style = "width:410px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>繁體顯示名稱</li>
+                        <li>
+                            @Html.TextBox("TraditionalDisplay", isEdit ? Model[0].TraditionalDisplay : "", new { style = "width:410px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>簡體提示文字</li>
+                        <li>
+                            @Html.TextArea("SimplifiedPrompt", isEdit ? Model[0].SimplifiedPrompt : "", new { style = "width:410px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>繁體提示文字</li>
+                        <li>
+                            @Html.TextArea("TraditionalPrompt", isEdit ? Model[0].TraditionalPrompt : "", new { style = "width:410px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>跳轉地址</li>
+                        <li>
+                            @Html.TextBox("JumpUrl", isEdit ? Model[0].JumpUrl : "", new { style = "width:410px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>
+                            <a class="btncss" id="btn_edit" onclick="formsubmit(''+$(this).text())">@(isEdit ? "修改" : "新增")</a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+
+
+        <div style="clear:both"> </div>
+        @if (Model != null && !isEdit && Model.Count() > 0)
+        {
+            <div class="tabdl2 sheding-xunxi" style="margin-top: 10px;">
+                <dl>
+                    <dd>
+                        <ul>
+                            <li style="width: 30px;">序號</li>
+                            <li style="width:200px">簡體顯示文字</li>
+                            <li style="width:200px">繁體顯示文字</li>
+                            <li style="width:140px">跳轉地址</li>
+                            <li style="width: 200px">簡體提示文字</li>
+                            <li style="width: 200px">繁體提示文字</li>
+                            <li style="width: 100px">功能</li>
+                        </ul>
+                    </dd>
+                    @{int i = 1;}
+                    @foreach (var item in Model)
+                    {
+                        <dd>
+                            <ul>
+                                <li style="width: 30px;">
+                                    @i
+                                </li>
+                                <li style="width: 200px;">
+                                    @item.SimplifiedDisplay
+                                </li>
+                                <li style="width: 200px;">
+                                    @item.TraditionalDisplay
+                                </li>
+                                <li style="width: 140px;">
+                                    @item.JumpUrl
+                                </li>
+                                <li style="width: 200px;">
+                                    @item.SimplifiedPrompt
+                                </li>
+                                <li style="width: 200px;">
+                                    @item.TraditionalPrompt
+                                </li>
+                                <li style="width: 100px;">
+                                    <div class="gongneng-lm">
+                                        @Html.ActionLink("修改", "Edit", new { id = item.FavoriteID })
+                                        /
+                                        <a onclick="deleteId('@item.FavoriteID')">刪除</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </dd>
+
+                        i++;
+                    }
+                </dl>
+            </div>
+            <div style="clear:both"> </div>
+        }
+    </div>
+</form>
+<script type="text/javascript">
+    function formsubmit(text) {
+        var url = "";
+        if (text == "修改") {
+            url = "@Url.Action("Edit")";
+        } else {
+            url = "@Url.Action("Add")";
+        }
+        if ($("#JumpUrl").val().toLowerCase().indexOf("http:")== -1 ) {
+            alert("跳轉地址需要添加http");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#form1").serialize(),
+            async: false,
+            error: function (data) {
+                alert(text + '錯誤!');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    alert(text + '成功!');
+                    window.location.href = "@Url.Action("Index")";
+                } else {
+                    alert(text + '失敗!');
+                }
+            }
+        });
+    }
+
+    function deleteId(iid) {
+        if (confirm("是否確認刪除")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete")",
+                data: { id: iid },
+                async: false,
+                error: function (data) {
+                    alert('刪除錯誤!');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert('刪除成功!');
+                        window.location.href = "@Url.Action("Index")";
+                    } else {
+                        alert('刪除失敗!');
+                    }
+                }
+            });
+        }
+    }
+</script>

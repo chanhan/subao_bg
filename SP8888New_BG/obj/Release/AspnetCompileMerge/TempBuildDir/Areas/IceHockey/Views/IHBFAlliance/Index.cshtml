@@ -1,0 +1,214 @@
+﻿@model Helper.Pager.PagerQuery<Helper.Pager.PagerInfo, List<Models.IceHockeyAlliance>, string>
+@Styles.Render("~/Content/bkosalliance")
+@Styles.Render("~/Content/bkosmain")
+
+@{
+    int count = 0;
+    string alianceSortID = string.Empty;
+    int pageIndex = Model.Pager.CurrentPageIndex;
+    int pageSize = Model.Pager.PageSize;
+    int recordCount = Model.Pager.RecordCount;
+    string keyWords = Model.QueryModel;
+}
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "allianceForm" }))
+{
+    <div class="sc-tabbox">
+        <div style="clear:both"> </div>
+        <div class="tabbox">
+            <div class="tabboxdl-lm">
+                <div class="tabdl-lm">
+                    <div class="tabdl-lmtop">
+                        <a class="btncss" onclick="allianceDisplaySet()">儲存顯示設定</a>
+                        <div style="float:right">
+                            <label>关键字:</label>
+                            @Html.TextBox("keyWords", Model.QueryModel, new { @class = "chuxuninput" })
+                            <a class="btncss" onclick="searchAlliance()">查 詢</a>
+                        </div>
+                    </div>
+                    <div style="clear:both"> </div>
+                    <dl style="padding-top:5px;">
+                        <dd>
+                            <ul>
+                                <li><input id="titleChk" onclick="selectAll()" type="checkbox" style="margin-right:8px" />顯示設定</li>
+                                <li>序號</li>
+                                <li>联盟编号</li>
+                                <li>聯盟名稱</li>
+                                <li>顯示名稱</li>
+                                <li>聯盟鏈接網址</li>
+                                <li>功能</li>
+                            </ul>
+                        </dd>
+                        @if (Model.EntityList.Count == 0)
+                        {
+                            <dd>
+                                <span style="font-size:30px;">
+                                    無聯盟資料
+                                </span>
+                            </dd>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.EntityList)
+                            {
+                                alianceSortID = item.AllianceSortID != null ? item.AllianceSortID.Value.ToString() : "";
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            @Html.CheckBox("[" + count + "].Display", item.Display, new { onclick = "alliancecheck(this)" })
+                                            @Html.Hidden("[" + count + "].Changed", 0)
+                                            @Html.Hidden("[" + count + "].AllianceID", item.AllianceID)
+                                        </li>
+                                        <li>
+                                            @((pageIndex - 1) * pageSize + count + 1)
+                                        </li>
+                                        <li>
+                                            <label>@alianceSortID</label>
+                                            @Html.TextBox("[" + count + "].AlianceSortID", alianceSortID)
+                                        </li>
+                                        <li title="@item.AllianceName">
+                                            <label>@item.AllianceName</label>
+                                            @Html.Hidden("[" + count + "].AllianceName", item.AllianceName)
+                                        </li>
+                                        <li title="@item.ShowName">
+                                            <label>@item.ShowName</label>
+                                            @Html.TextBox("[" + count + "].ShowName", item.ShowName)
+                                        </li>
+                                        <li title="@item.AllianceUrl">
+                                            <label>@item.AllianceUrl</label>
+                                            @Html.TextBox("[" + count + "].AllianceUrl", item.AllianceUrl)
+                                        </li>
+                                        <li>
+                                            <div class="gongneng-lm">
+                                                <a onclick="showUpdate(this)">修改</a>
+                                            </div>
+                                            <div class="gongneng-lm gongneng-lm2">
+                                                <a onclick="modify(this)">更新</a>|<a onclick="cancle(this)">取消</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </dd>
+                                count++;
+                            }
+                        }
+                    </dl>
+                </div>
+                <div class="Pagination">
+                    @Html.PageList(pageIndex, pageSize, recordCount, keyWords)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    //更新
+    function modify(obj) {
+        var ul = $(obj).parents('ul');
+        var allianceUrl = ul.children('li:eq(5)').find('input[type=text]').val();
+        if (!MatchUrl(allianceUrl)) { alert('網址需加入http或https協議!'); return; }
+        var display = ul.children('li:eq(0)').find('input[type=checkbox]').prop('checked');
+        var allianceID = ul.children('li:eq(0)').find('input[name$=AllianceID]').val();
+        var alianceSortID = ul.children('li:eq(2)').find('input[type=text]').val();
+        var allianceName = ul.children('li:eq(3)').find('input[type=hidden]').val();
+        var showName = ul.children('li:eq(4)').find('input[type=text]').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit")",
+            data: { AllianceID: allianceID, Display: display, AllianceSortID: alianceSortID, AllianceName: allianceName, ShowName: showName, GameType: "@ViewBag.gameType", AllianceUrl: allianceUrl },
+            async: false,
+            error: function (data) {
+                alert('修改失敗!');
+            },
+            success: function (data) {
+                if (data > 0) { //保存资料大于0笔
+                    alert('修改成功!');
+                    location.href = location.href;
+                } else if (data == -1) {
+                    alert('已有相同的顯示名稱!');
+                } else if (data == -3) {
+                    alert('已有相同的聯盟編號!');
+                }
+            }
+        });
+    }
+    //取消
+    function cancle(obj) {
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        var alianceSortID = ul.children('li:eq(2)').find('label').show().text();
+        ul.children('li:eq(2)').find('input[type=text]').val(alianceSortID).hide();
+        var allianceName = ul.children('li:eq(4)').find('label').show().text();
+        ul.children('li:eq(4)').find('input[type=text]').val(allianceName).hide();
+        var allianceUrl = ul.children('li:eq(5)').find('label').show().text();
+        ul.children('li:eq(5)').find('input[type=text]').val(allianceUrl).hide();
+    }
+
+    //更新
+    function showUpdate(obj) {
+        //先把所有的取消掉
+        $(".gongneng-lm2 a[onclick='cancle(this)']").click();
+
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        ul.children('li:eq(2)').find('input[type=text]').show();
+        ul.children('li:eq(2)').find('label').hide();
+        ul.children('li:eq(4)').find('input[type=text]').show();
+        ul.children('li:eq(4)').find('label').hide();
+        ul.children('li:eq(5)').find('input[type=text]').show();
+        ul.children('li:eq(5)').find('label').hide();
+    }
+    //查询
+    function searchAlliance() {
+        var keyWords = $.trim($('#keyWords').val());
+        var url = '@Html.Raw(Url.Action("Index", new { pageIndex = 1, pageSize =pageSize }))';
+        if (keyWords != '') {
+            url += '&keyWords=' + keyWords;
+        }
+        location.href = url;
+    }
+    //点选联盟显示隐藏的checkbox
+    function alliancecheck(o) {
+        var obj = $(o).siblings('input[name$=Changed]');
+        var value = parseInt(obj.val(), 10);
+        $(o).siblings('input[name$=Changed]').val((value + 1) % 2);
+    }
+    //点选标题checkbox
+    function selectAll() {
+        var check = $('#titleChk').prop('checked');
+        var obj, value;
+        $('dd:gt(0) ul li input[type=checkbox]').each(function () {
+            if ($(this).prop('checked') != check) {
+                $(this).prop('checked', check);//设置选中状态与标头选中状态相同
+                obj = $(this).siblings('input[name$=Changed]');
+                value = parseInt(obj.val(), 10);
+                $(this).siblings('input[name$=Changed]').val((value + 1) % 2);//标记改变
+            }
+        })
+    }
+    //存储显示设定
+    function allianceDisplaySet() {
+        var obj = $("input[name$='Changed'][value='1']");
+        if (obj.size() == 0) {
+            alert('沒有要保存的資料!');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveSetting")",
+            data: $('#allianceForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('設定失敗!');
+            },
+            success: function (data) {
+                if (data["count"] > 0) { //保存资料大于0笔
+                    $('input[name$=Changed]').val(0);
+                    alert('設定成功!');
+                } else {
+                    alert('沒有要保存的資料!');
+                }
+            }
+        });
+    }
+</script>

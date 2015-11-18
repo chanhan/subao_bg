@@ -1,0 +1,67 @@
+﻿@model Models.SetTypeVal
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/SetTypeVal")
+
+<div class="sc-tabbox">
+    <div class="tabdl-shouyexiugai">
+
+        <ul>
+            <li class="li-shouyexiugai">遊戲種類(繁)</li>
+            <li>
+                <select id="slct">
+                    <option value="TW">台棒</option>
+                    <option value="BB">國際棒球</option>
+                    <option value="BK">籃球</option>
+                    <option value="SB">足球</option>
+                    <option value="AF">美足</option>
+                    <option value="IH">冰球</option>
+                    <option value="TN">網球</option>
+                    <option value="OT">其他運動</option>
+                </select>
+            </li>
+            <li class="li-shouyexiugai">   遊戲種類(簡)     </li>
+            <li>
+                <select id="slct2" style="">
+                    <option value="BB">國際棒球</option>
+                    <option value="TW">台棒</option>
+                    <option value="BK">籃球</option>
+                    <option value="SB">足球</option>
+                    <option value="AF">美足</option>
+                    <option value="IH">冰球</option>
+                    <option value="TN">網球</option>
+                    <option value="OT">其他運動</option>
+                </select>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a id="btnchucun" class="btncss" style=" width: 55px; text-align: center" onclick="EditSetTypeVal()">儲 存</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var val1 = '@ViewBag.tuple.Item1';
+    var val2 = '@ViewBag.tuple.Item2';
+    $(function () {
+        $("#slct").val(val1);
+        $("#slct2").val(val2);
+    })
+    function EditSetTypeVal() {
+        var gametype = $("#slct").val();
+        var gametype2 = $("#slct2").val();
+        if (val1 != gametype || val2 != gametype2) {
+            $.post('@Url.Action("EditSetTypeVal", "SetTypeVal")', { Val1: gametype, Val2: gametype2 }, function (data) {
+                if (data > 0) {
+                    window.location.reload();
+                } else {
+                    alert("操作異常請稍後再試！");
+                }
+            })
+        } else {
+            window.location.reload();
+        }
+    }
+</script>

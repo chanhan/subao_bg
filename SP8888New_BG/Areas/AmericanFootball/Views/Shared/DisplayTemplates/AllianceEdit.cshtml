@@ -1,0 +1,15 @@
+﻿@model List<Models.AFBAlliance>
+@{
+    Models.AFBAlliance olddata = Model[0];
+    Models.AFBAlliance newdata = Model[1];
+    var lever = olddata.Lever == 1 ? " (聯盟)：" : (olddata.Lever == 2 ? " (所屬大聯盟)：" : " (所屬二聯盟)：");
+}
+<div class="edit">
+        @Common.AppData.GetGameTypeName(olddata.GameType) @lever
+        <br>
+    <div>
+        (聯盟名稱)：
+        <span>@olddata.AllianceName</span> --->
+        <span>@newdata.AllianceName</span>
+    </div>
+</div>

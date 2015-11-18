@@ -1,0 +1,111 @@
+﻿@model Models.IceHockeyTeam
+
+@{
+    ViewBag.Title = "TeamEdit";
+}
+@Styles.Render("~/Content/updateteam")
+@using (Html.BeginForm(ViewBag.sActionName as string, "IHTeam", FormMethod.Post, new { id = "teamForm" }))
+{
+    @Html.Hidden("GameType", Model.GameType)
+    @Html.Hidden("TeamID", Model.TeamID)
+    <div class="sc-tabbox">
+        <div class="tabdl-edits  tabdl-teamedit">
+            <dl>
+                <dd>
+                    <ul>
+                        <li>
+                            隊伍名稱
+                        </li>
+                        <li>
+                            @Html.TextBox("TeamName", Model.TeamName, new { @class = "teamedit-intext01" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>顯示名稱</li>
+                        <li>
+                            <div class="text-score">
+                                @Html.TextBox("ShowName", Model.ShowName, new { @class = "teamedit-intext01" })
+                            </div>
+                            <p class="tipp">
+                                須與公司後台[球隊名-繁體]一致
+                                影響速報盤口/走勢圖/變動紀錄
+                            </p>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>來源名稱</li>
+                        <li>
+                            @Html.TextArea("WebName", string.IsNullOrEmpty(Model.WebName) ? string.Empty : Model.WebName.Replace(",", "\r\n"), new { style = "height:60px;", cols = "20", rows = "2" })
+                            <p class="tipp">
+                                與來源網比對用, 不允許修改
+                                (一行為一個來源)
+                            </p>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>所屬聯盟</li>
+                        <li>
+                            @Html.DropDownList("AllianceID", ViewBag.alliance as IEnumerable<SelectListItem>, new { @class = "teamedit-select" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>勝</li>
+                        <li>
+                            @Html.TextBox("W", Model.W, new { @class = "teamedit-intext" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>敗</li>
+                        <li>
+                            @Html.TextBox("L", Model.L, new { @class = "teamedit-intext" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>和</li>
+                        <li>
+                            @Html.TextBox("T", Model.T, new { @class = "teamedit-intext" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>
+                            <a href="#" class="btncss" onclick="subOnClick()">@ViewBag.sString</a>
+
+                        </li>
+                    </ul>
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        if ("@ViewBag.msg" != "") {
+            alert("@ViewBag.msg");
+        }
+    });
+    var isClick = false;
+    function subOnClick() {
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+
+        $('#teamForm').submit()
+    }
+</script>

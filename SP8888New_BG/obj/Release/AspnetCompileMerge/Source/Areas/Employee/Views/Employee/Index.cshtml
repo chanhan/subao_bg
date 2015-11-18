@@ -1,0 +1,80 @@
+﻿@model  IEnumerable<Models.Employee>
+
+@Styles.Render("~/Content/employee")
+<div class="sc-tabbox">
+    <div class="tabdl2 tabgongchengshi">
+        <div class="tabdl-top">
+            <a class="btncss" href="javascript:" onclick="AddEmp('@ViewBag.tuple.Item2',@ViewBag.tuple.Item1)">新增資料</a>
+        </div>
+        <div style="clear:both"></div>
+        <dl style="padding-top:5px;">
+            <dd>
+                <ul>
+                    <li>帳號</li>
+                    <li>等級</li>
+                    <li>最近登錄</li>
+                    <li>是否禁用</li>
+                    <li>功能</li>
+                </ul>
+            </dd>
+            @foreach (var item in Model)
+            {
+                string active = item.Active.ToString() == "Y" ? "可用" : "<span style=\"color:red\">禁用</span>";
+                <dd>
+                    <ul>
+                        <li>@item.EmployeeName</li>
+                        <li>@Common.AppData.GetEmployeeRankName(item.Rank)</li>
+                        <li>@string.Format("{0:yyyy-MM-dd}", item.LoginDate) @string.Format(@"{0:hh\:mm}", item.LoginTime)</li>
+                        <li><span @(item.Active == "N" ? "style=color:red" : string.Empty)>@(item.Active=="Y"?"可用":"禁用")</span></li>
+                        <li>
+                            <div class="gongneng-lm">
+                                <a href="javascript:" onclick="UpdateEmp('@item.EmployeeName',@ViewBag.tuple.Item1)">修改</a>&nbsp;&nbsp;
+                                <a href="javascript:" onclick="DelEmp('@item.EmployeeName',@ViewBag.tuple.Item1)">刪除</a>
+                            </div>
+                        </li>
+                    </ul>
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //添加员工信息Rank：当前查看的员工等级，UserRank：当前登录用户的等级
+    function AddEmp(Rank, UserRank) {
+        if (UserRank != "9" && UserRank != "3") {
+            alert("權限不足!!!");
+        } else {
+            window.location.href = '@Url.Action("EditEmployee", "Employee")?parameter=' + Rank + "&edit=Add";
+        }
+    }
+    //修改视图empName：当前需要修改的员工帐号，UserRank：当前登录用户的等级
+    function UpdateEmp(empName, UserRank) {
+        if (UserRank != "9" && UserRank != "3") {
+            alert("權限不足!!!");
+        } else if (empName == "sp_admin") {
+            alert("超級帳號不可修改/刪除!!!");
+        } else {
+            window.location.href = '@Url.Action("EditEmployee", "Employee")?parameter=' + empName + "&edit=update";
+        }
+    }
+    //删除empName：当前需要修改的员工帐号，UserRank：当前登录用户的等级
+    function DelEmp(empName, UserRank) {
+        if (confirm('确定删除吗？')) {
+            if (UserRank != "9" && UserRank != "3") {
+                alert("權限不足!!!");
+            } else if (empName == "sp_admin") {
+                alert("超級帳號不可修改/刪除!!!");
+            } else {
+                $.post('@Url.Action("delete","Employee")', { employeename: empName }, function (data) {
+                    if (data == "2") {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+    }
+    $(function () {
+        ResetBackGroundColor();
+    })
+</script>

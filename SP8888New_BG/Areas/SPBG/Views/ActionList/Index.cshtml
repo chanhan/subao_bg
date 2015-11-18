@@ -1,0 +1,187 @@
+﻿@model Models.ViewModel.ActionList
+
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+
+@Styles.Render("~/Content/actionlist")
+
+<script type="text/javascript">
+    $(function () {
+        $("#slctGameType").val('@ViewBag.tuple.Item4');
+    })
+    var dates = "";
+    function Screening(ac) {
+        if (ac == '+') {
+            dates = '@ViewBag.tuple.Item3';
+        } else if (ac == '-') {
+            dates = '@ViewBag.tuple.Item1';
+        } else if (ac == 'type') {
+            dates = $("#txtGamedate").val();
+        }
+        window.location.href = '@Url.Action("Index", "ActionList")?date=' + dates + "&gameType=" +
+            $("#slctGameType").val();
+    }
+    $(function () {
+        $("#txtGamedate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Url.Action("Index", "ActionList")?date=' + $input.val() + "&gameType=" + $("#slctGameType").val();
+            }
+        });
+    });
+</script>
+
+@{
+    int i = 0;
+}
+<div class="sc-tabbox">
+    <div id="tabdl-top">
+        <div class="btnslect">
+            <a id="btnBefore" onclick="Screening('-')" class="btntime"><img src="/images/btn001.png" width="14" height="16" /></a>
+            <input class="texttime" style="width:100px;" type="text" id="txtGamedate" value='@ViewBag.Tuple.Item2' />
+            <a id="btnAfter" onclick="Screening('+')" class="btntime"><img src="/images/btn002.png" width="14" height="16" /></a>
+        </div>
+        <div style="float: left; margin-left: 10px;">
+            <span>&nbsp;類別：</span>
+            <select id="slctGameType" onchange="Screening('type')" class="selectstyle1" style="width: 160px;">
+                <option value="AAAA">全部類別</option>
+                <option value="BBUS">美棒</option>
+                <option value="BBJP">日棒</option>
+                <option value="BBTW">台棒</option>
+                <option value="BBKR">韓棒</option>
+                <option value="BBMX">墨棒</option>
+
+                <option value="BKUS">美籃</option>
+                <option value="BKEL">歐籃</option>
+                <option value="BKJP">日籃</option>
+                <option value="BKKR">韓籃</option>
+
+                <option value="IHUS">冰球</option>
+                <option value="AFUS">美足</option>
+            </select>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="tabcaopan">
+        @foreach (var item in Model.baseball)
+        {
+            i++;
+            <dl>
+                <dd>@Common.AppData.GetGameTypeName(item.GameType ?? "")</dd>
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>聯盟</li>
+                        <li>日期</li>
+                        <li>時間</li>
+                        <li>先攻</li>
+                        <li>後攻</li>
+                        <li>操盤手</li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>@i</li>
+                        <li>@item.Alliance</li>
+                        <li>@string.Format("{0:yyyy-MM-dd}", item.GameDate)</li>
+                        <li>@string.Format(@"{0:hh\:mm}", item.GameTime)</li>
+                        <li>@item.TeamA</li>
+                        <li>@item.TeamB</li>
+                        <li>@item.CtrlAdmin</li>
+                    </ul>
+                </dd>
+            </dl>
+        }
+        @foreach (var item in Model.basketBall)
+        {
+            i++;
+            <dl>
+                <dd>@Common.AppData.GetGameTypeName(item.GameType ?? "")</dd>
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>聯盟</li>
+                        <li>日期</li>
+                        <li>時間</li>
+                        <li>先攻</li>
+                        <li>後攻</li>
+                        <li>操盤手</li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>@i</li>
+                        <li>@item.AllianceName</li>
+                        <li>@string.Format("{0:yyyy-MM-dd}", item.GameDate)</li>
+                        <li>@string.Format(@"{0:hh\:mm}", item.GameTime)</li>
+                        <li>@item.TeamAName</li>
+                        <li>@item.TeamBName</li>
+                        <li>@item.CtrlAdmin</li>
+                    </ul>
+                </dd>
+            </dl>
+        }
+        @foreach (var item in Model.iceHockey)
+        {
+            i++;
+            <dl>
+                <dd>@Common.AppData.GetGameTypeName(item.GameType ?? "")</dd>
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>聯盟</li>
+                        <li>日期</li>
+                        <li>時間</li>
+                        <li>先攻</li>
+                        <li>後攻</li>
+                        <li>操盤手</li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>@i</li>
+                        <li>@item.Alliance</li>
+                        <li>@string.Format("{0:yyyy-MM-dd}", item.GameDate)</li>
+                        <li>@string.Format(@"{0:hh\:mm}", item.GameTime)</li>
+                        <li>@item.TeamA</li>
+                        <li>@item.TeamB</li>
+                        <li>@item.CtrlAdmin</li>
+                    </ul>
+                </dd>
+            </dl>
+        }
+        @foreach (var item in Model.afb)
+        {
+            i++;
+            <dl>
+                <dd>@Common.AppData.GetGameTypeName(item.GameType ?? "")</dd>
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>聯盟</li>
+                        <li>日期</li>
+                        <li>時間</li>
+                        <li>先攻</li>
+                        <li>後攻</li>
+                        <li>操盤手</li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>@i</li>
+                        <li>@item.AllianceName</li>
+                        <li>@string.Format("{0:yyyy-MM-dd}", item.GameDate)</li>
+                        <li>@string.Format(@"{0:hh\:mm}", item.GameTime)</li>
+                        <li>@item.TeamAName</li>
+                        <li>@item.TeamBName</li>
+                        <li>@item.CtrlAdmin</li>
+                    </ul>
+                </dd>
+            </dl>
+        }
+    </div>
+</div>

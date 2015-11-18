@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Models.ViewModel.IceHockey>
+
+@{
+    ViewBag.Title = "Index";
+    bool showRecord = !string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) && @Common.AppData.Ranetks.Split(',').Contains(HttpContext.Current.User.Identity.Name.Split(',')[0]);
+}
+@Styles.Render("~/Content/datetimepicker")
+@Styles.Render("~/Content/bkos")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+
+
+@using (Html.BeginForm("Index", "IHBFSchedules", FormMethod.Post, new { id = "ihbfForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="btnslect">
+            <a class="btntime"><img src="/images/btn001.png" width="14" height="16" onclick="GoTo(-1)" /></a>
+            @Html.TextBox("txbDate", ViewBag.date as string, new { @class = "texttime" })
+            <a class="btntime"><img src="/images/btn002.png" width="14" height="16" onclick="GoTo(1)" /></a>
+            <div class="slectdiv">
+                @Html.DropDownList("ddlAll", ViewBag.ddlAlliance as IEnumerable<SelectListItem>, "全部", new { onchange = "showAllianceSchedules()", style = "margin-left:5px; height:28px;float:left;width:120px" })
+            </div>
+            <a onclick="funSetItem(0)" class="btncss" style=" float:right;margin-right:40px">儲存設定</a>
+        </div>
+        <div style="clear:both"></div>
+        <p style="color:red; padding:5px 0; font-size:12px;">說明：聯盟名稱顯示 O，表示前台顯示該聯盟賽程；若顯示 X，則前台不顯示該聯盟賽程</p>
+        <h3 id="message" style="color:red;">@ViewBag.message</h3>
+        @if (Model == null || Model.Count() == 0)
+        {
+            <div>
+                <span style="font-size:30px;">
+                    無賽事資料
+                </span>
+            </div>
+        }
+        else
+        {
+            int a = 0;
+            foreach (var item in ViewBag.alliance)
+            {
+                <div class="tabbox" id="alliance_@item.Alliance.Replace(" ", "").Replace(":", "").Trim()">
+                    <h3>@item.Alliance @((bool)item.AllianceDisplay ? "(O)" : "(X)") </h3>
+                    <div class="tabboxdl">
+                        <div class="tabdl">
+                            <dl>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div>顯示設定</div>
+                                            <div>
+                                                <input type="checkbox" name="Display" @Html.Raw((bool)item.AllianceDisplay ? "" : "disabled = \"disabled\" ") value="all" />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>走勢設定</div>
+                                            <div>
+                                                <input type="checkbox" name="ShowJS" @Html.Raw((bool)item.AllianceDisplay ? "" : "disabled = \"disabled\" ") value="all" />
+                                            </div>
+                                        </li>
+                                        <li>開賽時間</li>
+                                        <li>狀態</li>
+                                        <li>主客隊</li>
+                                        <li>功能</li>
+                                    </ul>
+                                </dd>
+                                @foreach (Models.ViewModel.IceHockey m in Model.Where(p => p.Alliance == item.Alliance))
+                                {
+                                    //有修改过比分，设置背景色
+                                    string style = m.CtrlStates != 0 && m.CtrlStates != 2 ? "style=\"background-color: Plum;\"" : "";
+                                    <dd>
+                                        <ul>
+                                            <li @Html.Raw(style)>
+                                                @Html.CheckBox("[" + a + "].Display", m.Display, (bool)item.AllianceDisplay ? null : new { disabled = "disabled" })
+                                                @Html.Hidden("[" + a + "].GID", m.GID)
+                                            </li>
+                                            <li @Html.Raw(style)>
+                                                @Html.CheckBox("[" + a + "].ShowJS", m.ShowJS, (bool)item.AllianceDisplay ? null : new { disabled = "disabled" })
+                                            </li>
+                                            <li @Html.Raw(style)>@m.GameTime.ToString(@"hh\:mm")</li>
+                                            <li @Html.Raw(style)>@Common.AppData.GetStatesText(m.GameStates)</li>
+                                            <li @Html.Raw(style)>
+                                                <div>@m.TeamA</div>
+                                                <div>@m.TeamB</div>
+                                            </li>
+                                            <li @Html.Raw(style)>
+                                                @Html.ActionLink("修改分數", "EditScore", "IHBFSchedules", new { area = "IceHockey", gid = m.GID, gameType = m.GameType }, new { style = m.Display ? "" : "display:none" })
+                                                @if (showRecord && m.IsScoreModifyRecord)
+                                                {
+                                                    @Html.ActionLink("比分修改記錄", "ScoreModifyRecord", "IHSchedules", new { area = "IceHockey", gid = m.GID, gameType = m.GameType }, new { style = m.Display ? "" : "display:none" })
+                                                }
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <li>
+                                            <span>狀態文字: </span>
+                                            <input type="text" name="@("[" + a + "].TrackerText")" class="zhuangtaiinput" @Html.Raw(!m.Display ? "disabled='disabled'" : "") style="color:red" value="@(!m.Display?"":m.TrackerText)" />
+                                        </li>
+                                    </dd>
+
+                                                a++;
+                                }
+
+
+                            </dl>
+                        </div>
+                        <!--/.tabdl end-->
+
+                    </div>
+                    <!--/.tabboxdl end-->
+
+                </div>
+            }
+        }
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //全选
+        $("input[type=checkbox][value=all]").click(function () {
+            var a = $(this).closest("div[id]")[0].id;
+            $("#" + a + " input[type=checkbox][name$=" + this.name + "]").not("[style='display: none;']").prop("checked", $(this).prop("checked"));
+        });
+        //日期控件
+        $("#txbDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Url.Action("Index", new { gameType = ViewBag.gameType})' + '&date=' + $input.val();
+            }
+        });
+
+        //隐藏单选框，要把状态文字清空
+        $("input[type=checkbox][name$=Display][value!=all]").click(function () {
+            var trackerText = $(this).closest("dd").next().find("input");
+            if (!$(this).prop('checked')) {
+                trackerText.val("");
+            }
+            trackerText.prop('readonly', !$(this).prop('checked'));
+        });
+
+    });
+    function GoTo(v) {
+        var sd = document.getElementById('txbDate').value;
+        if (sd != null && sd != "") {
+            var d = new Date(sd);
+            location.href = "@Url.Action("Index")?gameType=@ViewBag.gameType&date=" + d.GetFormateAddDate(v);
+        }
+    }
+    function funSetItem(si) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetItem")",
+            data: $('#ihbfForm').serialize() + "&si=" + si,
+            async: false,
+            error: function (data) {
+                alert('儲存顯示設定資料失敗!');
+            },
+            success: function (data) {
+                if (data["count"] > 0) {
+                    alert('儲存成功!');
+                    location.href = location.href;
+                } else {
+                    alert('儲存失败!');
+                }
+            }
+        });
+    }
+
+    function showAllianceSchedules() {
+        var alliance = $('#ddlAll').val();
+        if (alliance != '') {
+            $('div[class=tabbox]').hide();
+            $('#alliance_' + alliance).show();
+        } else {
+            $('div[class=tabbox]').show();
+        }
+    }
+</script>

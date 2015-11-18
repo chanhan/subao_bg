@@ -1,0 +1,44 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* tabmeibang-mlb   美棒>MLB */
+/*--border+padding+width=1079---*/
+.tabmeibang-mlb dd li:first-child {
+    width: 43px;
+}
+.tabmeibang-mlb dd li:nth-child(2) {
+    width: 50px;
+}
+.tabmeibang-mlb dd li:nth-child(3) {
+    width: 100px;
+}
+.tabmeibang-mlb dd li:nth-child(4) {
+    width: 43px;
+}
+.tabmeibang-mlb dd li:nth-child(5) {
+    width: 60px;
+}
+.tabmeibang-mlb dd li:nth-child(6) {
+    width: 50px;
+}
+.tabmeibang-mlb dd li:nth-child(7) {
+    width: 145px;
+}
+.tabmeibang-mlb dd li:nth-child(8) {
+    width: 145px;
+}
+.tabmeibang-mlb dd li:nth-child(9)  {
+    width: 70px;
+}
+.tabmeibang-mlb dd li:nth-child(10)  {
+    width: 70px;
+}
+.tabmeibang-mlb dd li:nth-child(11)  {
+    width: 70px;
+}
+.tabmeibang-mlb dd li:nth-child(12) {
+    width: 100px;
+}
+.tabmeibang-mlb dd:first-child ul li {
+    height: 50px;
+}

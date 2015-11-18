@@ -1,0 +1,32 @@
+﻿@model List<Models.ViewModel.BasketBall>
+@{
+    Models.ViewModel.BasketBall olddata = Model[0];
+}
+<div>
+    <b>
+        (ID)：
+        <font color="blue">
+            @olddata.GID
+        </font>
+        <br>
+        (聯盟)：
+        <font color="blue">
+            @olddata.AllianceName
+        </font>
+        <br>
+        (日期)：
+        <font color="blue">
+            @olddata.GameDate.ToString("yyyy-MM-dd") @olddata.GameTime.ToString(@"hh\:mm")
+        </font>
+        <br>
+        (先攻隊伍)：
+        <font color="blue">
+            @olddata.TeamAName<text>(@olddata.AllianceName)</text>
+        </font>
+        <br>
+        (後攻隊伍)：
+        <font color="blue">
+            @olddata.TeamBName<text>(@olddata.AllianceName)</text>
+        </font>
+    </b>
+</div>

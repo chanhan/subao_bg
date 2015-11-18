@@ -1,0 +1,49 @@
+﻿@charset "utf-8";
+/* CSS Document *
+
+/* .tabdl-score    修改分数*/
+.tabdl-score dl ul li:first-child {
+    text-align: right;
+}
+
+.radiospan-score {
+    width: 71px;
+    margin-left:10px;
+    float: left;
+}
+
+.radiospan-score label {
+    font-size: 16px;
+    padding-left: 2px;
+}
+.text-score input[type=text] {
+    margin-left: 3px;
+    float: left;
+    height: 24px;
+    width: 65px;
+}
+.text-score, .button-score {
+    clear: both;
+}
+.button-score {
+    padding-top: 3px;
+}
+.button-score a {
+    float: left;
+    margin-left: 4px;
+    height: 26px;
+    text-align: center;
+}
+.p-lasttime {
+    font-size: 14px;
+    /*padding-top: 3px;*/
+}
+
+.p-lasttime input[type=radio] {
+    vertical-align: middle;
+}
+
+.qidongtime {
+    width: 48px;
+    height: 22px;
+}

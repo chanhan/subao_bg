@@ -1,0 +1,18 @@
+﻿@model List<Models.TennisAlliance>
+@{
+    Models.TennisAlliance olddata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName("TN") 
+        <br>
+        (聯盟名稱)：
+        <font color="blue">@olddata.AllianceName</font>
+        <br>
+        (顯示名稱)：
+        <font color="blue">@olddata.ShowName</font>
+        <br>
+        (顯示狀態)：
+        <font color="blue">@(olddata.Display==true?"显示":"隐藏")</font>
+    </b>
+</div>

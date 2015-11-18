@@ -1,0 +1,20 @@
+﻿@model List<Models.IPAccess>
+@{
+    Models.IPAccess olddata = Model[0];
+    Models.IPAccess newdata = Model[1];
+}
+<div class="edit">
+    <div>
+        IP管理-(IP)：
+        <span>@olddata.IP</span> --->
+        <span>@newdata.IP</span>
+    </div>
+    <div>
+        IP管理-(備註)：
+        <span>@olddata.Remarks</span> --->
+        <span>@newdata.Remarks</span>
+    </div>
+</div>
+
+
+

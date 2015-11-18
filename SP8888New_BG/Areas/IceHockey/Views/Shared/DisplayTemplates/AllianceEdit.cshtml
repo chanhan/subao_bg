@@ -1,0 +1,25 @@
+﻿@model List<Models.IceHockeyAlliance>
+@{
+    Models.IceHockeyAlliance olddata = Model[0];
+    Models.IceHockeyAlliance newdata = Model[1];
+    var lever = olddata.Lever == 1 ? " (聯盟)：" : (olddata.Lever == 2 ? " (所屬大聯盟)：" : " (所屬二聯盟)：");
+}
+<div class="edit">
+    @Common.AppData.GetGameTypeName(olddata.GameType) @lever
+    <br>
+    <div>
+        (聯盟名稱)：
+        <span>@olddata.AllianceName</span> --->
+        <span>@newdata.AllianceName</span>
+    </div>
+    <div>
+        (顯示名稱)：
+        <span>@olddata.ShowName</span> --->
+        <span>@newdata.ShowName</span>
+    </div>
+    <div>
+        (顯示狀態)：
+        <span>@(olddata.Display == true ? "显示" : "隐藏")</span> --->
+        <span>@(newdata.Display == true ? "显示" : "隐藏")</span>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.tabdl-zq dl dd {
+	width: 925px;
+	clear: both;
+	overflow: hidden;
+	color: #434343;
+}
+.tabdl-zq dl ul li {
+	float: left;
+	border-left: #A2C0D4 solid 1px;
+	border-top: #A2C0D4 solid 1px;
+	overflow: hidden;
+	text-align: center;
+	padding:0 5px;
+	height: 45px;
+	line-height: 45px;
+}
+.tabdl-zq dl ul li:first-child,.tabdl-zq dl ul li:nth-child(2) {
+	width: 80px;
+}
+
+.tabdl-zq dl ul li:nth-child(3) {
+	padding:0;
+	width: 630px;
+	text-align: left;
+}
+.tabdl-zq dl ul li:nth-child(3) div {
+	height: 22px;
+	line-height: 22px;
+	padding: 0 5px;
+}
+.tabdl-zq dl ul li:nth-child(3) div:first-child {
+	border-bottom: #A2C0D4 solid 1px;
+}
+.tabdl-zq dl dd ul li:last-child {
+	width: 100px;
+	border-right: #A2C0D4 solid 1px;
+}
+.tabdl-zq dl ul li:last-child a {
+	color: #116EA5;
+}
+.tabdl-zq dl ul li:last-child a:hover {
+	color: red;
+}
+.tabdl-zq dl dd:first-child ul li {
+	background-color: #4F7B95;
+	color: #FCFCFC;
+	border-top: #A2C0D4 solid 1px;
+	text-align: center;
+}
+.tabdl-zq dl dd:last-child li {
+	border-bottom: #A2C0D4 solid 1px;
+}
+.tabdl-zq dl dd:nth-child(2n+1) li {
+		background-color: #E3EDED
+
+}
+.tabdl-zq dl dd:nth-child(2n) li {
+	background-color: #FFFFFF; 
+}

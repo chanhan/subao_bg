@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.BasketballAlliance>, List<Models.BasketballAlliance>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "AllianceAdd" : (Model.Item3 == 2 ? "AllianceDelete" : "AllianceEdit");
+    List<Models.BasketballAlliance> basketall = new List<Models.BasketballAlliance>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            basketall.Add(olditem);
+        }
+        index++;
+        basketall.Add(newitem);
+        @Html.DisplayFor(p => basketall, viewName)
+        basketall.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            basketall.Add(newitem);
+            @Html.DisplayFor(p => basketall, viewName)
+            basketall.Clear();
+        }
+    }
+}

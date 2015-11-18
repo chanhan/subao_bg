@@ -1,0 +1,221 @@
+﻿@model Models.BaseballSchedules
+
+@{
+    @Styles.Render("~/Content/baseballscore")
+    @Scripts.Render("~/bundles/inputmask")
+    @Scripts.Render("~/bundles/ScoreEdit")
+}
+@using (Html.BeginForm("EditScore", "BBSchedules", FormMethod.Post, new { id = "allianceForm" }))
+{
+    <div class="sc-tabbox">
+        <input type="hidden" id="GameType" value="@Model.GameType" />
+        <!--/.tabbox---------start---------------->
+        <div class="tabbox">
+            <div class="tabboxdl-madd">
+                <div class="tabdl2 tabdl-score">
+                    <dl>
+                        <dd>
+                            <ul>
+                                <li id="liTitle">
+                                    @{string[] RunsA = string.IsNullOrWhiteSpace(Model.RunsA) ? new string[10] : Model.RunsA.Split(',');
+                                    int lenA = RunsA.Length < 10 ? 10 : RunsA.Length;
+                                    }
+
+                                    @for (int i = 1; i <= lenA; i++)
+                                    {
+                                        <span class="radiospan-score">
+                                            <input type="radio" disabled="disabled" t="jushu" value="@i" name="runlit">
+                                            <label>@i</label>
+                                        </span>
+                                    }
+                                    <span id="spanR" class="radiospan-score">
+                                        <a>R</a>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <input type="radio" value="HRun" name="runlit">
+                                        <label>H</label>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <input type="radio" value="ERun" name="runlit">
+                                        <label>E</label>
+                                    </span>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <ul>
+                                <li>@ViewBag.TeamAName</li>
+                                <li>
+                                    <div class="text-score">
+                                        <div id="runsA">
+                                            @for (int i = 1; i <= lenA; i++)
+                                            {
+                                                @Html.TextBox("txtRunsA_" + i, (i <= RunsA.Length ? RunsA[i - 1] : string.Empty), new { disabled = "disabled", c = i.ToString() })
+                                            }
+                                        </div>
+                                        <div id="rheA">
+                                            @Html.TextBox("txtRA", RunsA.Sum(p => { int score; if (int.TryParse(p, out score))return score; else return 0; }), new { c = "RunTotal", style = "color: red;" })
+                                            @Html.TextBox("txtHA", Model.HA, new { disabled = "disabled", c = "HRun" })
+                                            @Html.TextBox("txtEA", Model.EA, new { disabled = "disabled", c = "ERun" })
+                                        </div>
+                                    </div>
+                                    <div class="button-score">
+                                        <a class="btncss" onclick="Mpoints('#runsA', 1, '#rheA')">-1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 1, '#rheA')">+1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 2, '#rheA')">+2</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 3, '#rheA')">+3</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 10, '#rheA')">+10</a>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <ul>
+                                <li>@ViewBag.TeamBName</li>
+                                <li>
+                                    <div class="text-score">
+                                        <div id="runsB">
+                                            @{string[] RunsB = string.IsNullOrWhiteSpace(Model.RunsB) ? new string[10] : Model.RunsB.Split(',');
+                                            int lenB = RunsB.Length < 10 ? 10 : RunsB.Length;}
+
+                                            @for (int i = 1; i <= lenB; i++)
+                                            {
+                                                @Html.TextBox("txtRunsB_" + i, (i <= RunsB.Length ? RunsB[i - 1] : string.Empty), new { disabled = "disabled", c = i.ToString() })
+                                            }
+                                        </div>
+                                        <div id="rheB">
+                                            @Html.TextBox("txtRB", RunsB.Sum(p => { int score; if (int.TryParse(p, out score))return score; else return 0; }), new { c = "RunTotal", style = "color: red;" })
+                                            @Html.TextBox("txtHB", Model.HB, new { disabled = "disabled", c = "HRun" })
+                                            @Html.TextBox("txtEB", Model.EB, new { disabled = "disabled", c = "ERun" })
+                                        </div>
+                                    </div>
+                                    <div class="button-score">
+                                        <a class="btncss" onclick="Mpoints('#runsB', 1, '#rheB')">-1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 1, '#rheB')">+1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 2, '#rheB')">+2</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 3, '#rheB')">+3</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 10, '#rheB')">+10</a>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        @if (!(Model.GameStates == "E" || Model.CtrlStates > 0))
+                        {
+                            <dd>
+                                <ul>
+                                    <li>剩餘時間</li>
+                                    <li>
+                                        <p id="pTime" class="p-lasttime">
+                                            <input type="radio" name="gamestate" id="datetime" onclick="show(this, 'spanTime')" /><label>倒數時間</label>
+                                            <span id="spanTime">
+                                                <input id="minutes" class="qidongtime" type="text" />
+                                                <span style="padding: 0 3px;">:</span>
+                                                <input id="seconds" class="qidongtime" type="text">
+                                                <a style="margin-left: 3px;" class="btncss" id="Clicked" onclick="BtnCount()">啟動</a>
+                                                <a style="margin-left: 3px;display:none" class="btncss" id="Closed" onclick="outTime()">停止</a>
+                                            </span>
+                                        </p>
+
+                                        <p class="p-lasttime"><input type="radio" value="結束" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>結束</label></p>
+
+                                        <p class="p-lasttime"><input type="radio" value="中場休息" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>中場休息</label></p>
+
+                                        <p class="p-lasttime"><input type="radio" value="" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>清除所有狀態</label></p>
+                                    </li>
+                                </ul>
+                            </dd>
+                        }
+                        <dd>
+                            <ul>
+                                <li style="color: red; width: 901px;">
+                                    注意 : RHE 分數若為空值，將自動補0。
+                                </li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <ul>
+                                <li>
+                                    <span id="message" style="width:150px;"></span>
+                                    <span id="message2" style="width:150px;"></span>
+                                    <a class="btncss" id="btnStore" onclick="saveScore(false)">储存</a>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var isClick = false;
+    //保存  isRefresh存儲成功是否刷新頁面
+    function saveScore(isRefresh) {
+        //防止重複點擊
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+
+        var runsa = [];
+        var runsb = [];
+        $('input[id^=txtRunsA]').each(function () {
+            if ($(this).val() != '') {
+                runsa.push($(this).val());
+            }
+        });
+        $('input[id^=txtRunsB]').each(function () {
+            if ($(this).val() != '') {
+                runsb.push($(this).val());
+            }
+        })
+
+        var statesText = '';
+        if ($('input[name=gamestate]:checked').length > 0) {
+            if ($('#datetime').is(':checked')) {
+                statesText = getCountDownTime("#minutes", "#seconds");
+            } else {
+                statesText = $('input[name=gamestate]:checked').val();
+                if (!StatusTextConfirm(statesText)) {
+                    isClick = false;
+                    return;
+                }
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditScore")",
+            data: {
+                RunsA: runsa.join(','), RunsB: runsb.join(','), StatusText: statesText, GID: '@Model.GID'
+                 , RA: $("#txtRA").val(), RB: $("#txtRB").val(), HA: $("#txtHA").val()
+                 , HB: $("#txtHB").val(), EA: $("#txtEA").val(), EB: $("#txtEB").val()
+            },
+            async: false,
+            error: function (data) {
+                alert("儲存錯誤。");
+                isClick = false;
+            },
+            success: function (data) {
+                if (data.indexOf("失敗") != -1) { //保存资料小于0笔
+                    if (data.indexOf("-10") != -1) {
+                        alert("資料未變動。");
+                    } else {
+                        alert("儲存失敗。");
+                    }
+                } else if (isRefresh) {
+                    document.location = document.location;
+                } else {
+                    $("#message2").hide();
+                    $("#message2").html("存儲成功");
+                    $("#message2").show();
+                    $("#message2").fadeOut(3000);
+
+                    onInit();
+                }
+                isClick = false;
+            }
+        });
+    }
+</script>

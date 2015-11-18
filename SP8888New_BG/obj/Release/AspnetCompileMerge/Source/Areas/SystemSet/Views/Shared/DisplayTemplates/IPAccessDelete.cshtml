@@ -1,0 +1,13 @@
+﻿@model List<Models.IPAccess>
+@{
+    Models.IPAccess olddata = Model[0];
+}
+<div>
+    <b>
+        IP管理-(IP)：
+        <font color="blue">@olddata.IP </font>
+        <br />
+        IP管理-(備註)：
+        <font color="blue">@olddata.Remarks </font>
+    </b>
+</div>

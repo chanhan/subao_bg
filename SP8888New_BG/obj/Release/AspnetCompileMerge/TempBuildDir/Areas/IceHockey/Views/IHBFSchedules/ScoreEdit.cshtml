@@ -1,0 +1,236 @@
+﻿@model Models.IceHockeySchedules
+@{
+    ViewBag.Title = "ScoreEdit";
+    List<string> rA = string.IsNullOrWhiteSpace(Model.RunsA) ? new List<string>() : Model.RunsA.Split(',').ToList();
+    List<string> rB = string.IsNullOrWhiteSpace(Model.RunsB) ? new List<string>() : Model.RunsB.Split(',').ToList();
+
+    while (rA.Count < 5)
+    {
+        rA.Add("");
+    }
+    while (rB.Count < 5)
+    {
+        rB.Add("");
+    }
+
+}
+@Styles.Render("~/Content/score")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@using (Html.BeginForm("EditScore", "IHBFSchedules", FormMethod.Post, new { id = "IHBFModifyForm" }))
+{
+    @Html.HiddenFor(m => m.GID, new { value = Model.GID })
+    @Html.HiddenFor(m => m.GameType, new { value = Model.GameType })
+
+    <div class="feishuxiugai">
+        <dl>
+            <dt>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>OT</li>
+                    <li>SO</li>
+                    <li>总分</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dt>
+            <dd>
+                <ul>
+                    <li>@ViewBag.TeamAName</li>
+                    <li>@Html.TextBox("txtRunsA_1", rA[0])</li>
+                    <li>@Html.TextBox("txtRunsA_2", rA[1])</li>
+                    <li>@Html.TextBox("txtRunsA_3", rA[2])</li>
+                    <li>@Html.TextBox("txtRunsA_4", rA[3])</li>
+                    <li>@Html.TextBox("txtRunsA_5", rA[4])</li>
+                    <li>@Html.TextBox("RA", Model.RA, new { style = "color:red" })</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>@ViewBag.TeamBName</li>
+                    <li>@Html.TextBox("txtRunsB_1", rB[0])</li>
+                    <li>@Html.TextBox("txtRunsB_2", rB[1])</li>
+                    <li>@Html.TextBox("txtRunsB_3", rB[2])</li>
+                    <li>@Html.TextBox("txtRunsB_4", rB[3])</li>
+                    <li>@Html.TextBox("txtRunsB_5", rB[4])</li>
+                    <li>@Html.TextBox("RB", Model.RB, new { style = "color:red" })</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>目前狀態: @(Model.GameDate.ToString("yyyy-MM-dd ") + Model.GameTime.ToString(@"hh\:mm") + " " + Common.AppData.GetStatesText(Model.GameStates))</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span" style=" margin-right:50px ">開賽時間:</span>
+
+                        @Html.TextBox("GameDate", Model.GameDate.ToString("yyyy-MM-dd "), new { style = " width:120px;", @class = "datetime-inputext" })
+
+                        @Html.TextBox("GameTime", Model.GameTime.ToString(@"hh\:mm"), new { style = " width:70px;", @class = "datetime-inputext" })
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span" style=" margin-right:50px ">狀態:</span>
+                        <select id="GameStates" name="GameStates" class="fsdrp-slet">
+                            <option selected="selected" value="0">請選擇</option>
+                            <option value="X">未開賽</option>
+                            <option value="S">已開賽</option>
+                            <option value="E">結束</option>
+                        </select>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span" style=" margin-right:50px ">修改項目:</span>
+                        <select id="CtrlStates" name="CtrlStates" class="fsdrp-slet" style=" margin-right:10px ">
+                            <option selected="selected" value="0">請選擇</option>
+                            <option value="3">狀態</option>
+                            <option value="1">比分</option>
+                            <option value="4">全部</option>
+                        </select>
+
+                        <input type="button" class="btnSave" style="cursor:pointer" value="儲存" onclick="javascipt: funSave()" />
+                        @if (Model.CtrlStates != 0 && Model.CtrlStates != 2)
+                        {
+                            <input type="button" class="btnSave" style="cursor:pointer" value="刪除" onclick="fundelete()" />
+                        }
+                        <span style="color:red" id="spanTS">  * 儲存前先選擇修改項目</span>
+                        <span id="outMessage">
+                            <b>
+                                @HttpUtility.UrlDecode(ViewBag.message)
+                            </b>
+                        </span>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <p>儲存說明: </p>
+                        <p>1. 儲存狀態 => 來源網只跟比分 狀態不跟</p>
+                        <p>2. 儲存比分 => 來源網只跟狀態 比分不跟</p>
+                        <p>3. 儲存全部 (狀態+比分) => 全不跟來源網</p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    @*@Html.DropDownList("ModifyItem", ViewBag.ModifyItem as IEnumerable<SelectListItem>, "請選擇", new { @class = "fsdrp-slet" })*@
+    @*<input type="submit" id="btnSave" value="存储" />*@
+}
+<script type="text/javascript">
+    function funSave() {
+        if ($("#CtrlStates option:selected").val() == '0') {
+            alert("儲存前先選擇修改項目");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditScore")",
+            data: $('#IHBFModifyForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('儲存資料失敗!');
+            },
+            success: function (data) {
+                if (data == "成功") {
+                    alert('儲存BF冰球' + $("#CtrlStates option:selected").text() + '成功!');
+                    location.href = location.href;
+                }
+            }
+        });
+    }
+    function fundelete() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteScore")",
+            data: $('#IHBFModifyForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('删除資料失敗!');
+            },
+            success: function (data) {
+                if (data == "成功") {
+                    alert('删除成功!');
+                    location.href = location.href;
+                } else {
+                    alert('删除失败!');
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#outMessage").fadeOut(10000);
+
+        ///狀態下拉框
+        $("#CtrlStates").val('@Model.CtrlStates');
+        $("#GameStates").val('@Model.GameStates');
+        if ('@Model.CtrlStates' != '0' && '@Model.CtrlStates' != '2') {
+            $("#spanTS").hide();
+        } else {
+            $("#spanTS").show();
+        }
+        $("#GameStates").change(function () {
+            if ($(this).val() == "X") {
+                $("input[id^=txtRuns],#RA,#RB").val("");
+            }
+        });
+        //日期控件
+        $("#GameDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d'
+        });
+        // 设定时间
+        $("#GameTime").inputmask('hh:mm').datetimepicker({
+            datepicker: false,
+            format: 'H:i',
+            step: 1
+        });
+
+        onInputKeyup();
+    });
+    function onInputKeyup() {
+        //$("div[id*='run']").on("keyup", "input.open_input", function () {
+        $("input[id*='txtRuns']").on("keyup", function () {
+            if (this.id.indexOf("A") != -1) {
+                sumTotalScore("A");
+            } else {
+                sumTotalScore("B");
+            }
+
+        });
+    }
+
+    function sumTotalScore(str) {
+        var total = 0;
+        $("input[id*='txtRuns" + str + "']").each(function () {
+            // 取得分數(球賽可輸入X, 表示賽局結束)
+            var val = $(this).val().toUpperCase().replace(/\X/g, "");
+            if ($.isNumeric(val)) {
+                total += parseInt(val, 10);
+            }
+        });
+        $("#R" + str).val(total);
+    }
+</script>

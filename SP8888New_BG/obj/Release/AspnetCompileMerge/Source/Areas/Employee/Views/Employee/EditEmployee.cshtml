@@ -1,0 +1,93 @@
+﻿@model Models.Employee
+
+@Styles.Render("~/Content/css")
+
+<div class="sc-tabbox">
+    <div class="tabdl-edits tabdl-madd">
+        <dl>
+            <dd>
+                <ul>
+                    <li style="text-align: center">等&nbsp;&nbsp;級</li>
+                    <li>
+                        <select name="Rank" id="rank" style="width: 100px;">
+                            <option value="9">工程師</option>
+                            <option value="4">建資料</option>
+                            <option value="3">管理者</option>
+                            <option value="1">操盤員</option>
+                        </select>
+                    </li>
+                </ul>
+            </dd>
+
+            <dd>
+
+                <ul>
+                    <li style="text-align: center">帳&nbsp;&nbsp;號</li>
+                    <li>
+                        <input type="text" id="txtname" name="EmployeeName" value="@Model.EmployeeName" width="100%" />
+                        <input type="hidden" id="txtoldname" name="EmployeeoldName" value="@Model.EmployeeName" />
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li style="text-align: center">密&nbsp;&nbsp;碼</li>
+                    <li>
+                        <input type="password" id="txtpwd" name="Password" width="100%" style="height:24px; padding:0 5px;" />
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <a class="btncss" id="btnEdit" style=" width: 55px;">@ViewBag.action</a>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //修改时下拉框赋值
+        if ('@Model.Rank' != '') {
+            $("#rank").val('@Model.Rank');
+            $("#rank").attr("disabled", true);
+        }
+        //添加时下拉框选中
+        if ('@ViewBag.Rank' != '') {
+            $("#rank").val('@ViewBag.Rank');
+            $("#rank").attr("disabled", true);
+        }
+        //修改密码时的下拉框填充
+        if ('@ViewData["Pwd"]' != '') {
+            $("#txtname").attr("disabled", true);
+            $("#txtname").val('@Model.EmployeeName');
+        }
+        $("#btnEdit").click(function () {
+            var name = $("#txtname").val();//新的帐号
+            var pwd = $("#txtpwd").val();//密码
+            var rank = $("#rank").val();//等级
+            var oldname = $("#txtoldname").val();//旧帐号
+            var Edit = "";//执行操作
+            if (name == "" || pwd == "") {
+                alert("帐号或密码不能为空！");
+            } else {
+                $.post('@Url.Action("EditEmployee", "Employee")', { NewName: name, Pwd: pwd, Rank: rank, OldName: oldname, edit: '@ViewBag.action' }, function (data) {
+                    if (data == "1") {
+                        alert("帳號已存在!!!");
+                        $("#txtname").val('@Model.EmployeeName');
+                        $("#txtpwd").val("");
+                    } if (data == "0") {
+                        alert("操作失敗");
+                    } if (data == "2") {
+                        alert("操作成功！");
+                        window.location.href = '@Url.Action("Index", "Employee")?rank=' + $("#rank").val();
+                    }
+                })
+            }
+        })
+
+    })
+</script>

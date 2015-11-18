@@ -1,0 +1,82 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.feishuxiugai dl dt, .feishuxiugai dl dd {
+	width: 742px;
+	clear: both;
+}
+.feishuxiugai dl ul li {
+	float: left;
+	border-top: #A2C0D4 solid 1px;
+	border-left: #A2C0D4 solid 1px;
+}
+.feishuxiugai dl ul li:last-child {
+	border-right: #A2C0D4 solid 1px;
+}
+.feishuxiugai dl ul li:first-child {
+	text-align: left;
+	padding-left: 8px;
+}
+.feishuxiugai dt ul li {
+	background-color: #4F7B95;
+	color: #FFFFFF;
+	font-weight: bold;
+	height: 35px;
+	line-height: 35px;
+	width: 45px;
+	text-align: center;
+}
+.feishuxiugai dl dd ul li {
+	height: 32px;
+	line-height: 32px;
+	color: #434343;
+	background-color: #FAFAFA
+}
+.feishuxiugai dd:nth-child(-n+3) li input[type="text"] {
+	width: 92%;
+	height: 92%;
+	text-align:center;
+}
+.feishuxiugai dd:nth-child(-n+3) li {
+	width: 45px;
+	text-align: center;
+}
+.feishuxiugai dl dd:last-child ul li {
+	border-bottom: #A2C0D4 solid 1px;
+	width: 732px;
+	line-height: normal;
+	height: 105px;
+}
+.feishuxiugai dl dd:last-child ul li p {
+	padding-top: 5px;
+	color: red
+}
+.feishuxiugai dl dd:nth-child(n+4) ul li {
+	width: 732px;
+}
+.feishuxiugai dl ul li:nth-child(1) {
+	width: 318px;
+}
+.feishuxiugai dl dd:nth-child(4) li {
+	text-align: center;
+	font-size: 14px;
+	color: #4F7B95;
+	font-weight:bold;
+}
+.titlename-span {
+	width: 76px;
+	text-align: right;
+	float: left;
+}
+.fsdrp-slet {
+	margin-top: 4px;
+	float: left;
+	height: 24px;
+	width: 100px;
+}
+.datetime-inputext {
+	text-align:center;
+	height: 24px;
+	border: #C7C7C7 solid 1px;
+	padding: 0 5px;
+	margin-top: 3px;
+}

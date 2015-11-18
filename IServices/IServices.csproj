@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A93BD870-9362-49A8-AC42-7367BA2A3393}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IServices</RootNamespace>
+    <AssemblyName>IServices</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IActionListService.cs" />
+    <Compile Include="ICommericalService.cs" />
+    <Compile Include="IEmployeeService.cs" />
+    <Compile Include="IFavoriteInfoService.cs" />
+    <Compile Include="IIceHockeyTeamService.cs" />
+    <Compile Include="IIceHockeyAllianceService.cs" />
+    <Compile Include="IIceHockeySchedulesService.cs" />
+    <Compile Include="IAFBAllianceService.cs" />
+    <Compile Include="IAFBService.cs" />
+    <Compile Include="IAFBTeamService.cs" />
+    <Compile Include="IAllianceNameListService.cs" />
+    <Compile Include="IBaseballAllianceService.cs" />
+    <Compile Include="IBaseballSchedulesService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IBaseballTeamService.cs" />
+    <Compile Include="IBasketballAllianceService.cs" />
+    <Compile Include="IBasketballService.cs" />
+    <Compile Include="IBasketballTeamService.cs" />
+    <Compile Include="IBKOSAllianceService.cs" />
+    <Compile Include="IBKOSService.cs" />
+    <Compile Include="IBKOSTeamService.cs" />
+    <Compile Include="IFootballService.cs" />
+    <Compile Include="IIPAccessService.cs" />
+    <Compile Include="ILoginService.cs" />
+    <Compile Include="IMarqueeService.cs" />
+    <Compile Include="IModifyRecordService.cs" />
+    <Compile Include="INameControlService.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="IOperationalRecordService.cs" />
+    <Compile Include="IOSTeamService.cs" />
+    <Compile Include="IScoreModifyRecordService.cs" />
+    <Compile Include="IScrollingTextService.cs" />
+    <Compile Include="ISetTypeValService.cs" />
+    <Compile Include="ISourceTypeService.cs" />
+    <Compile Include="ITennisAllianceService.cs" />
+    <Compile Include="ITennisService.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{d9663129-5b75-449f-b412-dd32086ca50e}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{bc7ccb4e-e40f-4fc2-93c6-3d2252d53857}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

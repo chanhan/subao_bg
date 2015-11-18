@@ -1,0 +1,75 @@
+﻿@model List<Models.ViewModel.BasketBall>
+@{
+    Models.ViewModel.BasketBall olddata = Model[0];
+    Models.ViewModel.BasketBall newdata = Model[1];
+}
+<div class="edit">
+    @Common.AppData.GetGameTypeName(olddata.GameType)
+    <br>
+    【@olddata.TeamAName<text>
+        (@olddata.AllianceName)】 VS
+        【@newdata.TeamBName<text>
+            (@newdata.AllianceName)】
+            <br>
+            <br>
+            <div>
+                (優先權)：
+                <span>@olddata.Number</span> --->
+                <span>@newdata.Number</span>
+            </div>
+            <div>
+                (大聯盟)：
+                <span>@olddata.AllianceName</span> --->
+                <span>@newdata.AllianceName</span>
+            </div>
+            <div>
+                (日期)：
+                <span>@olddata.GameDate.ToString("yyyy-MM-dd")</span> --->
+                <span>@newdata.GameDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            <div>
+                (時間)：
+                <span>@olddata.GameTime.ToString(@"hh\:mm")</span> --->
+                <span>@newdata.GameTime.ToString(@"hh\:mm")</span>
+            </div>
+            <div>
+                (先攻隊伍)：
+                <span>@olddata.TeamAName<text>(@olddata.AllianceName)</text></span> --->
+                <span>@newdata.TeamAName<text>(@newdata.AllianceName)</text></span>
+            </div>
+            <div>
+                (後攻隊伍)：
+                <span>@olddata.TeamBName<text>(@olddata.AllianceName)</text></span> --->
+                <span>@newdata.TeamBName<text>(@newdata.AllianceName)</text></span>
+            </div>
+            <div>
+                (賽程狀態)：
+                <span>@Common.AppData.GetStatesText(olddata.GameStates)</span> --->
+                <span>@Common.AppData.GetStatesText(newdata.GameStates)</span>
+            </div>
+            <div>
+                (操盤狀態)：
+                <span>@Common.AppData.GetCtrlStateText(olddata.CtrlStates, olddata.CtrlAdmin, olddata.WebID)</span> --->
+                <span>@Common.AppData.GetCtrlStateText(newdata.CtrlStates, newdata.CtrlAdmin, newdata.WebID)</span>
+            </div>
+            <div>
+                (跟盤ID)：
+                <span>@olddata.WebID</span> --->
+                <span>@newdata.WebID</span>
+            </div>
+            <div>
+                (訊息文字)：
+                <span>@olddata.TrackerText</span> --->
+                <span>@newdata.TrackerText</span>
+            </div>
+            <div>
+                (顯示狀態)：
+                <span>@(olddata.IsDeleted == true ? "隐藏" : "显示")</span>--->
+                <span>@(newdata.IsDeleted == true ? "隐藏" : "显示")</span>
+            </div>
+            <div>
+                (顯示走勢圖)：
+                <span>@(olddata.ShowJS ==true ? "显示" : "隐藏")</span> --->
+                <span>@(newdata.ShowJS ==true ? "显示" : "隐藏")</span>
+            </div>
+</div>

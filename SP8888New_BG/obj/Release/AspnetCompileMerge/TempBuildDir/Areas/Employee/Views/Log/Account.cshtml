@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.Employee>, List<Models.Employee>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "AccountAdd" : (Model.Item3 == 2 ? "AccountDelete" : "AccountEdit");
+    List<Models.Employee> emp = new List<Models.Employee>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            emp.Add(olditem);
+        }
+        index++;
+        emp.Add(newitem);
+        @Html.DisplayFor(p => emp, viewName)
+        emp.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            emp.Add(newitem);
+            @Html.DisplayFor(p => emp, viewName)
+            emp.Clear();
+        }
+    }
+}

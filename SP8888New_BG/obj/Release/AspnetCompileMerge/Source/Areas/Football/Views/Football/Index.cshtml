@@ -1,0 +1,106 @@
+﻿@model  IEnumerable<Models.FootballSchedules>
+@{
+    bool showRecord = !string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) && @Common.AppData.Ranetks.Split(',').Contains(HttpContext.Current.User.Identity.Name.Split(',')[0]);
+}
+@Styles.Render("~/Content/sb")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+<script type="text/javascript">
+    $(document).ready(function () {
+        //日期控件
+        $("#txbDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Url.Action("Index")' + '?date=' + $input.val();
+            }
+        });
+    });
+    function GoTo(v) {
+        var sd = document.getElementById('txbDate').value;
+        if (sd != null && sd != "") {
+            var d = new Date(sd);
+            location.href = "@Url.Action("Index")?gameType=@ViewBag.gameType&date=" + d.GetFormateAddDate(v);
+        }
+    }
+    function showAllianceSchedules() {
+        var allianceid = $('#ddlAll').val();
+        if (allianceid != '') {
+            $('div[class=tabbox]').hide();
+            $('#alliance_' + allianceid).show();
+        } else {
+            $('div[class=tabbox]').show();
+        }
+    }
+</script>
+<div class="sc-tabbox">
+    <div class="btnslect">
+        <a class="btntime"><img src="images/btn001.png" width="14" height="16" onclick="GoTo(-1)" /></a>
+        @Html.TextBox("txbDate", ViewData["date"], new { @class = "texttime" })
+        <a class="btntime"><img src="images/btn002.png" width="14" height="16" onclick="GoTo(1)" /></a>
+        <div class="slectdiv">
+            @Html.DropDownList("ddlAll", ViewBag.ddlAllian as IEnumerable<SelectListItem>, "全部", new { onchange = "showAllianceSchedules()", style = "margin-left:5px; height:28px;float:left;width:120px" })
+        </div>
+    </div>
+    <div style="clear:both"> </div>
+    <p style="color:red; padding:5px 0; font-size:12px;"></p>
+    @if (Model == null || Model.Count() == 0)
+    {
+        <div style="width:940px">
+            <span style="font-size:30px;">
+                無賽事資料
+            </span>
+        </div>
+    }
+    else
+    {
+        foreach (SelectListItem item in ViewBag.ddlAllian)
+        {
+            <div class="tabbox" id="alliance_@item.Value">
+                <h3>@item.Text </h3>
+                <div class="tabboxdl-zq">
+                    <div class="tabdl-zq">
+                        <dl>
+                            <dd>
+                                <ul>
+                                    <li>開賽時間</li>
+                                    <li>狀態</li>
+                                    <li>主客隊</li>
+                                    <li>功能</li>
+                                </ul>
+                            </dd>
+                            @foreach (Models.FootballSchedules s in Model.Where(p => p.AL == item.Value))
+                            {
+                                //有修改过比分，设置背景色
+                                string style = s.CtrlStates != 0 && s.CtrlStates != 2 ? "style=\"background-color: Plum;\"" : "";
+                                string style2 = s.CtrlStates != 0 && s.CtrlStates != 2 ? "style=\"background-color: Plum;line-height:inherit\"" : "style=\"line-height:inherit\"";
+                                <dd>
+                                    <ul>
+                                        <li @Html.Raw(style)>@Html.Raw(@s.KO)</li>
+                                        <li @Html.Raw(style)>@Html.Raw(@s.UP)</li>
+                                        <li @Html.Raw(style)>
+                                            <div>@s.NA</div>
+                                            <div>@s.NB</div>
+                                        </li>
+                                        <li @Html.Raw(style2)>
+                                            <div style="padding-top: 8px">
+                                                <a href="@Url.Action("ScoreEdit")?sId=@s.ID">修改分數</a>
+                                            </div>
+                                            @if (showRecord && s.IsScoreModifyRecord)
+                                            {
+                                                @Html.ActionLink("比分修改記錄", "ScoreModifyRecord", "Football", new { gid = s.ID }, new { style = "" })
+                                            }
+                                        </li>
+                                    </ul>
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

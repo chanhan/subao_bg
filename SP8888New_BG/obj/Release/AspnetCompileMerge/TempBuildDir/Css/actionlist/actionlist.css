@@ -1,0 +1,92 @@
+
+.tabcaopan {
+    margin-top:5px;
+}
+
+.tabcaopan dl, .tabcaopan dd {
+    clear: both;
+    overflow: hidden;
+     width:1079px;
+}
+
+.tabcaopan dd li {
+    float: left;
+    border-left: #A2C0D4 solid 1px;
+    border-top: #A2C0D4 solid 1px;
+    overflow: hidden;
+    padding: 5px;
+    min-height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.tabcaopan dl dd:nth-child(2) li {
+    overflow: hidden;
+    min-height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #2E526C;
+}
+
+.tabcaopan dl:first-child dd:first-child {
+    border-top: #A2C0D4 solid 1px;
+}
+.tabcaopan dd:first-child{
+    border-left: #A2C0D4 solid 1px;
+    border-right: #A2C0D4 solid 1px;
+    letter-spacing: 2px;
+    min-height: 35px;
+    line-height: 35px;
+    text-align: center;
+     width:1077px;
+   
+}
+
+.tabcaopan li:last-child {
+    border-right: #A2C0D4 solid 1px;
+}
+.tabcaopan dd:last-child li {
+    border-bottom: #A2C0D4 solid 1px;
+}
+
+.tabcaopan dl:nth-child(2n+1) dd:first-child  {
+    background-color: #D2EAF1;
+}
+.tabcaopan dl:nth-child(2n)  dd:first-child {
+    background-color: #E6EED5;
+}
+.tabcaopan dl:nth-child(2n+1) dd  {
+    background-color: #EAF2F2;
+}
+.tabcaopan dl:nth-child(2n)  dd {
+    background-color: #F2F2EA;
+}
+
+.tabcaopan dd li:first-child {
+    width: 70px;
+}
+
+.tabcaopan dd li:nth-child(2) {
+    width: 154px;
+}
+
+.tabcaopan dd li:nth-child(3) {
+    width: 130px;
+}
+
+.tabcaopan dd li:nth-child(4) {
+    width: 120px;
+}
+
+.tabcaopan dd li:nth-child(5) {
+    width: 222px;
+}
+
+.tabcaopan dd li:nth-child(6) {
+    width: 222px;
+}
+
+.tabcaopan dl li:last-child {
+    width: 83px;
+}

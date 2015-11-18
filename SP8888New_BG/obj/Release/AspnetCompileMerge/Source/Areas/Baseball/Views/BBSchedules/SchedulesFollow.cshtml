@@ -1,0 +1,502 @@
+﻿@model  Models.BaseballSchedules
+@{
+    ViewBag.Title = "操盤工具";
+    Layout = null;
+    List<string> RunsA = Model.RunsA == null ? new List<string>() : Model.RunsA.Split(',').ToList();
+    List<string> RunsB = Model.RunsB == null ? new List<string>() : Model.RunsB.Split(',').ToList();
+
+    while (RunsA.Count < 16)
+    {
+        RunsA.Add("");
+    }
+    while (RunsB.Count < 16)
+    {
+        RunsB.Add("");
+    }
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @Styles.Render("~/Content/sp8888ctrl")
+    @Scripts.Render("~/bundles/jquery")
+    <title></title>
+    <script type="text/javascript">
+        var GID = '@ViewBag.GID';
+        var GameType = '@ViewBag.GameType';
+        $(document).ready(function () {
+            // $("[id^=chg]").change(MsgChanged);
+            $("#Status").val("@Model.GameStates");
+            StatusChanged();
+        });
+        // 狀態改變
+        function StatusChanged() {
+            if ($("#Status").val() == "X" || document.getElementById("chgRound").checked) {
+                $("[id^=bso]").unbind("click");
+                $("[id^=Base]").unbind("click");
+                $("[id^=AN]").unbind("change");
+                $("[id^=BN]").unbind("change");
+                //$("[id^=chg]").unbind("change");
+                $("[id^=AN]").prop("disabled", true);
+                $("[id^=BN]").prop("disabled", true);
+                $("#HA").prop("disabled", true);
+                $("#EA").prop("disabled", true);
+                $("#HB").prop("disabled", true);
+                $("#EB").prop("disabled", true);
+                $("#btnChangePlay").prop("disabled", true);
+                $("#btnChangeRound").prop("disabled", true);
+                $("#BtnSubmit").hide();
+                $("#BtnReforming").hide();
+                $("#txtPormpt").show();
+            }
+            else {
+                $("[id^=bso]").click(BsoClick);
+                $("[id^=Base]").click(BaseClick);
+                $("[id^=AN]").change(NumberSum);
+                $("[id^=BN]").change(NumberSum);
+                //$("[id^=chg]").change(MsgChanged);
+                $("[id^=AN]").attr("disabled", false);
+                $("[id^=BN]").attr("disabled", false);
+                $("#HA").attr("disabled", false);
+                $("#EA").attr("disabled", false);
+                $("#HB").attr("disabled", false);
+                $("#EB").attr("disabled", false);
+                $("#btnChangePlay").attr("disabled", false);
+                $("#btnChangeRound").attr("disabled", false);
+                $("#cmd").find("input:button").attr("disabled", false);
+                $("#BtnSubmit").show();
+                $("#BtnReforming").show();
+                $("#txtPormpt").hide();
+                //$("#ply").find("input:button").attr("disabled", false);
+                //$("#ply").find("select").attr("disabled", false);
+                //$("#ply").find("textarea").attr("disabled", false);
+            }
+        }
+        // 驗證輸入
+        function ValidateNumber(e, pnumber) {
+            var v = this.value;
+            // 判斷 x
+            if (pnumber.toLowerCase().indexOf("x") == -1) {
+                // 判斷是否為數字
+                if (!/^\d+$/.test(pnumber)) {
+                    //$(e).val(/^\d+/.exec($(e).val()));
+                    if (pnumber != "") {
+                        $(e).val(0);
+                    }
+                }
+                else {
+                    $(e).val(parseInt($(e).val()));
+                }
+            }
+            NumberSum(e[0].id.substring(0, 2));
+            return false;
+        }
+        // BSO 變更
+        function BsoClick() {
+            var aTmp = this.id.split("_");
+            // ID
+            var sBsoType = aTmp[0];
+            var iBsoId = parseInt(aTmp[1]);
+
+            var iMax = 2;
+
+            if (sBsoType == "bsoBall") {
+                iMax = 3;
+            }
+            //
+            for (i = 1; i <= iBsoId; i++) {
+                document.getElementById(sBsoType + "_" + i).src = "/images/bb/" + sBsoType + ".png";
+            }
+            //祥謠
+            for (i = (iBsoId + 1) ; i <= iMax; i++) {
+                document.getElementById(sBsoType + "_" + i).src = "/images/bb/bsoBlack.png";
+            }
+            CallAjaxBsoAndBases();
+        }
+        // Bases 變更
+        function BaseClick() {
+
+            var aTmp = this.id.split("_");
+            var iBaseId = parseInt(aTmp[1]); //婦ID
+
+            if (this.src.indexOf("Base0.png") > 0) {
+                this.src = "/images/bb/Base1.png";
+            } else {
+                this.src = "/images/bb/Base0.png";
+            }
+            CallAjaxBsoAndBases();
+        }
+
+        // 計算總分
+        function NumberSum(id) {
+            if (id == null) id = this.id.indexOf("AN") == 0 ? "AN" : "BN";
+            if (!(id == "AN" || id == "BN")) return;
+
+            var sum = 0;
+            for (var i = 1; i <= 16; i++) {
+                if ($("#" + id + i.toString()).val() != "") {
+                    if ($("#" + id + i.toString()).val().toLowerCase() != "x") {
+                        sum += parseInt($("#" + id + i.toString()).val().toLowerCase().replace("x", ""));
+                    }
+                }
+            }
+            if (id == "AN") $("#RA").val(sum.toString());
+            if (id == "BN") $("#RB").val(sum.toString());
+        }
+        // 換人
+        function ChangePlay() {
+            $("#bsoBall_1").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoBall_2").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoBall_3").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoStrike_1").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoStrike_2").attr("src", "/images/bb/bsoBlack.png");
+            CallAjaxBsoAndBases("Z");
+        }
+        // 換局
+        function ChangeRound() {
+            $("#bsoBall_1").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoBall_2").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoBall_3").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoStrike_1").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoStrike_2").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoOut_1").attr("src", "/images/bb/bsoBlack.png");
+            $("#bsoOut_2").attr("src", "/images/bb/bsoBlack.png");
+            $("#Base_1").attr("src", "/images/bb/Base0.png");
+            $("#Base_2").attr("src", "/images/bb/Base0.png");
+            $("#Base_3").attr("src", "/images/bb/Base0.png");
+
+            var cmd = "";
+            // 找到目前的局
+            for (var i = 1; i <= 16; i++) {
+                // 上局
+                if ($("#AN" + i).val() != "" &&
+                    $("#BN" + i).val() == "") {
+                    cmd = "C";
+                    $("#BN" + i).val("0");
+                    break;
+                }
+                // 下局
+                if ($("#AN" + i).val() == "" &&
+                    $("#BN" + i).val() == "") {
+                    cmd = "C";
+                    $("#AN" + i).val("0");
+                    break;
+                }
+            }
+            document.getElementById("chgRound").checked = false;
+
+            //CallAjaxBsoAndBases(cmd);
+            CallAjaxAll(cmd);
+        }
+        //
+        // Ajax 輸出結果
+        function CallAjaxAll(cmd) {
+            if (cmd == null) cmd = "";
+
+            var b = 0;
+            var s = 0;
+            var o = 0;
+            var bases = 0;
+            var runsa = "";
+            var runsb = "";
+            var status = $("#Status").val();
+            // 比賽狀態
+            if (status == "X") {
+                status = "S";
+                $("#Status").val("S")
+            }
+            // 守備交換
+            if (document.getElementById("chgRound").checked) {
+                // 重新設定狀態
+                $("#bsoBall_1").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoBall_2").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoBall_3").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoStrike_1").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoStrike_2").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoOut_1").attr("src", "/images/bb/bsoBlack.png");
+                $("#bsoOut_2").attr("src", "/images/bb/bsoBlack.png");
+                $("#Base_1").attr("src", "/images/bb/Base0.png");
+                $("#Base_2").attr("src", "/images/bb/Base0.png");
+                $("#Base_3").attr("src", "/images/bb/Base0.png");
+            }
+            // B
+            if ($("#bsoBall_1").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 1;
+            if ($("#bsoBall_2").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 2;
+            if ($("#bsoBall_3").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 3;
+            // S
+            if ($("#bsoStrike_1").attr("src").toString().toLowerCase().indexOf("strike") != -1) s = 1;
+            if ($("#bsoStrike_2").attr("src").toString().toLowerCase().indexOf("strike") != -1) s = 2;
+            // O
+            if ($("#bsoOut_1").attr("src").toString().toLowerCase().indexOf("out") != -1) o = 1;
+            if ($("#bsoOut_2").attr("src").toString().toLowerCase().indexOf("out") != -1) o = 2;
+            // Bases
+            if ($("#Base_1").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 1;
+            if ($("#Base_2").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 2;
+            if ($("#Base_3").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 4;
+            // away
+            for (i = 1; i <= 16; i++) {
+                runsa += "," + $("#AN" + i.toString()).val();
+                runsb += "," + $("#BN" + i.toString()).val();
+            }
+            $.post("@Url.Action("UpdateFollow")", {
+                type: 1,
+                gid: GID,
+                ra: $("#RA").val(),
+                ha: $("#HA").val(),
+                ea: $("#EA").val(),
+                rb: $("#RB").val(),
+                hb: $("#HB").val(),
+                eb: $("#EB").val(),
+                runsa: runsa.substring(1),
+                runsb: runsb.substring(1),
+                trackertext: encodeURI($("#TrackerText").val()),
+                b: b,
+                s: s,
+                o: o,
+                bases: bases,
+                GameStates: status
+                //json: encodeURI(JSON.stringify(getJson(cmd, b, s, o, bases)))
+            }, function (data) {
+                if (data != "ok") {
+                    alert('這場比賽已被變更操盤狀態，不能再進行操盤');
+                    window.close();
+                }
+                //location.href = document.URL;
+            });
+        }
+        function CallAjaxBsoAndBases(cmd) {
+            if (cmd == null) cmd = "";
+
+            var b = 0;
+            var s = 0;
+            var o = 0;
+            var bases = 0;
+            var runsa = "";
+            var runsb = "";
+            var status = $("#Status").val();
+            // 比賽狀態
+            if (status == "X") {
+                status = "S";
+                $("#Status").val("S")
+            }
+            // B
+            if ($("#bsoBall_1").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 1;
+            if ($("#bsoBall_2").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 2;
+            if ($("#bsoBall_3").attr("src").toString().toLowerCase().indexOf("ball") != -1) b = 3;
+            // S
+            if ($("#bsoStrike_1").attr("src").toString().toLowerCase().indexOf("strike") != -1) s = 1;
+            if ($("#bsoStrike_2").attr("src").toString().toLowerCase().indexOf("strike") != -1) s = 2;
+            // O
+            if ($("#bsoOut_1").attr("src").toString().toLowerCase().indexOf("out") != -1) o = 1;
+            if ($("#bsoOut_2").attr("src").toString().toLowerCase().indexOf("out") != -1) o = 2;
+            // Bases
+            if ($("#Base_1").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 1;
+            if ($("#Base_2").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 2;
+            if ($("#Base_3").attr("src").toString().toLowerCase().indexOf("base1") != -1) bases += 4;
+            $.post("@Url.Action("UpdateFollow")", {
+                type: 2,
+                gid: GID,
+                b: b,
+                s: s,
+                o: o,
+                bases: bases,
+                GameStates: status
+                // json: encodeURI(JSON.stringify(getJson(cmd, b, s, o, bases)))
+            }, function (data) {
+                if (data != "ok") {
+                    alert('這場比賽已被變更操盤狀態，不能再進行操盤');
+                    window.close();
+                }
+                //location.href = document.URL;
+            });
+        }
+        function getJson(cmd, b, s, o, bases) {
+            if (GameType != "BBTW") return "";
+
+            return {
+                "CMD": cmd.toString(),
+                "AwayPlayer": [
+                    { "N": $("#selAwayPlayer0").val(), "I": $("#selAwayPlayer0").find("option:selected").attr("No"), "P": "P" },
+                    { "N": $("#selAwayPlayer1").val(), "I": $("#selAwayPlayer1").find("option:selected").attr("No"), "P": $("#selAwayPlayer1P").val() },
+                    { "N": $("#selAwayPlayer2").val(), "I": $("#selAwayPlayer2").find("option:selected").attr("No"), "P": $("#selAwayPlayer2P").val() },
+                    { "N": $("#selAwayPlayer3").val(), "I": $("#selAwayPlayer3").find("option:selected").attr("No"), "P": $("#selAwayPlayer3P").val() },
+                    { "N": $("#selAwayPlayer4").val(), "I": $("#selAwayPlayer4").find("option:selected").attr("No"), "P": $("#selAwayPlayer4P").val() },
+                    { "N": $("#selAwayPlayer5").val(), "I": $("#selAwayPlayer5").find("option:selected").attr("No"), "P": $("#selAwayPlayer5P").val() },
+                    { "N": $("#selAwayPlayer6").val(), "I": $("#selAwayPlayer6").find("option:selected").attr("No"), "P": $("#selAwayPlayer6P").val() },
+                    { "N": $("#selAwayPlayer7").val(), "I": $("#selAwayPlayer7").find("option:selected").attr("No"), "P": $("#selAwayPlayer7P").val() },
+                    { "N": $("#selAwayPlayer8").val(), "I": $("#selAwayPlayer8").find("option:selected").attr("No"), "P": $("#selAwayPlayer8P").val() },
+                    { "N": $("#selAwayPlayer9").val(), "I": $("#selAwayPlayer9").find("option:selected").attr("No"), "P": $("#selAwayPlayer9P").val() },
+                ],
+                "AwayPlayerSelected": $('input[name=rdoAwayPlayer]:checked').val(),
+                "HomePlayer": [
+                    { "N": $("#selHomePlayer0").val(), "I": $("#selHomePlayer0").find("option:selected").attr("No"), "P": "P" },
+                    { "N": $("#selHomePlayer1").val(), "I": $("#selHomePlayer1").find("option:selected").attr("No"), "P": $("#selHomePlayer1P").val() },
+                    { "N": $("#selHomePlayer2").val(), "I": $("#selHomePlayer2").find("option:selected").attr("No"), "P": $("#selHomePlayer2P").val() },
+                    { "N": $("#selHomePlayer3").val(), "I": $("#selHomePlayer3").find("option:selected").attr("No"), "P": $("#selHomePlayer3P").val() },
+                    { "N": $("#selHomePlayer4").val(), "I": $("#selHomePlayer4").find("option:selected").attr("No"), "P": $("#selHomePlayer4P").val() },
+                    { "N": $("#selHomePlayer5").val(), "I": $("#selHomePlayer5").find("option:selected").attr("No"), "P": $("#selHomePlayer5P").val() },
+                    { "N": $("#selHomePlayer6").val(), "I": $("#selHomePlayer6").find("option:selected").attr("No"), "P": $("#selHomePlayer6P").val() },
+                    { "N": $("#selHomePlayer7").val(), "I": $("#selHomePlayer7").find("option:selected").attr("No"), "P": $("#selHomePlayer7P").val() },
+                    { "N": $("#selHomePlayer8").val(), "I": $("#selHomePlayer8").find("option:selected").attr("No"), "P": $("#selHomePlayer8P").val() },
+                    { "N": $("#selHomePlayer9").val(), "I": $("#selHomePlayer9").find("option:selected").attr("No"), "P": $("#selHomePlayer9P").val() },
+                ],
+                "HomePlayerSelected": $('input[name=rdoHomePlayer]:checked').val(),
+                "Msg": [
+                    { "U": $("#msg0").val(), "D": $("#msg1").val() },
+                    { "U": $("#msg2").val(), "D": $("#msg3").val() },
+                    { "U": $("#msg4").val(), "D": $("#msg5").val() },
+                    { "U": $("#msg6").val(), "D": $("#msg7").val() },
+                    { "U": $("#msg8").val(), "D": $("#msg9").val() },
+                    { "U": $("#msg10").val(), "D": $("#msg11").val() },
+                    { "U": $("#msg12").val(), "D": $("#msg13").val() },
+                    { "U": $("#msg14").val(), "D": $("#msg15").val() },
+                    { "U": $("#msg16").val(), "D": $("#msg17").val() },
+                    { "U": $("#msg18").val(), "D": $("#msg19").val() },
+                    { "U": $("#msg20").val(), "D": $("#msg21").val() },
+                    { "U": $("#msg22").val(), "D": $("#msg23").val() },
+                    { "U": $("#msg24").val(), "D": $("#msg25").val() },
+                    { "U": $("#msg26").val(), "D": $("#msg27").val() },
+                    { "U": $("#msg28").val(), "D": $("#msg29").val() },
+                    { "U": $("#msg30").val(), "D": $("#msg31").val() },
+                ],
+                "Old": { B: b, S: s, O: o, BS: bases },
+                "Chg": document.getElementById("chgRound").checked,
+            };
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <table cellpadding="0" cellspacing="0" style="border: 2px solid #b3b3b3; width:1050px;">
+            <tr>
+                <td width="130">
+                    <table cellpadding="0" cellspacing="1" class="tb_light">
+                        <tr>
+                            <td width="30" align="center" id="bsoBall_0" style="cursor: pointer"><b>B</b></td>
+                            <td style="padding-left: 5px;" align="left">
+                                <span><img src="@(Model.B >= 1 ? "/images/bb/BsoBall.png" : "/images/bb/bsoBlack.png")" id="bsoBall_1" style="cursor: pointer"></span>
+                                <span><img src="@(Model.B >= 2 ? "/images/bb/BsoBall.png" : "/images/bb/bsoBlack.png")" id="bsoBall_2" style="cursor: pointer"></span>
+                                <span><img src="@(Model.B >= 3 ? "/images/bb/BsoBall.png" : "/images/bb/bsoBlack.png")" id="bsoBall_3" style="cursor: pointer"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" id="bsoStrike_0" style="cursor: pointer"><b>S</b></td>
+                            <td style="padding-left: 5px;" align="left">
+                                <span><img src="@(Model.S >= 1 ? "/images/bb/BsoStrike.png" : "/images/bb/bsoBlack.png")" id="bsoStrike_1" style="cursor: pointer"></span>
+                                <span><img src="@(Model.S >= 2 ? "/images/bb/BsoStrike.png" : "/images/bb/bsoBlack.png")" id="bsoStrike_2" style="cursor: pointer"></span>
+                                <span>&nbsp;</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" id="bsoOut_0" style="cursor: pointer"><b>O</b></td>
+                            <td style="padding-left: 5px;" align="left">
+                                <span><img src="@(Model.O >= 1 ? "/images/bb/BsoOut.png" : "/images/bb/bsoBlack.png")" id="bsoOut_1" style="cursor: pointer"></span>
+                                <span><img src="@(Model.O >= 2 ? "/images/bb/BsoOut.png" : "/images/bb/bsoBlack.png")" id="bsoOut_2" style="cursor: pointer"></span>
+                                <span>&nbsp;</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="margin-top: 5px;" align="center" width="130">
+                    <table cellpadding="0" cellspacing="0" width="120" height="100" class="base">
+                        <tr>
+                            <td>
+                                <img src="@((Model.Bases & 2) > 0 ? "/images/bb/Base1.png" : "/images/bb/Base0.png")" id="Base_2" style="cursor: pointer">
+                                <img src="@((Model.Bases & 4) > 0 ? "/images/bb/Base1.png" : "/images/bb/Base0.png")" id="Base_3" style="cursor: pointer">
+                                <img src="@((Model.Bases & 1) > 0 ? "/images/bb/Base1.png" : "/images/bb/Base0.png")" id="Base_1" style="cursor: pointer">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign="bottom">
+                    <table cellpadding="0" cellspacing="0" class="tb_btn" style="margin: 5px;">
+                        <tr><td><input type="button" id="btnChangePlay" value="換人" onclick="ChangePlay()"></td></tr>
+                        <tr><td><input type="button" id="btnChangeRound" value="換局" onclick="ChangeRound()"></td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table cellpadding="0" cellspacing="1" class="tb_num">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th style="background-color:#555;color:#fff">R</th>
+                            <th style="background-color:#555;color:#fff">H</th>
+                            <th style="background-color:#555;color:#fff">E</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px; padding-left: 5px;" align="left">@ViewBag.teamA</td>
+                            @for (int a = 1; a <= RunsA.Count; a++)
+                            {
+                                <td>
+                                    @Html.TextBox("AN" + a, RunsA[a - 1], new { maxlength = "2", onkeyup = "return ValidateNumber($(this), value)" })
+                                </td>
+                            }
+                            <td><input type="text" maxlength="2" id="RA" value="@Model.RA" readonly="readonly" /></td>
+                            <td><input type="text" maxlength="2" id="HA" value="@Model.HA" onkeyup="return ValidateNumber($(this), value)" /></td>
+                            <td><input type="text" maxlength="2" id="EA" value="@Model.EA" onkeyup="return ValidateNumber($(this), value)" /></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 5px;" align="left">@ViewBag.teamB</td>
+                            @for (int b = 1; b <= RunsB.Count; b++)
+                            {
+                                <td>
+                                    @Html.TextBox("BN" + b, RunsB[b - 1], new { maxlength = "2", onkeyup = "return ValidateNumber($(this), value)" })
+                                </td>
+                            }
+                            <td><input type="text" maxlength="2" id="RB" value="@Model.RB" readonly="readonly" /></td>
+                            <td><input type="text" maxlength="2" id="HB" value="@Model.HB" onkeyup="return ValidateNumber($(this), value)" /></td>
+                            <td><input type="text" maxlength="2" id="EB" value="@Model.EB" onkeyup="return ValidateNumber($(this), value)" /></td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign="bottom">
+                    <table cellpadding="0" cellspacing="0" class="tb_btn" style="margin: 5px;">
+                        <tr><td><input id="BtnSubmit" type="button" value="送出" onclick="CallAjaxAll()"></td></tr>
+                        <tr><td><input id="BtnReforming" type="button" value="重整" onclick="location.href = document.URL;"></td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr><td colspan="5" height="10"></td></tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2">
+                    比賽狀態：
+                    <select id="Status" onchange="StatusChanged()" style="margin-bottom: 5px;">
+                        <option value="X">未開賽</option>
+                        <option value="S">已開賽</option>
+                        <option value="E">已結束</option>
+                        <option value="P">中止</option>
+                        <option value="C">取消</option>
+                        <option value="D">延遲</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;攻守交換&nbsp;<input type="checkbox" id="chgRound" onchange="StatusChanged()" />
+                    <div id="txtPormpt"><font color="red">*目前狀態為：未開賽，若要編輯請改為已開賽。</font></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2">
+                    訊息文字：
+                    <input type="text" id="TrackerText" value="@Model.TrackerText" style="width:500px" />
+                </td>
+            </tr>
+            <tr><td colspan="5" height="10"></td></tr>
+        </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.ViewModel.BKOSTeam>, List<Models.ViewModel.BKOSTeam>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "BKOSTeamAdd" : (Model.Item3 == 2 ? "BKOSTeamDelete" : "BKOSTeamEdit");
+    List<Models.ViewModel.BKOSTeam> basketteam = new List<Models.ViewModel.BKOSTeam>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            basketteam.Add(olditem);
+        }
+        index++;
+        basketteam.Add(newitem);
+        @Html.DisplayFor(p => basketteam, viewName)
+        basketteam.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            basketteam.Add(newitem);
+            @Html.DisplayFor(p => basketteam, viewName)
+            basketteam.Clear();
+        }
+    }
+}

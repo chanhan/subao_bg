@@ -1,0 +1,247 @@
+﻿@model IEnumerable<Models.ViewModel.BasketBall>
+
+@{
+    string gameType = ViewBag.GameType;
+    string gid = ViewBag.GID;
+    DateTime gameDate = ViewBag.date;
+    int count = 0;
+    bool showRecord = !string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) && @Common.AppData.Ranetks.Split(',').Contains(HttpContext.Current.User.Identity.Name.Split(',')[0]);
+}
+@Styles.Render("~/Content/datetimepicker")
+@Styles.Render("~/Content/schedule")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "basketballForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl2 tabbasketball">
+            <div id="tabdl-top">
+                <div style="float: left;">
+                    <a class="btntime">
+                        <img width="14" height="16" src="/images/btn001.png" onclick="gotoday(-1)">
+                    </a>
+                    @Html.TextBox("date", gameDate.ToString("yyyy-MM-dd"), new { @class = "texttime" })
+                    <a class="btntime">
+                        <img src="/images/btn002.png" width="14" height="16" onclick="gotoday(1)" />
+                    </a>
+                    <span style="margin-left:10px">所屬聯盟： </span>@Html.DropDownList("name", ViewBag.Alliances as IEnumerable<SelectListItem>, "全部", new { onchange = "showAllianceSchedules()", style = "margin-left:5px; height:28px;width:150px" })
+                </div>
+                <div style="float: right;">
+                    <a onclick="addSchedule()" class="btncss">新增賽程</a>
+                    <a onclick="ShowSubmit()" class="btncss">刪除選取項目</a>
+                    <a onclick="ShowJsSubmit()" class="btncss">儲存走勢圖設定</a>
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            @if (!Model.Any())
+            {
+                <span style="font-size:30px;">
+                    無賽程資料
+                </span>
+            }
+            else
+            {
+                <dl style="padding-top: 5px;">
+                    <dd>
+                        <ul>
+                            <li>刪除<br><input type="checkbox" onclick="deleteAll(this)"></li>
+                            <li>優先權</li>
+                            <li>聯盟</li>
+                            <li>顯示走勢<br><input type="checkbox" onclick="showAll(this)"></li>
+                            <li>時間</li>
+                            <li>先攻隊伍</li>
+                            <li>後攻隊伍</li>
+                            <li>賽程狀態</li>
+                            <li>資料來源</li>
+                            <li>操盤狀態</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+                    @foreach (var item in Model)
+                    {
+                        <dd id="schedules@(item.AllianceID + "_" + count)">
+                            <ul>
+                                <li>
+                                    @if (item.GameStates == "X" && gameDate.Date.CompareTo(DateTime.Now.Date) >= 0)
+                                    {
+                                        @Html.CheckBox("[" + count + "].IsDeleted", item.IsDeleted, new { onclick = "setShow(this)" })
+                                        @Html.Hidden("[" + count + "].IsDeletedChanged", 0)
+                                    }
+                                </li>
+                                <li>
+                                    @item.Number
+                                </li>
+                                <li>
+                                    @item.AllianceName
+                                </li>
+                                <li>
+                                    @Html.CheckBox("[" + count + "].ShowJS", item.ShowJS, new { onclick = "setShowJs(this)" })
+                                    @Html.Hidden("[" + count + "].ShowJSChanged", 0)
+                                    @Html.Hidden("[" + count + "].GID", item.GID)
+                                    @Html.Hidden("[" + count + "].TeamAID", item.TeamAID)
+                                    @Html.Hidden("[" + count + "].TeamBID", item.TeamBID)
+                                    @Html.Hidden("[" + count + "].AllianceID", item.AllianceID)
+
+
+                                </li>
+                                <li>
+                                    @item.GameTime.ToString(@"hh\:mm")
+                                    @Html.Hidden("[" + count + "].GameType", item.GameType)
+                                    @Html.Hidden("[" + count + "].GameDate", item.GameDate)
+                                    @Html.Hidden("[" + count + "].GameTime", item.GameTime.ToString(@"hh\:mm"))
+                                </li>
+                                <li>
+                                    @item.TeamAName
+                                    @Html.Hidden("[" + count + "].TeamAName", item.TeamAName)
+                                </li>
+                                <li>
+                                    @item.TeamBName
+                                    @Html.Hidden("[" + count + "].TeamBName", item.TeamBName)
+                                </li>
+                                <li>
+                                    @Common.AppData.GetStatesText(item.GameStates)
+                                </li>
+                                <li>
+                                    @item.GameSource
+                                </li>
+                                <li style="color:red">
+                                    @Html.Raw(Common.AppData.GetCtrlStateText(item.CtrlStates, item.CtrlAdmin, item.WebID))
+                                </li>
+                                <li>
+                                    @Html.ActionLink("修改", "EditSchedule", new { gid = item.GID, date = gameDate.ToString("yyyy-MM-dd"), gameType = gameType })
+                                    @Html.ActionLink("修改分數", "UpdateScore", new { gid = item.GID, date = gameDate.ToString("yyyy-MM-dd"), gameType = gameType }, new { onclick = string.Format("return checkGameState('{0}');", item.GameStates) })
+                                    @if (showRecord)
+                                    {
+                                        <br>@Html.ActionLink("比分修改紀錄", "ScoreModifyRecord", new { gid = item.GID, date = gameDate.ToString("yyyy-MM-dd"), gameType = gameType })
+                                    }
+                                </li>
+                            </ul>
+                        </dd>
+                                    count++;
+                    }
+
+                </dl>
+            }
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+    $("#date").inputmask('y-m-d').datetimepicker({
+        lang: 'zh-TW',
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onChangeDateTime: function (dp, $input) {
+            location.href = '@Url.Action("Index", new { gameType = gameType, gid = gid })' + '&date=' + $input.val();
+        }
+    });
+    function checkGameState(state) {
+        if (state.toUpperCase() == 'X') {
+            alert('請將賽程狀態改為已開賽或已結束！');
+            return false;
+        }
+        return true;
+    }
+    function addSchedule() {
+        location.href = '@Html.Raw(Url.Action("EditSchedule", new { gameType = gameType, date = gameDate.ToString("yyyy-MM-dd") }))';
+    }
+    //单选显示走势
+    function setShowJs(o) {
+        var obj = $(o).siblings('input[name$=ShowJSChanged]');
+        obj.val((parseInt(obj.val(), 10) + 1) % 2);
+    }
+    //单选显示设定
+    function setShow(o) {
+        var obj = $(o).siblings('input[name$=IsDeletedChanged]');
+        obj.val((parseInt(obj.val(), 10) + 1) % 2);
+    }
+    //全选显示走势
+    function showAll(obj) {
+        var checked = $(obj).prop('checked');
+        $(obj).parents('dd').nextAll().find('input[type=checkbox][name$=ShowJS]').each(function () {
+            if ($(this).prop('checked') != checked) {
+                $(this).click();
+            }
+        })
+    }
+    //全选显示设定
+    function deleteAll(obj) {
+        var checked = $(obj).prop('checked');
+        $(obj).parents('dd').nextAll().find('input[type=checkbox][name$=IsDeleted]').each(function () {
+            if ($(this).prop('checked') != checked) {
+                $(this).click();
+            }
+        })
+    }
+    //左右方向按钮
+    function gotoday(value) {
+        var sDate = document.getElementById('date').value.split('-')
+        var date = new Date(sDate[0], sDate[1] - 1, sDate[2])
+        var url = '@Url.Action("Index", new { gameType = gameType, gid = gid })' + '&date=' + date.GetFormateAddDate(value);
+        location.href = url;
+    }
+
+    //走势存储设定
+    function ShowJsSubmit() {
+        var obj = $("input[name$='ShowJSChanged'][value='1']");
+        if (obj.size() == 0) {
+            alert('沒有要保存的資料!');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetShowJs")",
+            data: $('#basketballForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('儲存走勢設定失敗!');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    obj.val(0);//修改成功后，设定赛事为未修改状态
+                    alert('儲存走勢設定成功!');
+                }
+                else {
+                    alert('沒有要保存的資料!');
+                }
+            }
+        });
+    }
+    //显示存储设定
+    function ShowSubmit() {
+        if (confirm('是否確認刪除所選資料？')) {
+            var obj = $("input[name$='IsDeletedChanged'][value='1']");
+            if (obj.size() == 0) {
+                alert('沒有要保存的資料!');
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetShow")",
+                data: $('#basketballForm').serialize(),
+                async: false,
+                error: function (data) {
+                    alert('刪除失敗!');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        obj.val(0);//修改成功后，设定赛事为未修改状态
+                        alert('刪除成功!');
+                        window.location.href = window.location.href;
+                    }
+                }
+            });
+        }
+    }
+    function showAllianceSchedules() {
+        var allianceid = $('#name').val();
+        if (allianceid != '') {
+            $('dd[id^=schedules]').hide();
+            $('dd[id^=schedules' + allianceid + ']').show();
+        } else {
+            $('dd[id^=schedules]').show();
+        }
+    }
+</script>

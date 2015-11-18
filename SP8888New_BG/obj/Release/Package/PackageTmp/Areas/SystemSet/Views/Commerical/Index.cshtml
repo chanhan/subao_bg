@@ -1,0 +1,375 @@
+﻿@model  Dictionary<string, Tuple<int, List<Models.ViewModel.CommercialImage>>>
+@Styles.Render("~/Content/commercial")
+@{
+    Tuple<int, List<Models.ViewModel.CommercialImage>> left = Model["left"];
+    Tuple<int, List<Models.ViewModel.CommercialImage>> right = Model["right"];
+    int leftSec = left.Item1;
+    List<Models.ViewModel.CommercialImage> leftCommercial = left.Item2;
+    int rightSec = right.Item1;
+    List<Models.ViewModel.CommercialImage> rightCommercial = right.Item2;
+}
+<div class="sc-tabbox">
+    <div id="guanggaoguanlibox">
+        <p class="guanggaoguanli-title">@(ViewBag.language == "tw" ? "繁體" : "簡體") PC 版廣告管理</p>
+        <p class="guanggaoip">✪ 說明：請使用 jpg 圖片檔案，寬高為 490 * 210。 </p>
+        <div class="guanggaoguanli-content" style="margin-top: 10px;">
+            <div class="guanggaoguanli-contentl">
+                <div class="tabdl-guanggaotop">
+                    <div class="tabdl-guanggaoleft" style="color: #8fb148">
+                        左邊廣告 (每格
+                        <select onchange="ChangeSeconds(this,'left')" id="leftSec">
+                            @for (int i = 5; i <= 120; i = i + 5)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        秒換圖)
+                    </div>
+                </div>
+                <!--/.tabdl-guanggaotop-->
+                <div style="clear:both ;"></div>
+                @using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="tabdl-guanggao  tabdl-guanggaodefault tabdl-guanggaoleft">
+                        <dl style="padding-top:3px; ">
+                            <dd>
+                                <ul>
+                                    <li> 檔名：</li>
+                                    <li>
+                                        @Html.TextBox("commercial", null, new { type = "file", onchange = "PreviewImage('leftimage', this,'jpg')" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li> 圖片：</li>
+                                    <li>
+                                        <div class="guganggaoimg">
+                                            <img id="leftimage" />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>連結：</li>
+                                    <li>
+                                        @Html.TextBox("Link", null, new { style = "width: 98%;" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>來源：</li>
+                                    <li>
+                                        @Html.TextArea("SourceUrl", null, new { style = "font-size: 16px;", rows = "2" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li></li>
+                                    <li>
+                                        <div class="gaunggaobtns">
+                                            @Html.Hidden("act", "add")
+                                            @Html.Hidden("direction", "left")
+                                            @Html.Hidden("language", ViewBag.language as string)
+                                            <a class="btncss" style="float: right;" onclick="addCommercial(this, 'left')">新&nbsp;&nbsp;增</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>
+                                        <p class="guanggaoip">✪ 請輸入來源網域，ex：www.google.com.tw</p>
+                                        <p class="guanggaoip">✪ 多來源請用","分隔，ex：www.google.com.tw,tw.yahoo.com</p>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                }
+                @{
+                    int count = 0;
+                    foreach (var item in leftCommercial)
+                    {
+                        using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="tabdl-guanggao tabdl-guanggaoleft">
+                                <dl>
+                                    <dd>
+                                        <ul>
+                                            <li> 檔名：</li>
+                                            <li>
+                                                @item.ImageName
+                                                @Html.Hidden("ImageName", item.ImageName)
+                                                @Html.Hidden("oldImageName", item.ImageName)
+                                                @Html.TextBox("commercial", null, new { type = "file", onchange = "PreviewImage('preleft_" + count + "', this,'jpg')" })
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <ul>
+                                            <li> 圖片：</li>
+                                            <li>
+                                                <div class="guganggaoimg">
+                                                    <img style=" width:490px" id="preleft_@count" src="@Common.AppData.GetBase64StringForImage(item.ImageName)" />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <ul>
+                                            <li>連結：</li>
+                                            <li>
+                                                @Html.TextBox("Link", item.Link, new { style = "width: 98%;" })
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <ul>
+                                            <li>來源：</li>
+                                            <li>
+                                                @Html.TextArea("SourceUrl", item.SourceUrl, new { style = "font-size: 16px;", rows = "2" })
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <ul>
+                                            <li></li>
+                                            <li>
+                                                <div class="gaunggaobtns" style="float: right;">
+                                                    @Html.Hidden("act", "update")
+                                                    @Html.Hidden("direction", "left")
+                                                    @Html.Hidden("language", ViewBag.language as string)
+                                                    <a class="btncss" onclick="updateCommercial(this,'left')">更&nbsp;&nbsp;新</a>
+                                                    <a class="btncss" onclick="deleteCommercial(this,'left')">刪&nbsp;&nbsp;除</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </div>
+                        }
+                        count++;
+                    }
+                }
+            </div>
+            <div class="guanggaoguanli-contentr">
+                <div class="tabdl-guanggaotop">
+                    <div class="tabdl-guanggaoleft" style="color: #4295ab">
+                        右邊廣告 (每格
+                        <select onchange="ChangeSeconds(this,'right')" id="rightSec">
+                            @for (int i = 5; i <= 120; i = i + 5)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        秒換圖)
+                    </div>
+
+                </div>
+                <!--/.tabdl-guanggaotop-->
+                <div style="clear:both ;"></div>
+                @using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="tabdl-guanggao  tabdl-guanggaodefault tabdl-guanggaoright">
+                        <dl style="padding-top:3px; ">
+                            <dd>
+                                <ul>
+                                    <li> 檔名：</li>
+                                    <li>
+                                        @Html.TextBox("commercial", null, new { type = "file", onchange = "PreviewImage('rightimage', this,'jpg')" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li> 圖片：</li>
+                                    <li>
+                                        <div class="guganggaoimg">
+                                            <img id="rightimage" />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>連結：</li>
+                                    <li>
+                                        @Html.TextBox("Link", null, new { style = "width: 98%;" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>來源：</li>
+                                    <li>
+                                        @Html.TextArea("SourceUrl", null, new { style = "font-size: 16px;", rows = "2" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li></li>
+                                    <li>
+                                        <div class="gaunggaobtns">
+                                            @Html.Hidden("act", "add")
+                                            @Html.Hidden("direction", "right")
+                                            @Html.Hidden("language", ViewBag.language as string)
+                                            <a class="btncss" style="float: right;" onclick="addCommercial(this, 'right')">新&nbsp;&nbsp;增</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>
+                                        <p class="guanggaoip">✪ 請輸入來源網域，ex：www.google.com.tw</p>
+                                        <p class="guanggaoip">✪ 多來源請用","分隔，ex：www.google.com.tw,tw.yahoo.com</p>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>}
+                @{  count = 0;
+                  foreach (var item in rightCommercial)
+                  {
+
+                      using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                      {
+                        <div class="tabdl-guanggao tabdl-guanggaoright">
+                            <dl>
+                                <dd>
+                                    <ul>
+                                        <li> 檔名：</li>
+                                        <li>
+                                            @item.ImageName
+                                            @Html.Hidden("ImageName", item.ImageName)
+                                            @Html.Hidden("oldImageName", item.ImageName)
+                                            @Html.TextBox("commercial", null, new { type = "file", onchange = "PreviewImage('preright_" + count + "', this,'jpg')" })
+                                        </li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <ul>
+                                        <li> 圖片：</li>
+                                        <li>
+                                            <div class="guganggaoimg">
+                                                <img style=" width:490px" id="preright_@count" src="@Common.AppData.GetBase64StringForImage(item.ImageName)" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <ul>
+                                        <li>連結：</li>
+                                        <li>
+                                            @Html.TextBox("Link", item.Link, new { style = "width: 98%;" })
+                                        </li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <ul>
+                                        <li>來源：</li>
+                                        <li>
+                                            @Html.TextArea("SourceUrl", item.SourceUrl, new { style = "font-size: 16px;", rows = "2" })
+                                        </li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <ul>
+                                        <li></li>
+                                        <li>
+                                            <div class="gaunggaobtns" style="float: right;">
+                                                @Html.Hidden("act", "update")
+                                                @Html.Hidden("direction", "right")
+                                                @Html.Hidden("language", ViewBag.language as string)
+                                                <a class="btncss" onclick="updateCommercial(this, 'right')">更&nbsp;&nbsp;新</a>
+                                                <a class="btncss" onclick="deleteCommercial(this, 'right')">刪&nbsp;&nbsp;除</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                      }
+                      count++;
+                  }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryform")
+<script>
+    $(function () {
+        $('#leftSec').val('@leftSec');
+        $('#rightSec').val('@rightSec');
+    })
+    //新增广告
+    function addCommercial(obj, dir) {
+        $(obj).siblings('input[type=hidden][name$=act]').val("add");
+        $(obj).siblings('input[type=hidden][name$=direction]').val(dir);
+        var img = $(obj).parents('form').find('img').attr('src');
+        if (img == undefined || img == '') {
+            alert('您必需先選擇檔案');
+            return;
+        }
+        if ($.trim($(obj).parents('form').find('input[type=text][name=Link]').val()) == '') {
+            alert('您必需先輸入連接');
+            return;
+        }
+        submitCommercial(obj);
+    }
+    //更新广告
+    function updateCommercial(obj, dir) {
+        $(obj).siblings('input[type=hidden][name$=act]').val("update");
+        $(obj).siblings('input[type=hidden][name$=direction]').val(dir);
+        if ($.trim($(obj).parents('form').find('input[type=text][name=Link]').val()) == '') {
+            alert('您必需先輸入連接');
+            return;
+        }
+        submitCommercial(obj);
+    }
+    //删除广告
+    function deleteCommercial(obj, dir) {
+        $(obj).siblings('input[type=hidden][name$=act]').val("del");
+        $(obj).siblings('input[type=hidden][name$=direction]').val(dir);
+        submitCommercial(obj);
+    }
+    //提交广告
+    function submitCommercial(obj) {
+        var options = {
+            url: '@Url.Action("UpDateCommercial")',
+            success: function (responseText, statusText, xhr, $form) {
+                if (responseText > 0) {
+                    window.location.href = window.location.href;
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest);
+            }
+        };
+        $(obj).parents('form').ajaxSubmit(options);
+        return false;
+    }
+    //切换广告秒数
+    function ChangeSeconds(obj, direction) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ChangeSeconds")",
+            data: { seconds: $(obj).val(), Direction: direction, language: '@ViewBag.language' },
+            async: false,
+            error: function (data) {
+                alert('儲存失敗!');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    window.location.href = window.location.href;
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,180 @@
+﻿@model Models.FootballSchedules
+@{
+    ViewBag.Title = "ScoreEdit";
+}
+@Styles.Render("~/Content/score")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@using (Html.BeginForm("ScoreSave", "Football", FormMethod.Post, new { id = "FootballModifyForm" }))
+{
+    @Html.HiddenFor(m => m.ID, new { value = Model.ID })
+    @Html.HiddenFor(m => m.KO, new { value = Model.KO })
+
+    <div class="feishuxiugai">
+        <dl>
+            <dt>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>半場</li>
+                    <li>總分</li>
+                    <li>黃牌</li>
+                    <li>紅牌</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dt>
+            <dd>
+                <ul>
+                    <li>@Model.NA</li>
+                    <li>@Html.TextBox("RA", Model.RA, new { @class = "fens" })</li>
+                    <li>@Html.TextBox("OA", Model.OA, new { @class = "fens" })</li>
+                    <li>@Html.TextBox("CA", strSub(Model.CA), new { @class = "fens" })</li>
+                    <li>@Html.TextBox("NAR", strSub(Model.NAR), new { @class = "fens" })</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>@Model.NB</li>
+                    <li>@Html.TextBox("RB", Model.RB, new { @class = "fens" })</li>
+                    <li>@Html.TextBox("OB", Model.OB, new { @class = "fens" })</li>
+                    <li>@Html.TextBox("CB", strSub(Model.CB), new { @class = "fens" })</li>
+                    <li>@Html.TextBox("NBR", strSub(Model.NBR), new { @class = "fens" })</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>目前狀態:@Html.Raw(@Model.KO)  @Html.Raw(Model.UP)</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">開賽時間:</span>
+                        <input type="text" id="strTime" name="strTime" class="datetime-inputext" style=" width:50px;" value="@ViewBag.strTime" />
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">狀態:</span>
+                        <select id="UP" name="UP" class="fsdrp-slet">
+                            <option selected="selected" value="0">無</option>
+                            <option value="1">完場</option>
+                            <option value="2">改期</option>
+                            <option value="3">腰斬</option>
+                            <option value="4">待定</option>
+                            <option value="5">取消</option>
+                        </select>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">修改項目:</span>
+                        <select id="modifyItem" name="modifyItem" class="fsdrp-slet">
+                            <option selected="selected" value="0">請選擇</option>
+                            <option value="31">狀態</option>
+                            <option value="21">比分</option>
+                            <option value="1">全部</option>
+                        </select>
+                        <input type="button" class="btnSave" value="儲存" onclick="javascipt: $('#FootballModifyForm').submit()" />
+                        @if (Model.CtrlStates != 0 && Model.CtrlStates != 2)
+                        {
+                            <input type="button" class="btnSave" value="刪除" onclick="location='/Football/Football/ScoreDelete?id=@Model.ID'" />
+                        }
+                        <span id="outMessage">
+                            <b>
+                                @HttpUtility.UrlDecode(ViewBag.message)
+                            </b>
+                        </span>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <p>儲存說明: </p>
+                        <p>1. 儲存狀態 => 來源網只跟比分 狀態不跟</p>
+                        <p>2. 儲存比分 => 來源網只跟狀態 比分不跟</p>
+                        <p>3. 儲存全部 (狀態+比分) => 全不跟來源網</p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    @*@Html.DropDownList("ModifyItem", ViewBag.ModifyItem as IEnumerable<SelectListItem>, "請選擇", new { @class = "fsdrp-slet" })*@
+    @*<input type="submit" id="btnSave" value="存储" />*@
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#outMessage").fadeOut(10000);
+        ///狀態下拉框
+        var $option = $("#modifyItem option").not("[value=1]");
+        $("#UP").change(function () {
+            if ($(this).val() == "2" || $(this).val() == "4" || $(this).val() == "5") {
+                $option.remove();
+                //清空分数
+                $(".fens").val("");
+            } else {
+                $("#modifyItem").append($option);
+            }
+        });
+
+        if ('@Model.UP'.indexOf('上') != -1 || '@Model.UP'.indexOf('下') != -1 || '@Model.UP'.indexOf('中') != -1) {
+            $("#UP").append("<option value='6'>中斷</option>");
+            $("#UP").val(6);
+        } else {
+            $("#UP").val(swUP('@Model.UP'));
+        }
+
+        //时间
+        $("#strTime").inputmask('').datetimepicker({
+            datepicker: false,
+            format: 'H:i',
+            step: 1
+        });
+    });
+
+    function swUP(up) {
+        if (up.indexOf("完") != -1) {
+            return 1;
+        } else if (up.indexOf("改期") != -1) {
+            return 2;
+        } else if (up.indexOf("腰斬") != -1) {
+            return 3;
+        } else if (up.indexOf("待定") != -1) {
+            return 4;
+        } else if (up.indexOf("取消") != -1) {
+            return 5;
+        } else {
+            return 0;
+        }
+    }
+</script>
+@functions{
+    private string strSub(string str)
+    {
+        if (!string.IsNullOrWhiteSpace(str) && str.IndexOf(">") != -1 && str.IndexOf("<") != -1)
+        {
+            str = str.Substring(str.IndexOf(">") + 1);
+            return str.Substring(0, str.LastIndexOf("<"));
+        }
+        return str;
+    }
+}

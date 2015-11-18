@@ -1,0 +1,273 @@
+﻿@model IEnumerable<Models.ScrollingText>
+@Styles.Render("~/Content/scrollingtext")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+<div class="sc-tabbox">
+    <div id="guanggaoguanlibox">
+        <p class="guanggaoguanli-title">跑馬燈管理</p>
+        <div class="guanggaoguanli-content" style="margin-top: 6px; width: 1079px;">
+            @using (Html.BeginForm("", "", FormMethod.Post))
+            {
+                <div class="paomadeng-contentl">
+                    <div class="tabdl-guanggao   tabdl-paomaleft">
+                        <dl style="padding-top:3px; ">
+                            <dd>
+                                <ul>
+                                    <li> 語系：</li>
+                                    <li>
+                                        <select id="languageCode" name="languageCode">
+                                            <option value="">請選擇</option>
+                                            <option value="zh-tw">繁體中文</option>
+                                            <option value="zh-cn">簡體中文</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li> 上架日期：</li>
+                                    <li>
+                                        @Html.TextBox("StartTime", null, new { style = "width: 78%" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>下架日期：</li>
+                                    <li>
+                                        @Html.TextBox("EndTime", null, new { style = "width: 78%" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>是否啟用：</li>
+                                    <li>
+                                        <select id="visible" name="visible">
+                                            <option value="">請選擇</option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>
+                                        <a class="btncss" onclick="searchScrollingText(this)">查&nbsp;詢</a>
+                                        &nbsp;&nbsp;
+                                        <a class="btncss">清&nbsp;除</a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            }
+            @using (Html.BeginForm("EditScrollingText", "ScrollingText", FormMethod.Post))
+            {
+                <div class="paomadeng-contentr">
+                    <div class="tabdl-guanggao tabdl-paomaright">
+                        <dl style="padding-top:3px; ">
+                            <dd>
+                                <ul>
+                                    <li> 跑馬燈種類：</li>
+                                    <li>
+                                        <select id="settingType" name="settingType">
+                                            <option value="0">請選擇</option>
+                                            <option value="1">電腦版</option>
+                                            <option value="2">手機版</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li> 跑馬燈語系：</li>
+                                    <li>
+                                        <select id="languageCode2" name="languageCode">
+                                            <option value="">請選擇</option>
+                                            <option value="zh-tw">繁體中文</option>
+                                            <option value="zh-cn">簡體中文</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>跑馬燈連結：</li>
+                                    <li>
+                                        @Html.TextBox("HyperLink", null, new { style = "width: 98%" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>上架日期：</li>
+                                    <li>
+                                        @Html.TextBox("StartTime", null, new { style = "width: 78%", id = "StartTime1" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>下架日期：</li>
+                                    <li>
+                                        @Html.TextBox("EndTime", null, new { style = "width: 78%", id = "EndTime1" })
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>跑馬燈文字：</li>
+                                    <li>
+                                        @Html.TextArea("Text", null, new { style = "width: 98%", rows = "3" })
+                                    </li>
+                                </ul>
+                            </dd>
+
+                            <dd>
+                                <ul>
+                                    <li> 優先順序：</li>
+                                    <li>
+                                        <select id="orderBy" name="orderBy">
+                                            <option value="">請選擇</option>
+                                            <option value="1">最優先</option>
+                                            <option value="2">一般</option>
+                                            <option value="3">低</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li> 是否啟用：</li>
+                                    <li>
+                                        <select id="visible2" name="visible">
+                                            <option value="" selected="selected">請選擇</option>
+                                            <option value="1">啟用</option>
+                                            <option value="0">不啟用</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <ul>
+                                    <li>
+                                        @Html.Hidden("IsAdd", "True")
+                                        @Html.Hidden("ScrollingTextID")
+                                        <a class="btncss" onclick="scorllingTextSubmit(this)">存&nbsp;檔</a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="tabdl2 shedingpaoma">
+            <div style="clear: both"></div>
+            <dl style="padding-top:5px;">
+                @if (Model != null && Model.Any())
+                {
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>上架时间</li>
+                            <li>下架时间</li>
+                            <li>跑马灯种类</li>
+                            <li>语系</li>
+                            <li>跑马灯文字</li>
+                            <li>跑马灯连接</li>
+                            <li>是否启用</li>
+                            <li>优先顺序</li>
+                            <li>操作</li>
+                        </ul>
+                    </dd>
+                    int count = 0;
+                    foreach (var item in Model)
+                    {
+                        <dd>
+                            <ul>
+                                <li>@count</li>
+                                <li>@item.StartTime.Value.ToString("yyyy-MM-dd")</li>
+                                <li>@item.EndTime.Value.ToString("yyyy-MM-dd")</li>
+                                <li>@Common.AppData.GetScorllingTypeText(item.SettingType)</li>
+                                <li>@Common.AppData.GetLanguageText(item.LanguageCode)</li>
+                                <li>@item.Text</li>
+                                <li>@item.HyperLink</li>
+                                <li>@Common.AppData.GetVisibleText(item.Visible.Value)</li>
+                                <li>@Common.AppData.GetOrderByText(item.OrderBy)</li>
+                                <li>
+                                    @Html.Hidden("[" + count + "].ScrollingTextID", item.ScrollingTextID)
+                                    @Html.Hidden("[" + count + "].SettingType", item.SettingType)
+                                    @Html.Hidden("[" + count + "].LanguageCode", item.LanguageCode)
+                                    @Html.Hidden("[" + count + "].SettingType", item.SettingType)
+                                    @Html.Hidden("[" + count + "].OrderBy", item.OrderBy)
+                                    @Html.Hidden("[" + count + "].Visible", item.Visible)
+                                    <a class="btncss" onclick="showScorllingText(this)"> 修改</a>
+                                    <a class="btncss" onclick="deleteScorllingText('@item.ScrollingTextID')"> 删除</a>
+                                </li>
+                            </ul>
+                        </dd>
+                        count++;
+                    }
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        ResetBackGroundColor();
+        $('#StartTime1').val('');
+        $('#EndTime1').val('');
+    })
+    $("#StartTime,#EndTime,#StartTime1,#EndTime1").inputmask('y-m-d').datetimepicker({
+        lang: 'zh-TW',
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d'
+    });
+    //查询
+    function searchScrollingText(obj) {
+        $(obj).parents('form').submit();
+    }
+    //新增、修改跑马灯
+    function scorllingTextSubmit(obj) {
+        $(obj).parents('form').submit();
+    }
+    //显示跑马灯
+    function showScorllingText(obj) {
+        $('#IsAdd').val('False');
+        $('#settingType').val($(obj).siblings('input[name$=SettingType]').val());
+        $('#languageCode2').val($(obj).siblings('input[name$=LanguageCode]').val());
+        $('#orderBy').val($(obj).siblings('input[name$=OrderBy]').val());
+        $('#visible2').val($(obj).siblings('input[name$=Visible]').val());
+        $('#ScrollingTextID').val($(obj).siblings('input[name$=ScrollingTextID]').val());
+        var ul = $(obj).parents('ul');
+        $('#StartTime1').val(ul.children('li:eq(1)').text());
+        $('#EndTime1').val(ul.children('li:eq(2)').text());
+        $('#Text').val(ul.children('li:eq(5)').text());
+        $('#HyperLink').val(ul.children('li:eq(6)').text());
+    }
+    //删除跑马灯
+    function deleteScorllingText(id) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteScrollingText")",
+            data: { scrollingTextID: id },
+            async: false,
+            error: function (data) {
+                alert('設置失敗！');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    window.location.href = window.location.href;
+                }
+            }
+        });
+    }
+</script>

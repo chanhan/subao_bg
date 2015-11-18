@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>賽程 - 說明文件</title>
+    <style type="text/css">
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+        }
+
+        a {
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu {
+            width: 120px;
+            line-height: 25px;
+            color: black;
+        }
+
+        .submenu {
+            line-height: 20px;
+        }
+
+            .submenu ul {
+                margin: 0px;
+                padding: 0px;
+                padding-left: 30px;
+            }
+
+            .submenu a {
+                color: #555;
+            }
+
+        #wapper {
+            height: 100%;
+            min-height: 100%;
+            width: 100%;
+            background-color: #000;
+            color: #FFF;
+        }
+    </style>
+    <script type="text/javascript">
+        function showOrHide(id) {
+            if (document.getElementById(id).style.display == "") {
+                document.getElementById(id).style.display = "none";
+            }
+            else {
+                document.getElementById(id).style.display = "";
+            }
+        }
+        window.onload = function () {
+            document.getElementById("mainframe").height = document.body.clientHeight - 7;
+        }
+        window.onresize = function () {
+            if (document.getElementById("mainframe").height != document.body.clientHeight - 7) {
+                document.getElementById("mainframe").height = document.body.clientHeight - 7;
+            }
+        }
+        window.focus();
+    </script>
+</head>
+<body>
+    <div>
+        <table id="maintable" width="100%" height="100%" cellpadding="0" cellspacing="1" style="background-color: #555">
+            <tr>
+                <td align="left" valign="top" width="160px" style="background-color: #ccc; padding: 10px;">
+                    <a class="menu" href="/Areas/SPBG/Help/DocCreateAlliance.html" target="mainframe">聯盟建立</a>
+                    <a class="menu" href="/Areas/SPBG/Help/DocCreateTeam.html" target="mainframe">隊伍建立</a>
+                    <a class="menu" href="/Areas/SPBG/Help/DocCreateSchedule.html" target="mainframe">賽程建立</a>
+                    <a class="menu" href="/Areas/SPBG/Help/DocEditSchedule.html" target="mainframe">賽程中止</a>
+                    <a class="menu" href="/Areas/SPBG/Help/DocEditScheduleScore.html" target="mainframe">修改分數</a>
+                    <a class="menu" onclick="showOrHide('menuedit')">賽程修改▼</a>
+                    <div class="submenu" id="menuedit" style="display: none">
+                        <ul>
+                            <li><a href="/Areas/SPBG/Help/DocScheduleBBTW.html" target="mainframe">台棒</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocScheduleBBUS.html" target="mainframe">美棒</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocScheduleBBMX2.html" target="mainframe">墨棒 (夏季)</a></li>
+                        </ul>
+                    </div>
+                    <a class="menu" onclick="showOrHide('menutools')">工具▼</a>
+                    <div class="submenu" id="menutools" style="display: none">
+                        <ul>
+                            <li><a href="/Areas/SPBG/Help/DocClientDown.html" target="mainframe">下載速報控制台</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocClientRefresh.html" target="mainframe">重啟跟盤程式</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocScheduleDown.html" target="mainframe">下載賽事建立軟件</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocScheduleCreate.html" target="mainframe">新增賽程</a></li>
+                        </ul>
+                    </div>
+                    <a class="menu" onclick="showOrHide('menutran')">翻譯建立▼</a>
+                    <div class="submenu" id="menutran" style="display: none">
+                        <ul>
+                            <li><a href="/Areas/SPBG/Help/DocTranScreen.html" target="mainframe">介面說明</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocTranTennis.html" target="mainframe">網球翻譯</a></li>
+                            <li><a href="/Areas/SPBG/Help/DocTranRefresh.html" target="mainframe">更新翻譯資料</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td align="left" valign="top" style="background-color: white;">
+                    <iframe id="mainframe" name="mainframe" width="100%" marginwidth="0" marginheight="0" scrolling="yes" frameborder="0"></iframe>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

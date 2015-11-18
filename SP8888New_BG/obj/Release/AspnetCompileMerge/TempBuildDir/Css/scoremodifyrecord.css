@@ -1,0 +1,145 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.tabdl-bf dd li:first-child {
+    width:50px;
+}
+
+.tabdl-bf dd li:nth-child(2) {
+    line-height: normal;
+    width: 100px;
+}
+
+.tabdl-bf dd li:nth-child(3) {
+    width: 90px;
+}
+
+.tabdl-bf dd li:nth-child(4) {
+    width: 150px;
+}
+
+.tabdl-bf dd li:nth-child(5) {
+    width: 70px;
+}
+
+.tabdl-bf dl dd li:last-child {
+    width: 683px;
+    line-height: normal;
+    padding: 0 ;
+}
+
+.tabdl-bf dl dd ul  li{
+    padding: 0;
+}
+.tabdl-bf dd li:nth-child(2) p:first-child {
+    margin-top: 100px;
+}
+.tabdl-bf dd li:nth-child(2) p:last-child {
+    margin-top: 10px;
+}
+.tabdl-bf dd:first-child ul li {
+    line-height: 30px;
+    height: 30px;
+}
+.match-bf {
+    background-color: #B1C7DD;
+    overflow: hidden;
+    color: #344B5A;
+    border: #A2C0D4 solid 1px;
+    font-size: 14px;
+    border-bottom: none;
+    width:1077px;
+}
+.match-bf dl {
+    float: left;
+    padding: 10px 60px;
+    text-align: center;
+}
+.match-bf dt {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.xgnr {
+    clear: both;
+    overflow: hidden;
+}
+.xgnr:first-child {
+    border-bottom: #A2C0D4 solid 1px;
+}
+.xgqh {
+    float: left;
+    width:70px;
+    height: 120px;
+    line-height:120px;
+    border-right: #A2C0D4 solid 1px;
+}
+.bf-biao {
+    padding-left:8px;
+    padding-top:8px;
+    float: left;
+}
+
+.bf-biaoul{
+    clear: left;
+}
+.bf-biao6 span{
+    width: 86px;
+}
+.bf-biao10 span{
+    width: 39px;
+}
+.bf-biaoul span {
+   float: left;
+    height: 32px;
+    width: 50px;
+    line-height: 32px;
+    border-left: #A2C0D4 solid 1px;
+    border-bottom: #A2C0D4 solid 1px;
+}
+.bf-biaoul span input[type=text]{
+    display: inline-block;
+     width: 90%;
+     height:24px;
+     text-align: center;
+     margin-top:-2px;
+}
+.bf-biaoul span:last-child  {
+    border-right: #A2C0D4 solid 1px;
+}
+div.bf-biaoul:first-child span{
+    background-color: #0067D0;
+    color: #fff;
+    font-weight: bold;
+}
+.bf-biaoul:nth-child(2n+1) span {
+    background-color: #E3EEFF
+}
+.bf-biaoul:nth-child(2n) span {
+    background-color: #F7FAFF;
+}
+/*棒球有10+分数栏位*/
+.bf-biao10 span {
+  width:39px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

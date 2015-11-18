@@ -1,0 +1,213 @@
+﻿@model IEnumerable<Models.ScoreModifyRecord>
+
+@{
+    ViewBag.Title = "ScoreModifyRecord";
+    bool isBF = (bool)ViewBag.isBF;
+}
+@Styles.Render("~/Content/scoremodifyrecord")
+<!--------------------------- Start--------------------------------->
+<div class="sc-tabbox">
+    <div style="clear:both"> </div>
+    <!--/.tabbox---------start---------------->
+    <div class="tabbox">
+        <div class="tabboxdl-bf">
+            <div class="match-bf">
+                <dl>
+                    <dt>聯盟</dt>
+                    <dd>@ViewBag.sAlliance</dd>
+                </dl>
+                <dl>
+                    <dt>開賽時間</dt>
+                    <dd>@ViewBag.GameDate</dd>
+                </dl>
+                <dl>
+                    <dt>隊伍</dt>
+                    <dd>@ViewBag.dw</dd>
+                </dl>
+            </div>
+            <div class="tabdl2 tabdl-bf">
+                <dl>
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>變更時間</li>
+                            <li>操作者</li>
+                            <li>操作IP</li>
+                            <li>操作</li>
+                            <li style="width:613px">比分</li>
+                        </ul>
+                        @{ int i = 0;
+                        }
+                        @foreach (Models.ScoreModifyRecord item in Model)
+                        {
+                            i++;
+                            List<string> RunsAold = string.IsNullOrWhiteSpace(item.RunsAOld) ? new List<string>() { "", "", "", "", "" } : item.RunsAOld.Split(',').ToList();
+                            List<string> RunsAnew = string.IsNullOrWhiteSpace(item.RunsANew) ? new List<string>() { "", "", "", "", "" } : item.RunsANew.Split(',').ToList();
+                            List<string> RunsBold = string.IsNullOrWhiteSpace(item.RunsBOld) ? new List<string>() { "", "", "", "", "" } : item.RunsBOld.Split(',').ToList();
+                            List<string> RunsBnew = string.IsNullOrWhiteSpace(item.RunsBNew) ? new List<string>() { "", "", "", "", "" } : item.RunsBNew.Split(',').ToList();
+                            while (RunsAold.Count() < 5)
+                            {
+                                RunsAold.Add("");
+                            }
+                            while (RunsAnew.Count() < 5)
+                            {
+                                RunsAnew.Add("");
+                            }
+                            while (RunsBold.Count() < 5)
+                            {
+                                RunsBold.Add("");
+                            }
+                            while (RunsBnew.Count() < 5)
+                            {
+                                RunsBnew.Add("");
+                            }
+                        <dd>
+                            <ul>
+
+                                <li>@i</li>
+                                <li>
+                                    <p>@item.ModifyTime.ToString("yyyy-MM-dd")</p>
+                                    <p>@item.ModifyTime.ToString("HH:mm:ss")</p>
+                                </li>
+                                <li>@item.ModifyUser</li>
+                                <li>@item.IpAddr</li>
+                                <li>@(item.GameType.ToUpper() == "IHBF" ? getItemText(item.ModifyItem) : "")</li>
+                                <li style="width:613px">
+                                    <div class="xgnr">
+                                        <div class="xgqh">修改前</div>
+                                        <div class="bf-biao bf-biao6">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @for (int t = 1; t <= RunsAold.Count(); t++)
+                                                {
+                                                    switch (t)
+                                                    {
+                                                        case 4:
+                                                            <span>OT</span>
+                                                            break;
+                                                        case 5:
+                                                        <span>OS</span>
+                                                            break;
+                                                        default:
+                                                        <span>@t</span>
+                                                            break;
+                                                    }
+
+                                                }
+                                                <span>R</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @foreach (var Raold in RunsAold)
+                                                {
+                                                    <span>@Raold</span>
+                                                }
+                                                <span>@item.RAOld</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var Rbold in RunsBold)
+                                                {
+                                                    <span>@Rbold</span>
+                                                }
+                                                <span>@item.RBOld</span>
+                                            </div>
+
+                                        </div>
+                                        @if (isBF)
+                                        {
+                                            <div style=" margin-top:30px">
+                                                開賽時間 : @(item.GameDateOld + " " + item.GameTimeOld)
+                                                <br />
+                                                <br />
+                                                狀     態: @(item.StatusTextOld)
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="xgnr">
+                                        <div class="xgqh">修改後</div>
+                                        <div class="bf-biao bf-biao6">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @for (int t = 1; t <= RunsAnew.Count(); t++)
+                                                {
+                                                    switch (t)
+                                                    {
+                                                        case 4:
+                                                            <span>OT</span>
+                                                            break;
+                                                        case 5:
+                                                        <span>OS</span>
+                                                            break;
+                                                        default:
+                                                        <span>@t</span>
+                                                            break;
+                                                    }
+
+                                                }
+                                                <span>R</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @{int aI = 0, bI = 0;}
+                                                @foreach (var RaNew in RunsAnew)
+                                                {
+                                                    <span @Html.Raw(RaNew != RunsAold[aI] ? "style='color:red'" : "")>@RaNew</span>
+                                                    aI++;
+                                                }
+                                                <span>@item.RANew</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var RbNew in RunsBnew)
+                                                {
+                                                    <span @Html.Raw(RbNew != RunsBold[bI] ? "style='color:red'" : "")>@RbNew</span>
+                                                    bI++;
+                                                }
+                                                <span>@item.RBNew</span>
+                                            </div>
+
+                                        </div>
+                                        @if (isBF)
+                                        {
+                                            <div style=" margin-top:30px">
+                                                開賽時間 :<span @Html.Raw(item.GameDateNew + " " + item.GameTimeNew != item.GameDateOld + " " + item.GameTimeOld ? "style='color:red'" : "")> @(item.GameDateNew + " " + item.GameTimeNew)</span>
+                                                <br />
+                                                <br />
+                                                狀     態:<span @Html.Raw(item.StatusTextNew != item.StatusTextOld ? "style='color:red'" : "")>  @(item.StatusTextNew)</span>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        }
+                    </dl>
+                </div>
+                <!--/.tabdl-bf end-->
+            </div>
+            <!--/.tabboxdl-bf end-->
+        </div>
+        <!--/.tabbox end--------------------->
+    </div>
+    <!--/.sc-tabbox end-->
+    @functions{
+        private string getItemText(int i)
+        {
+            switch (i)
+            {
+                case 1:
+                    return "修改比分";
+                case 3:
+                    return "修改状态";
+                case 4:
+                    return "修改全部";
+                case 5:
+                    return "删除";
+                default:
+                    return "";
+            }
+
+        }
+    }

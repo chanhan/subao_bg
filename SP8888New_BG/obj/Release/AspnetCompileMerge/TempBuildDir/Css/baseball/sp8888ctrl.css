@@ -1,0 +1,103 @@
+﻿body {
+    font-family: 'Arial Unicode MS';
+    padding:0px;
+    margin:5px;
+}
+
+.base {
+    background-image: url(../../images/bb/bg_base.jpg);
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#Base_1 {
+    position: absolute;
+    right: 0px;
+    top: 33px;
+}
+
+#Base_2 {
+    position: absolute;
+    right: 39px;
+    top: 0px;
+}
+
+#Base_3 {
+    position: absolute;
+    left: 0px;
+    top: 33px;
+}
+
+.tb_num {
+    text-align: center;
+    background-color: #b3b3b3;
+}
+
+    .tb_num td {
+        width: 25px;
+        line-height: 30px;
+        background-color: #fff;
+    }
+
+    .tb_num input[type=text] {
+        width: 25px;
+        font-size: 15px;
+        height: 23px;
+        text-align: center;
+        border: 0px;
+    }
+
+    .tb_num th {
+        background-color: #f1f1f1;
+        line-height: 30px;
+        font-weight: normal;
+    }
+
+.tb_light {
+    line-height: 30px;
+    background-color: #fff;
+    margin-left: 5px;
+}
+
+    .tb_light img {
+        display: block;
+        float: left;
+        margin: 1px 2px;
+    }
+
+    .tb_light td {
+        background-color: #b3b3b3;
+    }
+
+.tb_btn input[type=button] {
+    cursor: pointer;
+}
+
+.tb_bsCtrl {
+    background-color: #666;
+    font-size: 15px;
+    text-align: left;
+    float: left;
+    margin-right: 2px;
+    height: 375px;
+}
+
+    .tb_bsCtrl td {
+        background-color: #fff;
+        line-height: 25px;
+    }
+
+        .tb_bsCtrl td input[type=button] {
+            float: right;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .tb_bsCtrl td input[type=radio] {
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .tb_bsCtrl td select {
+            width: 100px;
+        }

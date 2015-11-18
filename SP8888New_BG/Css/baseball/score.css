@@ -1,0 +1,93 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+
+/* CSS Document .tabdl-score*/
+.tabdl-score dl ul li:first-child {
+    width: 120px;
+    background-color: #E3EDED;
+    text-align: right;
+    padding-right: 10px;
+    color: #495f6e;
+
+}
+
+.tabdl-score dl dd ul li:last-child {
+    width: 770px;
+    background-color: #FFF;
+    text-align: left;
+}
+
+.tabdl-score dl dd ul li:last-child option {
+    padding: 5px 0;
+}
+
+.tabdl-score dl dd:first-child ul li:first-child {
+    border-right: solid 1px #4F7B95;
+}
+
+.tabdl-score dl dd:first-child ul li {
+    color: #fff;
+    background-color: #4F7B95;
+    width: 901px;
+}
+
+.tabdl-score dl dd:last-child ul li {
+    text-align: center;
+    width: 901px;
+    background-color: #E8F5F5;
+}
+
+.radiospan-score {
+    width: 45px;
+    margin-left:10px;
+    float: left;
+}
+.radiospan-score:first-child {
+    margin-left: 140px;
+}
+.radiospan-score:last-child {
+    margin-left: 20px;
+}
+.radiospan-score label {
+    font-size: 16px;
+}
+.text-score input[type=text] {
+    margin-left: 3px;
+    float: left;
+    height: 24px;
+    width: 45px;
+}
+
+.text-score, .button-score {
+    clear: both;
+}
+
+.button-score {
+    padding-top: 3px;
+}
+
+.button-score button {
+    float: left;
+    margin-left: 4px;
+    height: 26px;
+    width: 46px;
+    text-align: center;
+
+}
+
+.p-lasttime {
+    font-size: 14px;
+    padding-top: 3px;
+}
+
+.p-lasttime input[type=radio] {
+    vertical-align: middle;
+}
+
+.qidongtime {
+    width: 48px;
+    height: 22px;
+}
+
+

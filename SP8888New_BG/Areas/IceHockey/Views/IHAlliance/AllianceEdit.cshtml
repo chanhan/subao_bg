@@ -1,0 +1,90 @@
+﻿@model  Models.IceHockeyAlliance
+
+@Styles.Render("~/Content/updatealliance")
+
+@using (Html.BeginForm(ViewBag.sActionName as string, "IHAlliance", FormMethod.Post, new { id = "updateAlliance" }))
+{
+    @Html.Hidden("AllianceID", Model.AllianceID)
+    @Html.Hidden("GameType", Model.GameType)
+    @Html.Hidden("Lever", Model.Lever)
+    @Html.Hidden("leverOther", string.Empty)
+    <div class="sc-tabbox" style="margin: 0 auto">
+        <div style="clear:both"> </div>
+        <div class="tabdl2 tabdl-alliance">
+            <div id="tabdl">
+                <div style="clear:both"> </div>
+                <dl style="padding-top:5px;">
+                    <dd>
+                        <ul>
+                            <li> </li>
+                            <li>聯盟名稱</li>
+                            <li>所屬大聯盟</li>
+                            <li>所屬二聯盟</li>
+                            <li>鏈接網址</li>
+                            <li style="width:100px">功能</li>
+                        </ul>
+                    </dd>
+                    <dd id="dd1">
+                        <ul>
+                            <li>大聯盟</li>
+                            <li>@Html.TextBox("ShowName1", Model.Lever == 1 ? Model.ShowName : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li></li>
+                            <li></li>
+                            <li>@Html.TextBox("allianceURL1", Model.Lever == 1 ? Model.AllianceUrl : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li style="width:100px"><a class="btncss" onclick="editAlliance('1')">@ViewBag.sString 大聯盟</a></li>
+                        </ul>
+                    </dd>
+                    <dd id="dd2">
+                        <ul>
+                            <li>二聯盟</li>
+                            <li>@Html.TextBox("ShowName2", Model.Lever == 2 ? Model.ShowName : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li>@Html.DropDownList("leverOther12", ViewBag.alliance1 as IEnumerable<SelectListItem>, new { @style = "width:96%;height:75%" })</li>
+                            <li></li>
+                            <li>@Html.TextBox("allianceURL2", Model.Lever == 2 ? Model.AllianceUrl : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li style="width:100px"><a class="btncss" onclick="editAlliance('2')">@ViewBag.sString 二聯盟</a></li>
+                        </ul>
+                    </dd>
+                    <dd id="dd3">
+                        <ul>
+                            <li>三聯盟</li>
+                            <li>@Html.TextBox("ShowName3", Model.Lever == 3 ? Model.ShowName : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li>@Html.DropDownList("leverOther13", ViewBag.alliance1 as IEnumerable<SelectListItem>, new { @style = "width:96%;height:75%" })</li>
+                            <li>@Html.DropDownList("leverOther23", ViewBag.alliance2 as IEnumerable<SelectListItem>, new { @style = "width:96%;height:75%" })</li>
+                            <li>@Html.TextBox("allianceURL3", Model.Lever == 3 ? Model.AllianceUrl : string.Empty, new { @style = "width:96%;height:75%" })</li>
+                            <li style="width:100px"><a class="btncss" onclick="editAlliance('3')">@ViewBag.sString 三聯盟</a></li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top:50px;padding-left:20px">
+
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.sActionName' != 'Create') {
+            $("#tabdl dd").not("#dd" + $("#Lever").val()).find("input,select,a").prop("disabled", true);
+        }
+
+        if ($.trim("@ViewBag.msg") != "") {
+            alert("@ViewBag.msg");
+        }
+    });
+    var isClick = false;
+    function editAlliance(val) {
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+
+        $("#Lever").val(val);
+        if ($.trim($("#ShowName" + val).val()) == "") {
+            alert("請輸入聯盟名");
+            isClick = false;
+            return false;
+        }
+        $("#updateAlliance").submit();
+    }
+</script>

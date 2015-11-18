@@ -1,0 +1,1155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+您 Web 项目的发布/打包进程将使用此文件。您可以通过编辑此 MSBuild 文件
+来自定义该进程的行为。若要了解与此相关的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=208121。
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\tfs_code\TFSmain_SP_TFS_Net\SP8888BG_NEW</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Areas/AmericanFootball/Views/AFB/AFBAlliance.cshtml">
+      <publishTime>07/27/2015 11:56:36</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/AFBTeam.cshtml">
+      <publishTime>07/27/2015 11:56:37</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/EditSchedule.cshtml">
+      <publishTime>07/27/2015 11:56:39</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/Index.cshtml">
+      <publishTime>07/27/2015 11:56:43</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/ScoreModifyRecord.cshtml">
+      <publishTime>08/07/2015 14:24:43</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/UpdateAlliance.cshtml">
+      <publishTime>08/05/2015 14:25:27</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/UpdateScore.cshtml">
+      <publishTime>08/05/2015 14:18:10</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/AFB/UpdateTeam.cshtml">
+      <publishTime>07/31/2015 11:17:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Log/Alliance.cshtml">
+      <publishTime>07/27/2015 11:56:47</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Log/Schedule.cshtml">
+      <publishTime>07/27/2015 11:56:47</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Log/Team.cshtml">
+      <publishTime>07/27/2015 11:56:48</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/AllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/AllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:56:48</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/AllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/SchedulesAdd.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/SchedulesDelete.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/SchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/TeamAdd.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/TeamDelete.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Shared/DisplayTemplates/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:56:49</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/Web.config">
+      <publishTime>07/27/2015 11:56:36</publishTime>
+    </File>
+    <File Include="Areas/AmericanFootball/Views/_viewstart.cshtml">
+      <publishTime>07/27/2015 11:56:36</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBAlliance/AllianceEdit.cshtml">
+      <publishTime>08/05/2015 14:25:28</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBAlliance/Index.cshtml">
+      <publishTime>08/12/2015 15:49:05</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBSchedules/Index.cshtml">
+      <publishTime>07/27/2015 11:56:51</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBSchedules/SchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBSchedules/SchedulesFollow.cshtml">
+      <publishTime>08/07/2015 14:12:41</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBSchedules/ScoreEdit.cshtml">
+      <publishTime>08/07/2015 14:12:32</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBSchedules/ScoreModifyRecord.cshtml">
+      <publishTime>08/07/2015 14:25:23</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBTeam/Index.cshtml">
+      <publishTime>07/27/2015 11:56:51</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/BBTeam/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:56:51</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Log/Alliance.cshtml">
+      <publishTime>07/27/2015 11:56:51</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Log/Schedule.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Log/Team.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/AllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/AllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/AllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/SchedulesAdd.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/SchedulesDelete.cshtml">
+      <publishTime>07/27/2015 11:56:52</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/SchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:56:53</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/TeamAdd.cshtml">
+      <publishTime>07/27/2015 11:56:53</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/TeamDelete.cshtml">
+      <publishTime>07/27/2015 11:56:53</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Shared/DisplayTemplates/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:56:53</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/Web.config">
+      <publishTime>07/27/2015 11:56:51</publishTime>
+    </File>
+    <File Include="Areas/Baseball/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:56:50</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/BasketBallAlliance.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/BasketBallTeam.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/EditSchedule.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/Index.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/ScoreModifyRecord.cshtml">
+      <publishTime>08/07/2015 14:15:09</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/UpdateAlliance.cshtml">
+      <publishTime>08/05/2015 14:25:28</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/UpdateScore.cshtml">
+      <publishTime>08/05/2015 14:21:18</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BasketBall/UpdateTeam.cshtml">
+      <publishTime>07/31/2015 11:26:41</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOS/BKOSAlliance.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOS/BKOSTeam.cshtml">
+      <publishTime>07/27/2015 11:56:55</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOS/Index.cshtml">
+      <publishTime>07/31/2015 11:07:12</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOS/ScoreModifyRecord.cshtml">
+      <publishTime>07/27/2015 11:56:55</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOS/UpdateScore.cshtml">
+      <publishTime>07/31/2015 11:08:55</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOSLog/Alliance.cshtml">
+      <publishTime>07/27/2015 11:56:55</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOSLog/Schedule.cshtml">
+      <publishTime>07/27/2015 11:56:55</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/BKOSLog/Team.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Log/Alliance.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Log/Schedule.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Log/Team.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/AllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/AllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/AllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:56:56</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSAllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSAllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSAllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSSchedulesAdd.cshtml">
+      <publishTime>07/27/2015 11:57:00</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSSchedulesDelete.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSSchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:56:57</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSTeamAdd.cshtml">
+      <publishTime>07/27/2015 11:57:00</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSTeamDelete.cshtml">
+      <publishTime>07/27/2015 11:56:58</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/BKOSTeamEdit.cshtml">
+      <publishTime>07/27/2015 11:56:58</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/SchedulesAdd.cshtml">
+      <publishTime>07/27/2015 11:56:58</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/SchedulesDelete.cshtml">
+      <publishTime>07/27/2015 11:56:58</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/SchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:56:58</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/TeamAdd.cshtml">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/TeamDelete.cshtml">
+      <publishTime>07/27/2015 11:56:59</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Shared/DisplayTemplates/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:57:00</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/Web.config">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Basketball/Views/_viewstart.cshtml">
+      <publishTime>07/27/2015 11:56:54</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Employee/EditEmployee.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Employee/Index.cshtml">
+      <publishTime>07/27/2015 11:57:01</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Log/Account.cshtml">
+      <publishTime>07/27/2015 11:57:01</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Shared/DisplayTemplates/AccountAdd.cshtml">
+      <publishTime>07/27/2015 11:57:01</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Shared/DisplayTemplates/AccountDelete.cshtml">
+      <publishTime>07/27/2015 11:57:01</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Shared/DisplayTemplates/AccountEdit.cshtml">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/Web.config">
+      <publishTime>07/27/2015 11:57:01</publishTime>
+    </File>
+    <File Include="Areas/Employee/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Football/FoolballCorner.cshtml">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Football/FoolballCornerUpdate.cshtml">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Football/Index.cshtml">
+      <publishTime>08/12/2015 20:31:08</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Football/ScoreEdit.cshtml">
+      <publishTime>07/27/2015 11:57:03</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Football/ScoreModifyRecord.cshtml">
+      <publishTime>08/07/2015 14:26:11</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/Web.config">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/Football/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:02</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHAlliance/AllianceEdit.cshtml">
+      <publishTime>08/05/2015 14:25:28</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHAlliance/Index.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHBFAlliance/Index.cshtml">
+      <publishTime>07/27/2015 11:57:05</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHBFSchedules/Index.cshtml">
+      <publishTime>08/12/2015 15:53:43</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHBFSchedules/ScoreEdit.cshtml">
+      <publishTime>08/01/2015 10:00:44</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHBFTeam/Index.cshtml">
+      <publishTime>07/27/2015 11:57:05</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHSchedules/Index.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHSchedules/SchedulesEdit.cshtml">
+      <publishTime>07/27/2015 11:57:05</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHSchedules/ScoreEdit.cshtml">
+      <publishTime>08/05/2015 14:25:28</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHSchedules/ScoreModifyRecord.cshtml">
+      <publishTime>08/07/2015 14:26:45</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHTeam/Index.cshtml">
+      <publishTime>07/27/2015 11:57:06</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/IHTeam/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:57:06</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Log/Alliance.cshtml">
+      <publishTime>07/27/2015 11:57:06</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Log/Schedule.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Log/Team.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/AllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/AllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/AllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/SchedulesAdd.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/SchedulesDelete.cshtml">
+      <publishTime>07/27/2015 11:57:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/SchedulesEdit.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/TeamAdd.cshtml">
+      <publishTime>07/27/2015 11:57:43</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/TeamDelete.cshtml">
+      <publishTime>07/27/2015 11:57:08</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Shared/DisplayTemplates/TeamEdit.cshtml">
+      <publishTime>07/27/2015 11:57:08</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/Web.config">
+      <publishTime>07/27/2015 11:57:03</publishTime>
+    </File>
+    <File Include="Areas/IceHockey/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:04</publishTime>
+    </File>
+    <File Include="Areas/QT/Views/Log_List/Index.cshtml">
+      <publishTime>07/27/2015 11:57:09</publishTime>
+    </File>
+    <File Include="Areas/QT/Views/Web.config">
+      <publishTime>07/27/2015 11:57:08</publishTime>
+    </File>
+    <File Include="Areas/QT/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:08</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocClientDown.html">
+      <publishTime>07/27/2015 11:57:10</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocClientRefresh.html">
+      <publishTime>07/27/2015 11:57:10</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocCommercialForMP.html">
+      <publishTime>07/27/2015 11:57:10</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocCommercialForPC.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocCreateAlliance.html">
+      <publishTime>07/27/2015 11:57:10</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocCreateSchedule.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocCreateTeam.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocEditSchedule.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocEditScheduleScore.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocHomePage.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocMessages.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocScheduleBBMX2.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocScheduleBBTW.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocScheduleBBUS.html">
+      <publishTime>07/27/2015 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocScheduleCreate.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocScheduleDown.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocTranRefresh.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocTranScreen.html">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Help/DocTranTennis.html">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/ActionList/Index.cshtml">
+      <publishTime>07/27/2015 11:57:13</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/ClearCache/Index.cshtml">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/DownLoad/Index.cshtml">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/Help/Help.cshtml">
+      <publishTime>07/27/2015 11:57:13</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/Help/Set.cshtml">
+      <publishTime>07/27/2015 11:57:13</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/SPBG/Index.cshtml">
+      <publishTime>07/27/2015 11:57:13</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/Web.config">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SPBG/Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:12</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/AllianceNameList/Index.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Commerical/Index.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/FavoriteInfo/Index.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/IPAccess/Index.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Log/IpAddress.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Log/Message.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Log/Name.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Log/SetTypeVal.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Marquee/Index.cshtml">
+      <publishTime>08/12/2015 19:52:49</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/NameControl/Index.cshtml">
+      <publishTime>08/03/2015 12:30:02</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/ScrollingText/Index.cshtml">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/SetTypeVal/Index.cshtml">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/IPAccessAdd.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/IPAccessDelete.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/IPAccessEdit.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/MarqueeAdd.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/MarqueeDelete.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/MarqueeEdit.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/NameControlAdd.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/NameControlDelete.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/NameControlEdit.cshtml">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/SetTypeValAdd.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Shared/DisplayTemplates/SetTypeVallEdit.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/Web.config">
+      <publishTime>07/27/2015 11:57:14</publishTime>
+    </File>
+    <File Include="Areas/SystemSet/Views/_viewstart.cshtml">
+      <publishTime>07/27/2015 11:57:13</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Log/Alliance.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Log/Schedule.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/AllianceAdd.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/AllianceDelete.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/AllianceEdit.cshtml">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/SchedulesAdd.cshtml">
+      <publishTime>08/01/2015 10:00:44</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/SchedulesDelete.cshtml">
+      <publishTime>08/01/2015 10:00:45</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Shared/DisplayTemplates/SchedulesEdit.cshtml">
+      <publishTime>08/01/2015 10:00:45</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Tennis/Index.cshtml">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Tennis/TennisAlliance.cshtml">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/Web.config">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="Areas/Tennis/Views/_viewstart.cshtml">
+      <publishTime>07/27/2015 11:57:15</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>07/27/2015 11:56:23</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.compiled">
+      <publishTime>08/14/2015 14:19:17</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.dll">
+      <publishTime>08/14/2015 14:19:16</publishTime>
+    </File>
+    <File Include="bin/Autofac.dll">
+      <publishTime>07/27/2015 11:54:03</publishTime>
+    </File>
+    <File Include="bin/Autofac.Integration.Mvc.dll">
+      <publishTime>07/27/2015 11:54:13</publishTime>
+    </File>
+    <File Include="bin/Common.dll">
+      <publishTime>08/14/2015 14:16:06</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>07/27/2015 11:54:38</publishTime>
+    </File>
+    <File Include="bin/IServices.dll">
+      <publishTime>08/14/2015 14:16:07</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>07/27/2015 11:55:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Mvc.FixedDisplayModes.dll">
+      <publishTime>07/27/2015 11:55:13</publishTime>
+    </File>
+    <File Include="bin/Models.dll">
+      <publishTime>08/14/2015 14:16:05</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>07/27/2015 11:56:10</publishTime>
+    </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>07/27/2015 11:56:21</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>07/27/2015 11:56:21</publishTime>
+    </File>
+    <File Include="bin/Services.dll">
+      <publishTime>08/14/2015 14:16:07</publishTime>
+    </File>
+    <File Include="bin/SP8888New_BG.dll">
+      <publishTime>08/14/2015 14:19:12</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.dll">
+      <publishTime>07/10/2012 12:07:38</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>07/27/2015 11:55:35</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.WebRequest.dll">
+      <publishTime>07/10/2012 12:07:38</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>07/27/2015 11:55:38</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>07/27/2015 11:55:41</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>07/27/2015 11:55:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>07/27/2015 11:55:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Providers.dll">
+      <publishTime>07/27/2015 11:55:25</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>07/27/2015 11:55:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>07/27/2015 11:55:46</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>07/27/2015 11:55:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>07/27/2015 11:55:46</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>07/27/2015 11:56:46</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/EntityFramework.resources.dll">
+      <publishTime>07/27/2015 11:54:26</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.Formatting.resources.dll">
+      <publishTime>07/27/2015 11:55:34</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.resources.dll">
+      <publishTime>07/09/2013 11:34:42</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.WebRequest.resources.dll">
+      <publishTime>07/09/2013 11:34:40</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Http.resources.dll">
+      <publishTime>07/27/2015 11:55:40</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Http.WebHost.resources.dll">
+      <publishTime>07/27/2015 11:55:42</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Mvc.resources.dll">
+      <publishTime>07/27/2015 11:55:13</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Optimization.resources.dll">
+      <publishTime>07/27/2015 11:55:29</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Providers.resources.dll">
+      <publishTime>07/27/2015 11:55:21</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Razor.resources.dll">
+      <publishTime>07/27/2015 11:55:25</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.Deployment.resources.dll">
+      <publishTime>07/27/2015 11:55:49</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.Razor.resources.dll">
+      <publishTime>07/27/2015 11:55:48</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.resources.dll">
+      <publishTime>07/27/2015 11:55:49</publishTime>
+    </File>
+    <File Include="Css/actionlist/actionlist.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/alliance.css">
+      <publishTime>07/27/2015 11:57:16</publishTime>
+    </File>
+    <File Include="Css/baseball/schedule.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/baseball/score.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/baseball/sp8888ctrl.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/bkos/bkos.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/bkos/bkosalliance.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/bkos/bkosmain.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/bkos/bkosteam.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/bkos/score.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/datetimepicker/jquery.datetimepicker.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/editschedule.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/employee/employee.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/football/sb.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/football/score.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/list_table.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/main.css">
+      <publishTime>08/04/2015 16:03:20</publishTime>
+    </File>
+    <File Include="Css/QT/loglist.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/schedule.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/scoremodifyrecord.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/commercial.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/IPAccess.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/marquee.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/namecontrol.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/scrollingtext.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/systemset/SetTypeVal.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/team.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/tennis/tennis.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/tennis/tennisalliance.css">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="Css/tennis/tennismain.css">
+      <publishTime>07/27/2015 11:57:18</publishTime>
+    </File>
+    <File Include="Css/updatealliance.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/updatescore.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="Css/updateteam.css">
+      <publishTime>07/27/2015 11:57:17</publishTime>
+    </File>
+    <File Include="images/3Jiao.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/attention.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/bb/Base0.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bb/Base1.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bb/bg_base.jpg">
+      <publishTime>07/27/2015 11:57:23</publishTime>
+    </File>
+    <File Include="images/bb/bsoBall.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bb/bsoBlack.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bb/bsoOut.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bb/bsoStrike.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/bg_spTop.jpg">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/btn001.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/btn002.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/checkbox.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/DengRuuser_icon.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/doc/DocClientRefresh.jpg">
+      <publishTime>07/27/2015 11:57:27</publishTime>
+    </File>
+    <File Include="images/doc/DocCommercialForPC1.jpg">
+      <publishTime>07/27/2015 11:57:22</publishTime>
+    </File>
+    <File Include="images/doc/DocCommercialForPC2.jpg">
+      <publishTime>07/27/2015 11:57:23</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateAlliance1.jpg">
+      <publishTime>07/27/2015 11:57:23</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateAlliance2.jpg">
+      <publishTime>07/27/2015 11:57:24</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateAlliance3.jpg">
+      <publishTime>07/27/2015 11:57:28</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateAlliance4.jpg">
+      <publishTime>07/27/2015 11:57:27</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateSchedule.jpg">
+      <publishTime>07/27/2015 11:57:26</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateTeam1.jpg">
+      <publishTime>07/27/2015 11:57:26</publishTime>
+    </File>
+    <File Include="images/doc/DocCreateTeam2.jpg">
+      <publishTime>07/27/2015 11:57:26</publishTime>
+    </File>
+    <File Include="images/doc/DocEditScheduleScore1.jpg">
+      <publishTime>07/27/2015 11:57:29</publishTime>
+    </File>
+    <File Include="images/doc/DocEditScheduleScore2.jpg">
+      <publishTime>07/27/2015 11:57:28</publishTime>
+    </File>
+    <File Include="images/doc/DocHomePage.jpg">
+      <publishTime>07/27/2015 11:57:28</publishTime>
+    </File>
+    <File Include="images/doc/DocMessages1.jpg">
+      <publishTime>07/27/2015 11:57:34</publishTime>
+    </File>
+    <File Include="images/doc/DocMessages2.jpg">
+      <publishTime>07/27/2015 11:57:28</publishTime>
+    </File>
+    <File Include="images/doc/DocMessages3.jpg">
+      <publishTime>07/27/2015 11:57:38</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBMX21.jpg">
+      <publishTime>07/27/2015 11:57:32</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBMX22.jpg">
+      <publishTime>07/27/2015 11:57:29</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBMX23.jpg">
+      <publishTime>07/27/2015 11:57:30</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBMX24.jpg">
+      <publishTime>07/27/2015 11:57:30</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBTW1.jpg">
+      <publishTime>07/27/2015 11:57:33</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBTW2.jpg">
+      <publishTime>07/27/2015 11:57:32</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBTW3.jpg">
+      <publishTime>07/27/2015 11:57:37</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBTW4.jpg">
+      <publishTime>07/27/2015 11:57:35</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBTW5.jpg">
+      <publishTime>07/27/2015 11:57:37</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS1.jpg">
+      <publishTime>07/27/2015 11:57:36</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS2.jpg">
+      <publishTime>07/27/2015 11:57:41</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS3.jpg">
+      <publishTime>07/27/2015 11:57:37</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS4.jpg">
+      <publishTime>07/27/2015 11:57:37</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS5.jpg">
+      <publishTime>07/27/2015 11:57:42</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS6.jpg">
+      <publishTime>07/27/2015 11:57:49</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleBBUS7.jpg">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleCreate1.jpg">
+      <publishTime>07/27/2015 11:57:50</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleCreate2.jpg">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="images/doc/DocScheduleCreate3.jpg">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="images/doc/DocTranScreen1.jpg">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="images/doc/DocTranScreen2.jpg">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="images/GuanLiCaiDan_text.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/home_icon.png">
+      <publishTime>07/27/2015 11:57:19</publishTime>
+    </File>
+    <File Include="images/HouTaiGuanLi_Dtextch.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/HouTaiGuanLi_textch.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/Icon.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/icon_spLogo.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/Login_icon001.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/maintenan.jpg">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/message.png">
+      <publishTime>07/27/2015 11:57:22</publishTime>
+    </File>
+    <File Include="images/password_icon.png">
+      <publishTime>07/27/2015 11:57:20</publishTime>
+    </File>
+    <File Include="images/sanjiao.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/sel_BG3.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/sel_BG4.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="images/user_icon.png">
+      <publishTime>07/27/2015 11:57:21</publishTime>
+    </File>
+    <File Include="log/2015-07-14.txt">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="log/2015-07-15.txt">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>07/27/2015 11:56:33</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>08/14/2015 14:19:13</publishTime>
+    </File>
+    <File Include="Scripts/calendar/Calendar.js">
+      <publishTime>07/27/2015 11:57:53</publishTime>
+    </File>
+    <File Include="Scripts/calendar/cn.js">
+      <publishTime>07/27/2015 11:57:52</publishTime>
+    </File>
+    <File Include="Scripts/calendar/en.js">
+      <publishTime>07/27/2015 11:57:52</publishTime>
+    </File>
+    <File Include="Scripts/datetimepicker/jquery.datetimepicker.js">
+      <publishTime>07/27/2015 11:57:52</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.date.extensions.js">
+      <publishTime>07/27/2015 11:57:53</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.extensions.js">
+      <publishTime>07/27/2015 11:57:52</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.js">
+      <publishTime>07/27/2015 11:57:58</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.numeric.extensions.js">
+      <publishTime>07/27/2015 11:57:53</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.phone.extensions.js">
+      <publishTime>07/27/2015 11:57:53</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/jquery.inputmask.regex.extensions.js">
+      <publishTime>07/27/2015 11:57:54</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/phone-codes/phone-be.js">
+      <publishTime>07/27/2015 11:57:54</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/phone-codes/phone-codes.js">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/phone-codes/phone-nl.js">
+      <publishTime>07/27/2015 11:57:54</publishTime>
+    </File>
+    <File Include="Scripts/inputmask/phone-codes/phone-uk.js">
+      <publishTime>07/27/2015 11:57:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.2.js">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.2.min.js">
+      <publishTime>07/27/2015 11:57:47</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui-1.8.24.js">
+      <publishTime>07/27/2015 11:57:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui-1.8.24.min.js">
+      <publishTime>07/27/2015 11:58:00</publishTime>
+    </File>
+    <File Include="Scripts/jquery.form.js">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.date.extensions.js">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.extensions.js">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.js">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.numeric.extensions.js">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.phone.extensions.js">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask/jquery.inputmask.regex.extensions.js">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.js">
+      <publishTime>07/27/2015 11:57:45</publishTime>
+    </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.min.js">
+      <publishTime>07/27/2015 11:57:45</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>07/27/2015 11:57:46</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.0.debug.js">
+      <publishTime>07/27/2015 11:57:52</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.0.js">
+      <publishTime>07/27/2015 11:57:55</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>07/27/2015 11:57:51</publishTime>
+    </File>
+    <File Include="Scripts/public.js">
+      <publishTime>08/04/2015 16:04:35</publishTime>
+    </File>
+    <File Include="Scripts/ScoreEdit.js">
+      <publishTime>08/05/2015 14:25:28</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>07/27/2015 11:57:44</publishTime>
+    </File>
+    <File Include="Views/Login/Index.cshtml">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Views/Shared/MenuPartial.cshtml">
+      <publishTime>08/12/2015 15:49:07</publishTime>
+    </File>
+    <File Include="Views/Shared/TopPartial.cshtml">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>08/03/2015 14:45:53</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>07/27/2015 11:57:56</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>08/14/2015 14:16:14</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,164 @@
+﻿@model Helper.Pager.PagerQuery<Helper.Pager.PagerInfo, List<Models.ViewModel.BKOSTeam>, Models.QueryModel.BKOSTeamQuery>
+@Styles.Render("~/Content/bkosteam")
+@Styles.Render("~/Content/bkosmain")
+@{
+    int count = 0;
+    string alianceSortID = string.Empty;
+    int pageIndex = Model.Pager.CurrentPageIndex;
+    int pageSize = Model.Pager.PageSize;
+    int recordCount = Model.Pager.RecordCount;
+    Models.QueryModel.BKOSTeamQuery queryModel = Model.QueryModel;
+}
+@using (Html.BeginForm("", "", FormMethod.Get, new { id = "teamForm" }))
+{
+    <div class="sc-tabbox">
+        <div style="clear:both"> </div>
+        <div class="tabbox">
+            <div class="tabboxdl-lm">
+                <div class="tabdl-lm">
+                    <div class="tabdl-lmtop">
+                        @Html.DropDownList("team", ViewBag.alliance as IEnumerable<SelectListItem>, "全部", new { onchange = "showTeam()", style = "margin-left:5px; height:28px;float:left;" })
+                        <div style="float:right">
+                            <label>关键字:</label>
+                            @Html.TextBox("keyWords", queryModel.TeamName, new { @class = "chuxuninput" })
+                            <a class="btncss" onclick="queryTeam()">查 詢</a>
+                        </div>
+                    </div>
+                    <div style="clear:both"> </div>
+                    <dl style="padding-top:5px;">
+                        <dd>
+                            <ul>
+                                <li>序號</li>
+                                <li>聯盟名稱</li>
+                                <li>隊伍名稱</li>
+                                <li>顯示名稱</li>
+                                <li>功能</li>
+                            </ul>
+                        </dd>
+                        @if (Model.EntityList.Count == 0)
+                        {
+                            <dd>
+                                <span style="font-size:30px;">
+                                    無隊伍資料
+                                </span>
+                            </dd>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.EntityList)
+                            {
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            @((pageIndex - 1) * pageSize + count + 1)
+                                            @Html.Hidden("[" + count + "].AllianceID", item.AllianceID)
+                                            @Html.Hidden("[" + count + "].TeamID", item.TeamID)
+                                        </li>
+                                        <li>
+                                            <label>@item.AllianceName</label>
+                                        </li>
+                                        <li>
+                                            <label>@item.TeamName</label>
+                                            @Html.Hidden("[" + count + "].TeamName", item.TeamName)
+                                        </li>
+                                        <li>
+                                            <label>@item.ShowName</label>
+                                            @Html.TextBox("[" + count + "].ShowName", item.ShowName)
+                                        </li>
+                                        <li>
+                                            <div class="gongneng-lm">
+                                                <a onclick="showUpdate(this)">修改</a>
+                                            </div>
+                                            <div class="gongneng-lm gongneng-lm2">
+                                                <a onclick="modify(this)">更新</a>|<a onclick="cancle(this)">取消</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </dd>
+                                count++;
+                            }
+                        }
+                    </dl>
+                </div>
+                <div class="Pagination">
+                    @Html.PageListFor(pageIndex, pageSize, recordCount, queryModel)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function showTeam() {
+        $('#keyWords').val('');
+        searchTeam();
+    }
+    function queryTeam() {
+        $('#team').val('');
+        searchTeam();
+    }
+    //更新
+    function modify(obj) {
+        var ul = $(obj).parents('ul');
+        var allianceID = ul.children('li:eq(0)').find('input[name$=AllianceID]').val();
+        var teamID = ul.children('li:eq(0)').find('input[name$=TeamID]').val();
+        var teamName = ul.children('li:eq(2)').find('input[type=hidden]').val();
+        var showName = ul.children('li:eq(3)').find('input[type=text]').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit")",
+            data: { AllianceID: allianceID, TeamName: teamName, TeamID: teamID, ShowName: showName ,GameType:"@(ViewBag.GameType)" },
+            async: false,
+            error: function (data) {
+                alert('修改失敗!');
+            },
+            success: function (data) {
+                if (data > 0) { //保存资料大于0笔
+                    alert('修改成功!');
+                    location.href = location.href;
+                } else if (data == -1) {
+                    alert('已有相同的顯示名稱!');
+                }
+            }
+        });
+    }
+    //取消
+    function cancle(obj) {
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        var showName = ul.children('li:eq(3)').find('label').show().text();
+        ul.children('li:eq(3)').find('input[type=text]').val(showName).hide();
+    }
+    //修改
+    function showUpdate(obj) {
+        //先把所有的取消掉
+        $(".gongneng-lm2 a[onclick='cancle(this)']").click();
+
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        ul.children('li:eq(3)').find('input[type=text]').show();
+        ul.children('li:eq(3)').find('label').hide();
+    }
+    function searchTeam() {
+        var teamName = $.trim($('#keyWords').val());
+        var allianceID = $.trim($('#team').val());
+        var url = '@Html.Raw(Url.Action("Index", new { pageIndex = 1, pageSize = pageSize }))';
+        if (allianceID != '') {
+            url += '&AllianceID=' + allianceID;
+        }
+        if (teamName != '') {
+            url += '&TeamName=' + teamName;
+        }
+        location.href = url;
+    }
+    $(function () {
+        $('#keyWords').keydown(function (e) {
+            var e = e || event;
+            var keyNum = e.which || e.keyCode;
+            if (keyNum == 13) {
+                queryTeam();
+            }
+        });
+    })
+</script>

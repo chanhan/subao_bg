@@ -1,0 +1,96 @@
+﻿@model  IEnumerable<Models.IceHockeyTeam>
+@Styles.Render("~/Content/team")
+<div class="sc-tabbox" style="margin: 0 auto">
+    <div style="clear:both"> </div>
+    <div class="tabdl2 tabteam">
+        <div id="tabdl">
+            <div id="tabdl_top">
+                <div style="float:left">
+                    <span>&nbsp;所屬聯盟：</span>
+                    @Html.DropDownList("DLLalliance", ViewBag.alliance as IEnumerable<SelectListItem>, new { onchange = "changeAlliance()", style = "width:160px" })
+
+                </div>
+                <div style="float:right" id="message"></div>
+                <div style="float:right">
+                    @Html.ActionLink("新增隊伍", "Create", new { gameType = ViewBag.gameType }, new { @class = "btncss" })
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            <dl style="padding-top:5px;">
+                @if (Model == null || Model.Count() == 0)
+                {
+                    <dd>
+                        <span style="font-size:30px;">
+                            無隊伍資料
+                        </span>
+                    </dd>
+                }
+                else
+                {
+                    <dd>
+                        <ul>
+                            <li>NO</li>
+                            <li>隊伍名稱</li>
+                            <li>顯示名稱</li>
+                            <li>來源名稱</li>
+                            <li>所屬聯盟</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+
+                    int i = 0;
+
+                    foreach (Models.IceHockeyTeam item in Model)
+                    {
+                        i++;
+                        <dd a="all-@item.AllianceID">
+                            <ul>
+                                <li>@i</li>
+                                <li>@item.TeamName</li>
+                                <li>@item.ShowName</li>
+                                <li><p style="font-size:100%">@Html.Raw(string.Join("<br/>", (string.IsNullOrWhiteSpace(item.WebName) ? "" : item.WebName).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))</p></li>
+                                <li>@item.AllianceName</li>
+                                <li>@Html.ActionLink("修改", "Edit", new { teamID = item.TeamID })/<a href="#" onclick="deleteTeam(@item.TeamID)">刪除</a></li>
+                            </ul>
+                        </dd>
+                    }
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+<script>
+    function changeAlliance() {
+        var allianceid = $('#DLLalliance').val();
+        if (allianceid != '') {
+            $('dd[a|=all]').hide();
+            $('dd[a*=' + allianceid + ']').show();
+        } else {
+            $('dd[a|=all]').show();
+        }
+        $('#DLLSourece').val("");
+    }
+
+    function deleteTeam(id) {
+        if (confirm("是否確認刪除？")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete")",
+                data: { teamid: id },
+                async: false,
+                error: function (data) {
+                    alert('刪除資料失敗!');
+                },
+                success: function (data) {
+                    if (parseInt(data, 10) > 0) {
+                        alert('刪除成功!');
+                        document.location = document.location;
+                    } else {
+                        alert('刪除失敗!');
+                    }
+                }
+            });
+        }
+
+    }
+</script>

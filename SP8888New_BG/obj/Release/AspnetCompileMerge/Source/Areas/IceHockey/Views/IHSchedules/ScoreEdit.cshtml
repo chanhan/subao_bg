@@ -1,0 +1,562 @@
+﻿@model Models.IceHockeySchedules
+
+@{
+    @Styles.Render("~/Content/updatescore")
+    @Scripts.Render("~/bundles/inputmask")
+    @*@Scripts.Render("~/bundles/ScoreEdit")*@
+}
+@using (Html.BeginForm("EditScore", "IHSchedules", FormMethod.Post, new { id = "allianceForm" }))
+{
+    <div class="sc-tabbox">
+        <input type="hidden" id="GameType" value="@Model.GameType" />
+        <!--/.tabbox---------start---------------->
+        <div class="tabbox">
+            <div class="tabboxdl-madd">
+                <div class="tabdl-edits tabdl-score">
+                    <dl>
+                        <dd>
+                            <ul>
+                                <li style="background-color: rgb(79, 123, 149);"> &nbsp;</li>
+                                <li id="liTitle" style="background-color: rgb(79, 123, 149); color: #fff; font-weight:bold;">
+                                    <span class="radiospan-score">
+                                        <input type="radio" disabled="disabled" t="jushu" value="1" name="runlit">
+                                        <label>1</label>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <input type="radio" disabled="disabled" t="jushu" value="2" name="runlit">
+                                        <label>2</label>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <input type="radio" disabled="disabled" t="jushu" value="3" name="runlit">
+                                        <label>3</label>
+                                    </span>
+                                    <span id="R" class="radiospan-score">
+                                        <input type="radio" disabled="disabled" value="4" name="runlit">
+                                        <a>OT</a>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <input type="radio" disabled="disabled" value="5" name="runlit">
+                                        <label>SO</label>
+                                    </span>
+                                    <span class="radiospan-score">
+                                        <label>R</label>
+                                    </span>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <ul>
+                                <li>@ViewBag.TeamAName</li>
+                                <li>
+                                    @{string[] RunsA = string.IsNullOrWhiteSpace(Model.RunsA) ? new string[5] : Model.RunsA.Split(',');
+                                    int lenA = RunsA.Length < 5 ? 5 : RunsA.Length;}
+                                    <div class="text-score">
+                                        <div id="runsA">
+                                            @for (int i = 1; i <= lenA; i++)
+                                            {
+                                                @Html.TextBox("txtRunsA_" + i, (i <= RunsA.Length ? RunsA[i - 1] : string.Empty), new { disabled = "disabled", c = i.ToString() })
+                                            }
+                                        </div>
+                                        <div id="rheA">
+                                            @Html.TextBox("txtRA", RunsA.Sum(p => { int score; if (int.TryParse(p, out score))return score; else return 0; }), new { c = "RunTotal", style = "color: red;" })
+                                        </div>
+                                    </div>
+                                    <div class="button-score">
+                                        <a class="btncss" onclick="Mpoints('#runsA', 1, '#rheA')">-1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 1, '#rheA')">+1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 2, '#rheA')">+2</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 3, '#rheA')">+3</a>
+                                        <a class="btncss" onclick="Ppoints('#runsA', 10, '#rheA')">+10</a>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <ul>
+                                <li>@ViewBag.TeamBName</li>
+                                <li>
+                                    <div class="text-score">
+                                        <div id="runsB">
+                                            @{string[] RunsB = string.IsNullOrWhiteSpace(Model.RunsB) ? new string[5] : Model.RunsB.Split(',');
+                                            int lenB = RunsB.Length < 5 ? 5 : RunsB.Length;}
+
+                                            @for (int i = 1; i <= lenB; i++)
+                                            {
+                                                @Html.TextBox("txtRunsB_" + i, (i <= RunsB.Length ? RunsB[i - 1] : string.Empty), new { disabled = "disabled", c = i.ToString() })
+                                            }
+                                        </div>
+                                        <div id="rheB">
+                                            @Html.TextBox("txtRB", RunsB.Sum(p => { int score; if (int.TryParse(p, out score))return score; else return 0; }), new { c = "RunTotal", style = "color: red;" })
+                                        </div>
+                                    </div>
+                                    <div class="button-score">
+                                        <a class="btncss" onclick="Mpoints('#runsB', 1, '#rheB')">-1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 1, '#rheB')">+1</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 2, '#rheB')">+2</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 3, '#rheB')">+3</a>
+                                        <a class="btncss" onclick="Ppoints('#runsB', 10, '#rheB')">+10</a>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        @if (!(Model.GameStates == "E" || Model.CtrlStates > 0))
+                        {
+                            <dd>
+                                <ul>
+                                    <li>剩餘時間</li>
+                                    <li>
+                                        <p id="pTime" class="p-lasttime">
+                                            <input type="radio" name="gamestate" id="datetime" onclick="show(this, 'spanTime')" /><label>倒數時間</label>
+                                            <span id="spanTime">
+                                                <input id="minutes" class="qidongtime" type="text" />
+                                                <span style="padding: 0 3px;">:</span>
+                                                <input id="seconds" class="qidongtime" type="text">
+                                                <a style="margin-left: 3px;" class="btncss" id="Clicked" onclick="BtnCount()">啟動</a>
+                                                <a style="margin-left: 3px;display:none" class="btncss" id="Closed" onclick="outTime()">停止</a>
+                                            </span>
+                                        </p>
+
+                                        <p class="p-lasttime"><input type="radio" value="結束" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>結束</label></p>
+
+                                        <p class="p-lasttime"><input type="radio" value="中場休息" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>中場休息</label></p>
+
+                                        <p class="p-lasttime"><input type="radio" value="" name="gamestate" onclick="notshow(this, 'spanTime')" /><label>清除所有狀態</label></p>
+                                    </li>
+                                </ul>
+                            </dd>
+                        }
+                        <dd>
+                            <ul>
+                                <li>
+                                    <span id="message" style="width:150px;"></span>
+                                    <span id="message2" style="width:150px;"></span>
+                                    <a class="btncss" id="btnStore" onclick="saveScore(false)">储存</a>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+    // setTimeout id
+    var timeout = -1;
+
+    //StatusText 单选显示隐藏
+    function notshow(obj, item) {
+        //選取時將隱藏
+        document.getElementById(item).style.display = obj.checked ? "none" : "inline";
+    }
+    function show(obj, item) {
+        if ($(obj).is(":checked")) {
+            $("#" + item).show();
+        }
+    }
+
+    //保存  isRefresh存儲成功是否刷新頁面
+    var isClick = false;
+    function saveScore(isRefresh) {
+        //防止重複點擊
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+        var runsa = [];
+        var runsb = [];
+        $('input[id^=txtRunsA]').each(function () {
+            if ($(this).val() != '') {
+                runsa.push($(this).val());
+            }
+        });
+        $('input[id^=txtRunsB]').each(function () {
+            if ($(this).val() != '') {
+                runsb.push($(this).val());
+            }
+        })
+
+        var statesText = '';
+        if ($('input[name=gamestate]:checked').length > 0) {
+            if ($('#datetime').is(':checked')) {
+                statesText = getCountDownTime("#minutes", "#seconds");
+            } else {
+                statesText = $('input[name=gamestate]:checked').val();
+                if (!StatusTextConfirm(statesText)) {
+                    isClick = false;
+                    return;
+                }
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditScore")",
+            data: {
+                RunsA: runsa.join(','), RunsB: runsb.join(','), GID: '@Model.GID'
+                 , RA: $("#txtRA").val(), RB: $("#txtRB").val(), StatusText: statesText
+            },
+            async: false,
+            error: function (data) {
+                alert("儲存錯誤。");
+                isClick = false;
+            },
+            success: function (data) {
+                if (data.indexOf("失敗") != -1) { //保存资料小于0笔
+                    if (data.indexOf("-10") != -1) {
+                        alert("資料未變動。");
+                    } else {
+                        alert("儲存失敗。");
+                    }
+                } else if (isRefresh) {
+                    document.location = document.location;
+                } else {
+                    $("#message2").hide();
+                    $("#message2").html("存儲成功");
+                    $("#message2").show();
+                    $("#message2").fadeOut(3000);
+                    onInit();
+                }
+                isClick = false;
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        //頁面初始化
+        onInit();
+
+        // 2015/05/15, 輸入驗證
+        onInputNumberCheck();
+
+        //2015/05/14, 處理比賽局數選擇鈕的事件
+        onRunListChanged();
+        //2015/05/14, input keyup 事件
+        onInputKeyup();
+
+        //解決ie9下 disabled之後可以選中
+        $("input[type='text']:disabled").on("mouseup", function (evt) {
+            if ($(this).attr("disabled") == true) {
+                this.blur();
+            }
+        });
+    });
+
+    function onInit() {
+        //清除訊息
+        $("#message").html("");
+        var $radio = $("input[type='radio'][name='runlit']");
+        var $div = $("div[id*='runs']");
+
+        // 取得分數有值項目
+        var item = [];
+        var $input = $div.find("input[type='text']");
+        $input.each(function () {
+            var $this = $(this);
+            if ($this.val() !== '') {
+                var c = $this.attr("c");
+                if ($.inArray(c, item) === -1) { item.push(c); }
+            }
+        });
+
+        // 都沒輸入時, 預設開啟第一個; 否則檢查是否開啟下一個
+        if (item.length === 0) {
+            item.push('1');
+        } else {
+            var k = item[item.length - 1];
+            // 檢查最後一局是否都有 key 值
+            var $score = $input.filter("[c='" + k + "']").map(function () {
+                var v = $(this).val();
+                if (v !== '') { return v; }
+            });
+
+            // 都有值才開啟下一個
+            if ($score.length === 2) {
+                var next = parseInt(k, 10) + 1;
+                item.push(next.toString());
+            }
+        }
+
+        // 重新取得選取按鈕
+        $radio = $($radio.selector);
+        // 開啟在清單內的選取按鈕
+        $radio.each(function () {
+            var $this = $(this);
+            if ($.inArray($this.val(), item) >= 0) {
+                $this.prop("disabled", false);
+            }
+        });
+
+        //清除剩餘時間狀態
+        clearStatus();
+    }
+    function onInputNumberCheck() {
+        $("div[id*='run']").on("keydown", "input[type='text']:enabled", function (e) {
+            var key = e.which ? e.which : e.keyCode;
+            // Allow: backspace, delete, tab and escape
+            if (key === 46 || key === 8 || key === 9 || key === 27) {
+                return;
+            } else {
+                // 除數字以外
+                if (e.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
+                    // 允許輸入 X, 表示賽局結束
+                    if (key === 88 || key === 120) { return; }
+                    // 阻擋預設要發生的事件
+                    if (document.all) {
+                        window.event.returnValue = false;
+                    } else {
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+    function onRunListChanged() {
+        $("#liTitle").on("click", "input[type='radio'][name='runlit']", function () {
+            //清除狀態
+            clearStatus();
+            //關閉所有輸入方塊
+            var $div = $("div[id*='run'], #rheA, #rheB");
+            $div.find("input:not([readonly]):enabled").prop("disabled", true);
+            var $this = $(this);
+
+            //開啟點選該局的輸入方塊
+            if ($this.prop("checked") === true) {
+                var val = $this.val();
+                $div.find("input[c='" + val + "']").prop("disabled", false);
+            }
+        });
+    }
+    function onInputKeyup() {
+        //$("div[id*='run']").on("keyup", "input.open_input", function () {
+        $("div[id*='run']").on("keyup", "input[type='text']:enabled", function () {
+            var $div = $(this).closest("div");
+            var $inputTotal = $div.siblings("div").find("input[c='RunTotal']");
+            // 重新計算加總
+            sumTotalScore($div, $inputTotal);
+            $("#message").html("尚未儲存。");
+            $("#message2").hide();
+        });
+    }
+    function sumTotalScore($div, $inputTotal) {
+
+        var total = 0;
+        $div.find("input[type='text']").each(function () {
+            // 取得分數(球賽可輸入X, 表示賽局結束)
+            var val = $(this).val().toUpperCase().replace(/\X/g, "");
+            if ($.isNumeric(val)) {
+                total += parseInt(val, 10);
+            }
+        });
+
+        $inputTotal.val(total);
+    }
+    // 設定加減分
+    function setPoints($input, num, plus) {
+
+        // 加分 or 減分
+        num = (plus) ? num : num * -1;
+
+        var v = $input.val();
+        var score = num;
+        if ($.isNumeric(v)) { score += parseInt(v, 10); }
+        // 設定 H 分
+        if (score < 0) { score = 0; }
+        $input.val(score);
+    }
+    // 儲存加減分數
+    function savePoints(Team, Number, Rhe, plus) {
+
+        var $divRun = $(Team);
+        var $inputRun = $divRun.find("input[type='text']");
+        var $inputRHE = $(Rhe).find("input[type='text']");
+        // 找尋有點選局數按鈕
+        var $radio = $("input[type='radio'][name='runlit']:checked");
+        // 未點選按鈕則不處理
+        if ($radio.length === 0) { return; }
+
+        // 局數
+        var $input = null;
+        var inning = $radio.val();
+
+        // 點選賽局比分
+        $input = $inputRun.filter("[c='" + inning + "']");
+        setPoints($input, Number, plus);
+        // 計算總分
+        var $inputTotal = $inputRHE.filter("[c='RunTotal']");
+        sumTotalScore($divRun, $inputTotal);
+
+        saveScore(false);
+    }
+    //加分
+    function Ppoints(Team, Number, Rhe) {
+        savePoints(Team, Number, Rhe, true);
+    }
+    //減分
+    function Mpoints(Team, Number, Rhe) {
+        savePoints(Team, Number, Rhe, false);
+    }
+
+    // 取得倒數時間文字
+    function getCountDownTime(m, s) {
+        var min = $(m).val();
+        var second = $(s).val();
+        var text = "";
+
+        if (min.length === 1 && second.length === 1) {
+            text = "0" + min + ":0" + second;
+        } else if (min.length === 1 && second.length !== 1) {
+            text = "0" + min + ":" + second;
+        } else if (min.length !== 1 && second.length === 1) {
+            text = min + ":0" + second;
+        } else {
+            text = min + ":" + second;
+        }
+
+        return text;
+    }
+
+    // 儲存時,中場休息/結束處理
+    function actionForIntermissionOrEnd() {
+        // 清除 timeout
+        clearTimeout(timeout);
+        $("#Closeed").hide();
+        $("#Clicked").show();
+
+        $("#MainContent_ctrText").prop("readonly", false);
+        $("#MainContent_ctrText2").prop("readonly", false);
+    }
+
+    //中場休息/結束處理 確認框
+    function StatusTextConfirm(v) {
+        if (window.confirm("確定是否選擇[" + (v == "" ? "清除所有狀態" : v) + "]選項？")) {
+            return true;
+        }
+        return false;
+    }
+
+    // 清除剩餘時間狀態
+    function clearStatus() {
+        // 取得剩餘時間的所有 input
+        var $input = $("#pTime input");
+        // 判斷是否有勾選倒數
+        var $btnClosed = $("#Closeed");
+        var $btnClicked = $("#Clicked");
+        //var checked = $("#MainContent_rabDownTime").prop("checked");
+        // 若已開始倒數
+        if ($btnClosed.is(":visible")) {
+
+            $btnClosed.hide();
+            $btnClicked.show();
+            // 清除倒數
+            clearTimeout(timeout);
+        }
+
+        // 清除所有文字方塊
+        $input.filter("[type='text']").val("").prop("readonly", false);
+        // 隱藏時間區塊
+        $("#spanTime").hide();
+        // 取消所有選取
+        $input.filter("[type='radio']").prop("checked", false);
+
+        //取消 結束 中場休息 
+        $('input[name=gamestate]:checked').prop("checked", false);
+    }
+    //計時
+    function BtnCount(IsPostBack) {
+        $("#Clicked").hide();
+        $("#Closed").show();
+        var count = $("#minutes").val();
+        var count2 = $("#seconds").val();
+
+        if ($.isNumeric(count) === false) { count = 0; }
+        if ($.isNumeric(count2) === false) { count2 = 0; }
+
+        //驗證輸入資料
+        if (count > 60) {
+            alert("不可大於60");
+            return;
+        }
+        else if (count2 > 59) {
+            alert("不可大於59");
+            return;
+        }
+        //關閉編輯
+        $("#minutes").attr("readonly", true);
+        $("#seconds").attr("readonly", true);
+
+        //檢核輸入長度
+        if (count.length == 1) {
+            count = checkTime(count);
+            $("#minutes").val(count.toString());
+        }
+
+        //"啟動"，則+1
+        if (IsPostBack == 1) {
+            count2 = parseInt(count2) + 1;
+            if (count2 != 0) {
+                count2--;
+                count2 = checkTime(count2);
+                $('#seconds').val(count2.toString());
+                timeout = setTimeout(BtnCount, 1000);
+            }
+            else {
+                count--;
+                count = checkTime(count);
+                $('#minutes').val(count.toString());
+                $('#seconds').val(parseInt(count2) + 59);
+                timeout = setTimeout(BtnCount, 1000);
+            }
+        }
+            //否則則開始計算
+        else {
+            if (count2 != 0) {
+                count2--;
+                count2 = checkTime(count2);
+                $('#seconds').val(count2.toString());
+                timeout = setTimeout(BtnCount, 1000);
+            }
+                //時間皆為0則停止時間
+            else if (count == 0 && count2 == 0) {
+                clearTimeout(timeout);
+                $("#Closed").hide();
+                $("#Clicked").show();
+
+                $("#minutes").prop("disabled", false);
+                $("#seconds").prop("disabled", false);
+
+                saveScore(false);
+            }
+            else {
+                count--;
+                count = checkTime(count);
+                $('#minutes').val(count.toString());
+                $('#seconds').val(parseInt(count2) + 59);
+                timeout = setTimeout(BtnCount, 1000);
+            }
+        }
+
+    }
+
+    //停止時間
+    function outTime() {
+        $("#Closed").hide();
+        $("#Clicked").show();
+        clearTimeout(timeout);
+        $("#minutes").prop("readonly", false);
+        $("#seconds").prop("readonly", false);
+        //送出時間和比分
+        saveScore(false);
+    }
+
+    //檢查是否小於0，自動補零
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+</script>

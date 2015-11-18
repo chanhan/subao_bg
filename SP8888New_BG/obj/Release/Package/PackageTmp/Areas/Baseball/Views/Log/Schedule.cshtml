@@ -1,0 +1,35 @@
+﻿@model Tuple<List<Models.ViewModel.Baseball>, List<Models.ViewModel.Baseball>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "SchedulesAdd" : (Model.Item3 == 2 ? "SchedulesDelete" : "SchedulesEdit");
+    List<Models.ViewModel.Baseball> baseball = new List<Models.ViewModel.Baseball>();
+    int index = 0;
+
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            baseball.Add(olditem);
+        }
+        index++;
+        baseball.Add(newitem);
+        @Html.DisplayFor(p => baseball, viewName)
+        baseball.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            baseball.Add(newitem);
+            @Html.DisplayFor(p => baseball, viewName)
+            baseball.Clear();
+        }
+    }
+}

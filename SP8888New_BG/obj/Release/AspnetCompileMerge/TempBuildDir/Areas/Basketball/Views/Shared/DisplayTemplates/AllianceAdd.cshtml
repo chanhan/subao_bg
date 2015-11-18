@@ -1,0 +1,14 @@
+﻿@model List<Models.BasketballAlliance>
+@{
+    Models.BasketballAlliance newdata = Model[0];
+    var lever = newdata.Lever == 1 ? " (聯盟)：" : (newdata.Lever == 2 ? " (所屬大聯盟)：" : " (所屬二聯盟)：");
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName(newdata.GameType) @lever
+        <br>
+        (聯盟名稱)：
+        <font color="red">@newdata.AllianceName</font> 
+        <br>
+    </b>
+</div>

@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系統錯誤</title>
+    <style>
+        body {
+            background-color: #D5D5D7;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif,新細明體;
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll;
+        }
+
+        .bg_spTop {
+            background: url(/images/bg_spTop.jpg);
+            background-repeat: repeat-x;
+            height: 60px;
+        }
+
+        .bg_cont {
+            background: #fff;
+        }
+
+            .bg_cont .contImg {
+                float: left;
+                margin: 20px 0;
+                padding: 40px 20px 40px 100px;
+            }
+
+                .bg_cont .contImg img {
+                    width: 300px;
+                    border: 0;
+                }
+
+            .bg_cont .contTxt {
+                float: left;
+                margin: 150px 0 50px 0px;
+                line-height: 25px;
+                padding: 0;
+                border-radius: 0 50px 50px 0;
+            }
+
+                .bg_cont .contTxt p {
+                    margin-bottom: 20px;
+                    color: #666;
+                    font-size: 15px;
+                }
+
+                    .bg_cont .contTxt p:first-child {
+                        margin-top: 20px;
+                        margin-bottom: 0px;
+                    }
+    </style>
+</head>
+
+<body>
+    <table width="974" align="center" cellpadding="0" cellspacing="0" class="loginBar">
+        <tbody>
+            <tr class="bg_spTop">
+                <td width="460" height="50" align="left">
+                    <img id="imgLogo" src="/images/icon_spLogo.png" style="margin-left: 20px; margin-top: 7px;">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table width="974" cellpadding="0" cellspacing="0" align="center">
+        <tbody>
+            <tr class="bg_cont">
+                <td>
+                    <div class="contImg">
+                        <img src="/images/maintenan.jpg" />
+                    </div>
+                    <div class="contTxt">
+                        <p>
+                            <img src="/images/message.png" />
+                        </p>
+                        <p>
+                            請重新登入系統並再次嘗試操作，<br />
+                            若還有發生錯誤，請聯絡工程師處理。<br />
+                            給您帶來不便，敬請見諒！
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

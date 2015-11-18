@@ -1,0 +1,758 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("#NAV [id^=options]").hover(function () {
+            var op = this.id.split("_")[1];
+            $(this).children("[op=" + op + "]").show();
+        }, function () {
+            var op = this.id.split("_")[1];
+            $(this).children("[op=" + op + "]").hide();
+        });
+    });
+
+</script>
+<style type="text/css">
+    [op] {
+        display: none;
+    }
+</style>
+<div id="left">
+    <div id="left_BG">
+        <h3 id="GuanLiCaiDan"><img src="/images/GuanLiCaiDan_text.png" width="105" height="18" style="margin-top:9px;" /> </h3>
+        <ul id="NAV">
+            @if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+            {
+                int rank;
+                int.TryParse(HttpContext.Current.User.Identity.Name.Split(',')[0], out rank);
+
+                if (rank == 1 || rank == 3 || rank == 9)
+                {
+                    <li id="options_bb" class="border-first">
+                        <a>棒&nbsp;球</a>
+                        <div class="shu3px" op="bb">&nbsp;</div>
+                        <div class="navsmall navFu2" op="bb">
+                            <dl class="navsmall-dl">
+                                <dd id="options_bbus" class="border-first">
+                                    美 棒
+                                    <img src="/images/sanjiao.png" op="bbus" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbus">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bb3" class="border-first">
+                                                @Html.ActionLink("MLB", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBUS" }, null)
+                                                <img src="/images/sanjiao.png" op="bb3" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bb3">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBUS" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBUS" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bb31" class="border-first">
+                                                @Html.ActionLink("3 A", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BB3A" }, null)
+                                                <img src="/images/sanjiao.png" op="bb31" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bb31">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BB3A" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BB3A" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bb32" class="border-first">
+                                                @Html.ActionLink("3 A國家聯盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BB3AIL" }, null)
+                                                <img src="/images/sanjiao.png" op="bb32" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bb32">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BB3AIL" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BB3AIL" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bb33" class="border-first">
+                                                @Html.ActionLink("3 A太平洋岸聯盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BB3APCL" }, null)
+                                                <img src="/images/sanjiao.png" op="bb33" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bb33">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BB3APCL" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BB3APCL" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbjp">
+                                    @Html.ActionLink("日 棒", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBJP" }, null)
+                                    <img src="/images/sanjiao.png" op="bbjp" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbjp">
+                                        <dl class="navsmall-dl ">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBJP" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBJP" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbtw">
+                                    臺 棒
+                                    <img src="/images/sanjiao.png" op="bbtw" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbtw">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bbtw0" class="border-first">
+                                                @Html.ActionLink("中華職棒", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBTW" }, null)
+                                                <img src="/images/sanjiao.png" op="bbtw0" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbtw0">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBTW" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBTW" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bbtw7" class="border-first">
+                                                @Html.ActionLink("PL 爆米花夏季棒球聯盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBTW7" }, null)
+                                                <img src="/images/sanjiao.png" op="bbtw7" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbtw7">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBTW7" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBTW7" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbkr">
+                                    @Html.ActionLink("韓 棒", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBKR" }, null)
+                                    <img src="/images/sanjiao.png" op="bbkr" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbkr">
+                                        <dl class="navsmall-dl ">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBKR" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBKR" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbmx">
+                                    墨 棒
+                                    <img src="/images/sanjiao.png" op="bbmx" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbmx">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bbmx1" class="border-first">
+                                                @Html.ActionLink("墨西哥冬季聯盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBMX" }, null)
+                                                <img src="/images/sanjiao.png" op="bbmx1" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbmx1">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBMX" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBMX" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bbmx2" class="border-first">
+                                                @Html.ActionLink("墨西哥夏季聯盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBMX2" }, null)
+                                                <img src="/images/sanjiao.png" op="bbmx2" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbmx2">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBMX2" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBMX2" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbau">
+                                    澳 棒
+                                    <img src="/images/sanjiao.png" op="bbau" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbau">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bbau1" class="border-first">
+                                                @Html.ActionLink("澳洲棒球联盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBAU" }, null)
+                                                <img src="/images/sanjiao.png" op="bbau1" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbau1">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBAU" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBAU" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbnl">
+                                    荷 棒
+                                    <img src="/images/sanjiao.png" op="bbnl" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbnl">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bbnl1" class="border-first">
+                                                @Html.ActionLink("荷蘭棒球联盟", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBNL" }, null)
+                                                <img src="/images/sanjiao.png" op="bbnl1" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bbnl1">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBNL" }, null)</dd>
+                                                        <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBNL" }, null)</dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bbqt" class="border-last">
+                                    @Html.ActionLink("其 他", "Index", "BBSchedules", new { area = "Baseball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BBQT" }, null)
+                                    <img src="/images/sanjiao.png" op="bbqt" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bbqt">
+                                        <dl class="navsmall-dl ">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "BBAlliance", new { area = "Baseball", gameType = "BBQT" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "BBTeam", new { area = "Baseball", gameType = "BBQT" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_baskeball" class="border-first">
+                        <a>籃&nbsp;球</a>
+                        <div class="shu3px" op="baskeball">&nbsp;</div>
+                        <div class="navsmall navFu2" op="baskeball">
+                            <dl class="navsmall-dl">
+                                <dd id="options_bk1" class="border-first">
+                                    美 籃
+                                    <img src="/images/sanjiao.png" op="bk1" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk1">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkus" class="border-first">
+                                                @Html.ActionLink("美國職籃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKUS" }, null)
+                                                <img src="/images/sanjiao.png" op="bkus" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkus">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKUS" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKUS" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkusw" class="border-first">
+                                                @Html.ActionLink("美國女子職籃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKUSW" }, null)
+                                                <img src="/images/sanjiao.png" op="bkusw" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkusw">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKUSW" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKUSW" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkncaa" class="border-last">
+                                                @Html.ActionLink("美國男子大學籃球聯賽", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKNCAA" }, null)
+                                                <img src="/images/sanjiao.png" op="bkncaa" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkncaa">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKNCAA" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKNCAA" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bkjp" class="border-first">
+                                    @Html.ActionLink("日籃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKJP" }, null)
+                                    <img src="/images/sanjiao.png" op="bkjp" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bkjp">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">
+                                                @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKJP" }, null)
+                                            </dd>
+                                            <dd class="border-first">
+                                                @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKJP" }, null)
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk2" class="border-first">
+                                    歐 籃
+                                    <img src="/images/sanjiao.png" op="bk2" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk2">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkel" class="border-first">
+                                                @Html.ActionLink("歐洲籃球冠軍聯賽", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKEL" }, null)
+                                                <img src="/images/sanjiao.png" op="bkel" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkel">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKEL" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKEL" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkel2" class="border-first">
+                                                @Html.ActionLink("歐洲籃球聯盟盃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKEL2" }, null)
+                                                <img src="/images/sanjiao.png" op="bkel2" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkel2">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKEL2" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKEL2" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk3" class="border-first">
+                                    韓 籃
+                                    <img src="/images/sanjiao.png" op="bk3" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk3">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkkr" class="border-first">
+                                                @Html.ActionLink("韓國男子籃球", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKKR" }, null)
+                                                <img src="/images/sanjiao.png" op="bkkr" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkkr">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKKR" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKKR" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkkrw" class="border-first">
+                                                @Html.ActionLink("韓國女子籃球", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKKRW" }, null)
+                                                <img src="/images/sanjiao.png" op="bkkrw" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkkrw">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKKRW" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKKRW" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk4" class="border-first">
+                                    中 籃
+                                    <img src="/images/sanjiao.png" op="bk4" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk4">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkcn" class="border-first">
+                                                @Html.ActionLink("中國職籃 (CBA)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKCN" }, null)
+                                                <img src="/images/sanjiao.png" op="bkcn" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkcn">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKCN" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKCN" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bknbl" class="border-first">
+                                                @Html.ActionLink("中國男子籃球甲級聯賽", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKNBL" }, null)
+                                                <img src="/images/sanjiao.png" op="bknbl" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bknbl">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKNBL" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKNBL" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bktw" class="border-first">
+                                    @Html.ActionLink("台籃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKTW" }, null)
+                                    <img src="/images/sanjiao.png" op="bktw" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bktw">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">
+                                                @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKTW" }, null)
+                                            </dd>
+                                            <dd class="border-first">
+                                                @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKTW" }, null)
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bkau" class="border-first">
+                                    @Html.ActionLink("澳籃", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKAU" }, null)
+                                    <img src="/images/sanjiao.png" op="bkau" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bkau">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">
+                                                @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKAU" }, null)
+                                            </dd>
+                                            <dd class="border-first">
+                                                @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKAU" }, null)
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk5" class="border-first">
+                                    西班牙籃球
+                                    <img src="/images/sanjiao.png" op="bk5" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk5">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkacb" class="border-first">
+                                                @Html.ActionLink("西班牙籃球甲級聯賽 (ACB)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKACB" }, null)
+                                                <img src="/images/sanjiao.png" op="bkacb" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkacb">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKACB" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKACB" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkcr" class="border-first">
+                                                @Html.ActionLink("西班牙國王盃 (BKCR)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKCR" }, null)
+                                                <img src="/images/sanjiao.png" op="bkcr" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkcr">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKCR" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKCR" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk6" class="border-first">
+                                    德籃
+                                    <img src="/images/sanjiao.png" op="bk6" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk6">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkbbl" class="border-first">
+                                                @Html.ActionLink("德國籃球甲級聯賽(BBL)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKBBL" }, null)
+                                                <img src="/images/sanjiao.png" op="bkbbl" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkbbl">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKBBL" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKBBL" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_bk7" class="border-first">
+                                    其他
+                                    <img src="/images/sanjiao.png" op="bk7" class="3jiao" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="bk7">
+                                        <dl class="navsmall-dl ">
+                                            <dd id="options_bkvtb" class="border-first">
+                                                @Html.ActionLink("VTB", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKVTB" }, null)
+                                                <img src="/images/sanjiao.png" op="bkvtb" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkvtb">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKVTB" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKVTB" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkfiba" class="border-first">
+                                                @Html.ActionLink("亞洲籃球錦標賽 (FIBA)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKFIBA" }, null)
+                                                <img src="/images/sanjiao.png" op="bkfiba" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkfiba">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKFIBA" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKFIBA" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                            <dd id="options_bkebt" class="border-first">
+                                                @Html.ActionLink("歐洲籃球錦標賽 (FIBA)", "Index", "basketball", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "BKEBT" }, null)
+                                                <img src="/images/sanjiao.png" op="bkebt" class="3jiao bb3" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                                <div class="navsmall navFu3" op="bkebt">
+                                                    <dl class="navsmall-dl">
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("聯盟資料", "BasketBallAlliance", "basketball", new { area = "basketball", gameType = "BKEBT" }, null)
+                                                        </dd>
+                                                        <dd class="border-first">
+                                                            @Html.ActionLink("隊伍資料", "BasketBallTeam", "basketball", new { area = "basketball", gameType = "BKEBT" }, null)
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_afb">
+
+                        @Html.ActionLink("美 足", "Index", "AFB", new { area = "AmericanFootball", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "AFUS" }, null)
+
+                        <div class="shu3px" op="afb">&nbsp;</div>
+                        <div class="navsmall navFu2" op="afb">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("聯盟資料", "AFBAlliance", "AFB", new { area = "AmericanFootball", gameType = "AFUS" }, null)</dd>
+                                <dd class="border-first">@Html.ActionLink("隊伍資料", "AFBTeam", "AFB", new { area = "AmericanFootball", gameType = "AFUS" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_ih">
+                        <a>冰&nbsp;球</a>
+                        <div class="shu3px" op="ih">&nbsp;</div>
+                        <div class="navsmall navFu2" op="ih">
+                            <dl class="navsmall-dl">
+                                <dd id="options_ihus" class="border-first">
+                                    @Html.ActionLink("國家冰球", "Index", "IHSchedules", new { area = "IceHockey", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "IHUS" }, null)
+                                    <img src="/images/sanjiao.png" op="ihus" class="3jiao ihus2" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="ihus">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "IHAlliance", new { area = "IceHockey", gameType = "IHUS" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "IHTeam", new { area = "IceHockey", gameType = "IHUS" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_ihru" class="border-first">
+                                    @Html.ActionLink("俄羅斯冰球", "Index", "IHSchedules", new { area = "IceHockey", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "IHRU" }, null)
+                                    <img src="/images/sanjiao.png" op="ihru" class="3jiao ihus2" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="ihru">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "IHAlliance", new { area = "IceHockey", gameType = "IHRU" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "IHTeam", new { area = "IceHockey", gameType = "IHRU" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                                <dd id="options_ihus2" class="border-first">
+                                    @Html.ActionLink("美國冰球", "Index", "IHSchedules", new { area = "IceHockey", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "IHUS2" }, null)
+                                    <img src="/images/sanjiao.png" op="ihus2" class="3jiao ihus2" style="position: absolute; right: -21px; top: 6px; z-index: 1111;" width="31" height="19" />
+                                    <div class="navsmall navFu3" op="ihus2">
+                                        <dl class="navsmall-dl">
+                                            <dd class="border-first">@Html.ActionLink("联盟资料", "Index", "IHAlliance", new { area = "IceHockey", gameType = "IHUS2" }, null)</dd>
+                                            <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "IHTeam", new { area = "IceHockey", gameType = "IHUS2" }, null)</dd>
+                                        </dl>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li><a>終極格鬥</a></li>
+                    <li id="options_sb">
+                        @Html.ActionLink("足 球", "index", "Football", new { area = "Football", date = DateTime.Now.ToString("yyyy-MM-dd") }, null)
+                        <div class="shu3px" op="sb">&nbsp;</div>
+                        <div class="navsmall navFu2" op="sb">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("角球隊伍", "FoolballCorner", "Football", new { area = "Football" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_tn">
+
+                        @Html.ActionLink("網  球", "Index", "Tennis", new { area = "Tennis", date = DateTime.Now.ToString("yyyy-MM-dd") }, null)
+
+                        <div class="shu3px" op="tn">&nbsp;</div>
+                        <div class="navsmall navFu2" op="tn">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("聯盟資料", "TennisAlliance", "Tennis", new { area = "Tennis" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_os">
+
+                        @Html.ActionLink("奧訊籃球", "Index", "BKOS", new { area = "basketball", date = DateTime.Now.ToString("yyyy-MM-dd") }, null)
+
+                        <div class="shu3px" op="os">&nbsp;</div>
+                        <div class="navsmall navFu2" op="os">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("聯盟資料", "BKOSAlliance", "BKOS", new { area = "basketball" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("隊伍資料", "BKOSTeam", "BKOS", new { area = "basketball" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li id="options_ihbf">
+
+                        @Html.ActionLink("B F冰球", "Index", "IHBFSchedules", new { area = "IceHockey", date = DateTime.Now.ToString("yyyy-MM-dd") }, null)
+
+                        <div class="shu3px" op="ihbf">&nbsp;</div>
+                        <div class="navsmall navFu2" op="ihbf">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("聯盟資料", "Index", "IHBFAlliance", new { area = "IceHockey" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("隊伍資料", "Index", "IHBFTeam", new { area = "IceHockey" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                }
+                if (rank == 1 || rank == 3 || rank == 4 || rank == 9)
+                {
+                    <li id="options_shuoming">
+                        <a>說明文件</a>
+                        <div class="shu3px" op="shuoming">&nbsp;</div>
+                        <div class="navsmall navFu2" op="shuoming">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first"><a href="javascript:" onclick="window.open('/SPBG/Help/Help', '說明文件', 'height =' + screen.availHeight + ' ,width=' + screen.availWidth + ' ,resizable=yes,scrollbars =yes,location =no')">賽程</a></dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first"><a href="javascript:" onclick="window.open('/SPBG/Help/Set', '說明文件', 'height =' + screen.availHeight + ' ,width=' + screen.availWidth + ' ,resizable=yes,scrollbars =yes,location =no')">設定</a></dd>
+                            </dl>
+                        </div>
+                    </li>
+                }
+                <li id="options_systemset">
+                    <a>系統設定</a>
+                    <div class="shu3px" op="systemset">&nbsp;</div>
+                    <div class="navsmall navFu2" op="systemset">
+                        @if (rank == 1 || rank == 3 || rank == 9)
+                        {
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("訊息管理", "Index", "Marquee", new { area = "SystemSet", gameType = "AAAA" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("繁體 PC 版廣告管理", "Index", "Commerical", new { area = "SystemSet", language = "tw" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("簡體 PC 版廣告管理", "Index", "Commerical", new { area = "SystemSet", language = "zh" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("跑馬燈管理", "Index", "ScrollingText", new { area = "SystemSet" }, null)</dd>
+                            </dl>
+
+                        }
+                        @if (rank == 1 || rank == 9)
+                        { <dl class="navsmall-dl">
+                            <dd class="border-first">@Html.ActionLink("聯盟名稱對應表", "Index", "AllianceNameList", new { area = "SystemSet" }, null)</dd>
+                        </dl>
+                        }
+                        @if (rank == 3 || rank == 9)
+                        {
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("登入IP管理", "Index", "IPAccess", new { area = "SystemSet" }, null)</dd>
+                            </dl>
+                        }
+                        @if (rank == 1 || rank == 9)
+                        { <dl class="navsmall-dl">
+                            <dd class="border-first">@Html.ActionLink("名稱對應表", "Index", "NameControl", new { area = "SystemSet" }, null)</dd>
+                        </dl>
+                        }
+                        @if (rank == 1 || rank == 3 || rank == 9)
+                        {
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("首頁設定", "Index", "SetTypeVal", new { area = "SystemSet" }, null)</dd>
+                            </dl>
+                        }
+                        @if (rank == 1 || rank == 3 || rank == 4 || rank == 9)
+                        {
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("密碼變更", "EditEmployee", "Employee", new { area = "Employee" }, null)</dd>
+                            </dl>
+                        }
+                        @if (rank == 1 || rank == 3 || rank == 9)
+                        {
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("收藏夾設定", "Index", "FavoriteInfo", new { area = "SystemSet" }, null)</dd>
+                            </dl>
+                        }
+                    </div>
+                </li>
+                if (rank == 9 || rank == 3)
+                {
+                    <li id="options_zh">
+                        <a>帳號管理</a>
+                        <div class="shu3px" op="zh">&nbsp;</div>
+                        <div class="navsmall navFu2" op="zh">
+                            @if (rank == 9)
+                            {
+                                <dl class="navsmall-dl">
+                                    <dd class="border-first">@Html.ActionLink("工程師", "Index", "Employee", new { area = "Employee", rank = "9" }, null)</dd>
+                                </dl>
+                            }
+                            @if (rank == 9)
+                            {
+                                <dl class="navsmall-dl">
+                                    <dd class="border-first">@Html.ActionLink("建資料", "Index", "Employee", new { area = "Employee", rank = "4" }, null)</dd>
+                                </dl>
+                            }
+                            @if (rank == 3 || rank == 9)
+                            {
+                                <dl class="navsmall-dl">
+                                    <dd class="border-first">@Html.ActionLink("操盤員", "Index", "Employee", new { area = "Employee", rank = "1" }, null)</dd>
+                                </dl>
+                            }
+                            @if (rank == 9)
+                            {
+                                <dl class="navsmall-dl">
+                                    <dd class="border-first">@Html.ActionLink("管理者", "Index", "Employee", new { area = "Employee", rank = "3" }, null)</dd>
+                                </dl>
+                            }
+                        </div>
+                    </li>
+                }
+                @*if (rank == 1 || rank == 3 || rank == 9)
+                {
+                    <li id="options_actionlist">
+                        @Html.ActionLink("操盤列表", "Index", "ActionList", new { area = "SPBG", date = DateTime.Now.ToString("yyyy-MM-dd"), gameType = "AAAA" }, null)
+                    </li>
+                }*@
+                if (rank == 3 || rank == 9)
+                {
+                    <li>@Html.ActionLink("操作記錄", "Index", "Log_List", new { area = "QT", isCheckDate = true, actionStatus = 0, itemCategory = 0, date = DateTime.Now.ToString("yyyy-MM-dd") }, null)</li>
+                }
+                if (rank == 1 || rank == 3 || rank == 9)
+                {
+                    <li id="options_down">
+                        <a>檔案下載</a>
+                        <div class="shu3px" op="down">&nbsp;</div>
+                        <div class="navsmall navFu2" op="down">
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("速報控制台", "Index", "DownLoad", new { area = "SPBG", fileName = "client.rar" }, null)</dd>
+                            </dl>
+                            <dl class="navsmall-dl">
+                                <dd class="border-first">@Html.ActionLink("賽事建立軟件", "Index", "DownLoad", new { area = "SPBG", fileName = "Schedules.rar" }, null)</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li class="border-last">@Html.ActionLink("清除緩存", "Index", "ClearCache", new { area = "SPBG" }, null)</li>
+                }
+                <li><a href="@System.Web.Configuration.WebConfigurationManager.AppSettings["spUrl"]" target="_blank">前往會員端</a></li>
+            }
+        </ul>
+    </div>
+</div>
+<!--/#left-->

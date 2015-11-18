@@ -1,0 +1,117 @@
+﻿@model Helper.Pager.PagerQuery<Helper.Pager.PagerInfo,List<Models.IPAccess>,string>
+
+@Styles.Render("~/Content/IPAccess")
+
+@{
+    int count = 0;
+    string alianceSortID = string.Empty;
+    int pageIndex = Model.Pager.CurrentPageIndex;
+    int pageSize = Model.Pager.PageSize;
+    int recordCount = Model.Pager.RecordCount;
+}
+
+<div class="sc-tabbox">
+
+    <!--/.tabbox---------start---------------->
+    <div class="tabdl2 shedingip">
+        <div class="tabdl-top">
+            <label style="margin-right: 3px;">IP:</label>
+            <input type="text" id="txtIP" onblur="VerificationIP(this)" class="chuxuninput" style="margin-right: 5px;" />
+            <label style="margin-right: 3px;">備註:</label>
+            <input type="text" id="txtRemark" class="chuxuninput" style="margin-right: 5px;" />
+            <a class="btncss" id="btnedit" onclick="EditIP('0')">新增</a>
+            <input type="hidden" id="hduid" value="0" />
+        </div>
+        <div style="clear:both"></div>
+        <dl style="padding-top:5px;">
+            <dd>
+                <ul>
+                    <li>序號</li>
+                    <li>IP</li>
+                    <li>備註</li>
+                    <li>變更人員</li>
+                    <li>變更時間</li>
+                    <li>功能</li>
+                </ul>
+            </dd>
+            @foreach (var item in Model.EntityList)
+            {
+                <dd>
+                    <ul>
+                        <li>@((pageIndex - 1) * pageSize + count + 1)</li>
+                        <li>@item.IP</li>
+                        <li>@(item.Remarks == null ? "" : item.Remarks)</li>
+                        <li>@item.ModifyUser</li>
+                        <li>@string.Format(@"{0:yyyy\/MM\/dd hh\:mm}", item.ModifyTime)</li>
+                        <li>
+                            <div class="gongneng-lm">
+                                @if (item.AllowChange.ToString() == "True")
+                                {
+                                    <a href="javascript:" onclick="window.scrollTo(0,0); Update('@item.uid','@item.IP','@item.Remarks')">修改</a>
+                                    <a href="javascript:" onclick="DeleteIP('@item.uid')">删除</a>
+                                }
+                            </div>
+                        </li>
+
+                    </ul>
+                </dd>
+                count++;
+            }
+        </dl>
+    </div>
+    <div class="Pagination" style="text-align: center; padding-top: 8px;">
+        @Html.PageList(pageIndex, pageSize, recordCount,"")
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    //验证ip
+    function VerificationIP(v) {
+        var regu = "2[0-4]\d|25[0-5]|1\d?\d?|[2-99]\.(2[0-4]\d|25[0-5]|0|1\d?\d?|[2-99]\.){2}2[0-4]\d|25[0-5]|0|1\d?\d?|[2-99]";
+        var re = new RegExp(regu);
+        if (re.test(v.value)) {
+        } else {
+            alert("請輸入正確的IP格式!");
+            v.value = "";
+        }
+    }
+    //新增或修改
+    function EditIP(id) {
+        if ($("#txtIP").val() == "") {
+            alert("請輸入IP位址!");
+        } else {
+            $.post('@Url.Action("Edit", "IPAccess")', { ID: $("#hduid").val(), IP: $("#txtIP").val(), Remark: $("#txtRemark").val() }, function (data) {
+                if (data == 1) {
+                    window.location.reload();
+                } else if (data == 2) {
+                    alert("ip:" + $("#txtIP").val() + "已存在");
+                } else {
+                    alert("操作失败，请稍后再试！");
+                }
+            })
+        }
+    }
+    //删除
+    function DeleteIP(id) {
+        if (confirm("是否確認刪除?")) {
+            $.post('@Url.Action("Delete","IPAccess")', { ID: id }, function (data) {
+                if (data > 0) {
+                    window.location.reload();
+                } else {
+                    alert("操作失敗，請稍後再試！");
+                }
+            })
+        }
+    }
+    function Update(id, ip, remark) {
+        $("#hduid").val(id);
+        $("#txtIP").val(ip);
+        $("#txtRemark").val(remark);
+        $("#btnedit").text('修改');
+    }
+    $(function () {
+        ResetBackGroundColor();
+    })
+</script>

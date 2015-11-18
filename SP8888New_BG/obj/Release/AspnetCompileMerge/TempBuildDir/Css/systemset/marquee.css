@@ -1,0 +1,56 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.sheding-xunxi ul li:nth-child(1) {
+    width: 80px;
+}
+
+.sheding-xunxi ul li:nth-child(2) {
+    width: 80px;
+}
+
+.sheding-xunxi ul li:nth-child(3) {
+    width: 260px;
+    text-align: left;
+}
+
+.sheding-xunxi ul li:nth-child(4) {
+    width: 260px;
+    text-align: left;
+}
+
+.sheding-xunxi ul li:nth-child(5) {
+    width: 250px;
+    text-align: left;
+}
+
+.sheding-xunxi ul li:nth-child(6) {
+    width: 80px;
+}
+
+.kaiqi {
+    color: #4DB849;
+    font-weight: 600;
+}
+
+.languagename {
+    float: left;
+    width: 100px;
+    height: 40px;
+    padding-top: 10px;
+    margin-left: 20px;
+
+}
+
+.language-textarea {
+    float: left;
+    width: 500px;
+    padding: 5px;
+    height: 50px;
+}
+
+.languagediv {
+    width: 100%;
+    padding-top: 6px;
+    clear: both;
+}

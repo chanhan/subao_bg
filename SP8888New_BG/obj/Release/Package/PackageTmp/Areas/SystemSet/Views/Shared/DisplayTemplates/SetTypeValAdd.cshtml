@@ -1,0 +1,10 @@
+﻿@model List<Models.SetTypeVal>
+@{
+    Models.SetTypeVal newdata = Model[0];
+}
+<div>
+    <b>
+        @(newdata.Language == "zh-tw" ? "預設繁體版首頁 :" : "預設簡體版首頁 :")
+    <font color="red">@Common.AppData.GetExerciseType(newdata.Val.ToString()) </font>
+    </b>
+</div>

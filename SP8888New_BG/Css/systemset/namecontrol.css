@@ -1,0 +1,56 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*--border+padding+width=1079---*/
+.shedingip dd li:first-child {
+    width: 50px;
+}
+
+.shedingip dd li:nth-child(2) {
+    width: 70px;
+}
+
+.shedingip dd li:nth-child(3) {
+    width: 70px;
+}
+
+.shedingip dd li:nth-child(4) {
+    width: 74px;
+}
+
+.shedingip dd li:nth-child(5) {
+    width: 74px;
+}
+.shedingip dd li:nth-child(6) {
+    text-align: left;
+    width: 245px;
+}
+
+.shedingip dd li:nth-child(7) {
+    text-align: left;
+    width: 245px;
+}
+.shedingip dd li:nth-child(8) {
+    width: 61px;
+}
+.shedingip dl dd li:last-child {
+    width: 90px;
+}
+
+
+.tabdl-top label {
+    margin-right: 3px;
+}
+
+.tabdl-top select {
+    margin-right: 5px;
+    min-width: 50px;
+}
+
+.chuxuninput {
+    margin-right: 5px;
+    height: 22px;
+}
+
+
+
+

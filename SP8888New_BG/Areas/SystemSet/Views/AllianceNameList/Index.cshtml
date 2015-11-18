@@ -1,0 +1,238 @@
+﻿@model IEnumerable<Models.AllianceNameList>
+@{
+    ViewBag.Title = "Index";
+    int pageIndex = ViewBag.pageIndex == null ? 0 : ViewBag.pageIndex;
+    int pageSize = ViewBag.pageIndex == null ? 0 : ViewBag.pageSize;
+    int recordCount = ViewBag.pageIndex == null ? 0 : ViewBag.recordCount;
+    Models.QueryModel.AllianceNameListQuery queryModel = ViewBag.queryModel == null ? new Models.QueryModel.AllianceNameListQuery() : ViewBag.queryModel as Models.QueryModel.AllianceNameListQuery;
+}
+@Styles.Render("~/Content/marquee")
+@using (Html.BeginForm("AddOrQuery", "AllianceNameList", FormMethod.Post, new { id = "alliacneNameListForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl-edits  tabdl-teamedit" id="div_marquee">
+            <dl>
+                <dd>
+                    <ul>
+                        <li> 處理區分</li>
+                        <li>
+                            <select id="ddlItem" name="ddlItem">
+                                <option value="1">新增</option>
+                                <option value="2">查询</option>
+                            </select>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>種類</li>
+                        <li>
+                            <select id="ddlGameType" name="ddlGameType">
+                                <option selected="selected" value="SB">足球</option>
+                            </select>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>語系</li>
+                        <li>
+                            <select id="ddlLanguagecode" name="ddlLanguagecode">
+                                <option value="zh-tw">繁體中文</option>
+                                <option value="zh-cn">簡體中文</option>
+                            </select>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>全名</li>
+                        <li>
+                            <input id="FullName" name="FullName" type="text" />
+                            <span class="msg" style="display:none"> 可供模糊查询 </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>簡稱</li>
+                        <li>
+                            <input id="SimpleName" name="SimpleName" type="text" />
+                            <span class="msg" style="display:none"> 可供模糊查询 </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>
+                            <a class="btncss" id="btn_edit" onclick="javascript: $('#alliacneNameListForm').submit()">确定</a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div style="clear:both"> </div>
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="tabdl2 sheding-xunxi" style="margin-top: 10px;">
+                <dl>
+                    <dd>
+                        <ul>
+                            <li>語系</li>
+                            <li style="width:250px">聯盟全名</li>
+                            <li style="width:200px">聯盟簡稱</li>
+                            <li style="width:140px">功能</li>
+                            <li style="width:100px">删除</li>
+                        </ul>
+                    </dd>
+                    @{int Ic = 0;}
+                    @foreach (var item in Model)
+                    {
+                        <dd>
+                            <ul>
+                                <li style="height:30px;line-height:30px">
+                                    @(item.LanguageCode == "zh-tw" ? "繁體中文" : "簡體中文")
+                                    @Html.Hidden("[" + Ic + "].GUID", item.GUID)
+                                </li>
+                                <li style="width: 250px;height:30px; line-height: 30px">
+                                    <label>
+                                        @item.FullName
+                                    </label>
+                                    @Html.TextBox("[" + Ic + "].FullName", item.FullName, new { @style = "display:none" })
+                                </li>
+                                <li style="width: 200px; height: 30px; line-height: 30px">
+                                    <label>
+                                        @item.SimpleName
+                                    </label>
+                                    @Html.TextBox("[" + Ic + "].SimpleName", item.SimpleName, new { @style = "display:none" })
+                                </li>
+                                <li style="width: 140px;height:30px; line-height: 30px">
+                                    <div class="gongneng-lm">
+                                        <a onclick="showUpdate(this)">修改</a>
+                                    </div>
+                                    <div class="gongneng-lm gongneng-lm2">
+                                        <a onclick="modify(this)">更新</a>|<a onclick="cancle(this)">取消</a>
+                                    </div>
+                                </li>
+                                <li style="width:100px"><div><a onclick="deleted(this)">删除</a></div></li>
+                            </ul>
+                        </dd>
+
+                        Ic++;
+                    }
+                </dl>
+            </div>
+            <div style="clear:both"> </div>
+            <div class="Pagination" style="text-align:center">
+                @Html.PageListFor(pageIndex, pageSize, recordCount, queryModel)
+            </div>
+        }
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#ddlItem").change(function () {
+            if ($(this).val() == "2") { $(".msg").show() } else { $(".msg").hide() }
+        });
+
+        load();
+    });
+
+    function load() {
+        if ("@ViewBag.isAddCG" == "success") {
+            alert("新增成功。");
+        }
+
+        if ("@queryModel.ddlItem" != "0") {
+            $("#ddlItem").val("@queryModel.ddlItem");
+        }
+        if ("@queryModel.ddlGameType" != "") {
+            $("#ddlGameType").val("@queryModel.ddlGameType");
+        }
+        if ("@queryModel.ddlLanguagecode" != "") {
+            $("#ddlLanguagecode").val("@queryModel.ddlLanguagecode");
+        }
+        if ("@queryModel.FullName" != "") {
+            $("#FullName").val("@queryModel.FullName");
+        }
+        if ("@queryModel.SimpleName" != "") {
+            $("#SimpleName").val("@queryModel.SimpleName");
+        }
+    }
+
+    function deleted(obj) {
+        if (confirm("确定要删除？")) {
+            var ul = $(obj).parents('ul');
+            var Guid = ul.children('li:eq(0)').find('input[name$=GUID]').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete")",
+                data: { GUID: Guid },
+                async: false,
+                error: function (data) {
+                    alert('删除失敗!');
+                },
+                success: function (data) {
+                    if (data == "success") { //保存资料大于0笔
+                        alert('删除成功!');
+                        $('#alliacneNameListForm').submit()
+                    }
+                }
+            });
+        }
+    }
+   var isClick = false;
+    //更新
+    function modify(obj) {
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+        var ul = $(obj).parents('ul');
+        var Guid = ul.children('li:eq(0)').find('input[name$=GUID]').val();
+        var FullName = ul.children('li:eq(1)').find('input[name$=FullName]').val();
+        var SimpleName = ul.children('li:eq(2)').find('input[name$=SimpleName]').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit")",
+            data: { GUID: Guid, FullName: FullName, SimpleName: SimpleName },
+            async: false,
+            error: function (data) {
+                alert('修改失敗!');
+                isClick = false;
+            },
+            success: function (data) {
+                if (data == "success") { //保存资料大于0笔
+                    alert('修改成功!');
+                    $('#alliacneNameListForm').submit()
+                }
+            }
+        });
+    }
+    //取消
+    function cancle(obj) {
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        var FullName = ul.children('li:eq(1)').find('label').show().text();
+        ul.children('li:eq(1)').find('input[type=text]').val($.trim(FullName)).hide();
+        var SimpleName = ul.children('li:eq(2)').find('label').show().text();
+        ul.children('li:eq(2)').find('input[type=text]').val($.trim(SimpleName)).hide();
+    }
+
+    //更新
+    function showUpdate(obj) {
+        //先把所有的取消掉
+        $(".gongneng-lm2 a[onclick='cancle(this)']").click();
+
+        $(obj).parent('div').siblings('div').show();
+        $(obj).parent('div').hide();
+        var ul = $(obj).parents('ul');
+        ul.children('li:eq(1)').find('input[type=text]').show();
+        ul.children('li:eq(1)').find('label').hide();
+        ul.children('li:eq(2)').find('input[type=text]').show();
+        ul.children('li:eq(2)').find('label').hide();
+    }
+
+</script>

@@ -1,0 +1,220 @@
+﻿@model IEnumerable<Models.NameControl>
+
+@Styles.Render("~/Content/namecontrol")
+@{
+    string gameType = ViewBag.GameType;
+    int count = 1;
+    Models.NameControl nameControl = ViewBag.nameControl;
+}
+
+<div class="sc-tabbox">
+    <div class="tabdl2 shedingip">
+        @using (Html.BeginForm("Index", null, FormMethod.Post, new { id = "nameControlForm" }))
+        {
+            <div id="tabdl-top">
+                <div>
+                    <label>語系：</label>
+                    <select onchange="search()" id="Langx" name="Langx" style="height: 22px;">
+                        <option value="en">English</option>
+                        <option value="tw">繁體</option>
+                        <option value="cn">简体</option>
+                        <option value="ko">한국의</option>
+                        <option value="ja">日本の</option>
+                    </select>
+                    <label>類別：</label>
+                    <select onchange="changeCategory()" id="Category" name="Category" style="height: 22px;">
+                        <option value="0">遊戲</option>
+                        <option value="1">姓</option>
+                        <option value="2">名</option>
+                    </select>
+                    <label>遊戲：</label>
+                    <select onchange="search()" id="GTLangx" name="GTLangx" style="height: 22px;">
+                        <option value="TN">網球</option>
+                        <option value="BBUS">美棒</option>
+                        <option value="BBJP">日棒</option>
+                        <option value="BBTW">台棒</option>
+                        <option value="BBKR">韓棒</option>
+                        <option value="BBMX">墨棒</option>
+                        <option value="BKUS">美籃-男子</option>
+                        <option value="BKUSW">美籃-女子</option>
+                        <option value="BKEL">歐籃</option>
+                        <option value="BKJP">日籃</option>
+                        <option value="BKKR">韓籃-男子</option>
+                        <option value="BKKRW">韓籃-女子</option>
+                        <option value="BKCN">中籃</option>
+                        <option value="BKAU">澳籃</option>
+                        <option value="BKVTB">VTB籃球聯賽</option>
+                        <option value="IHUS">國家冰球</option>
+                        <option value="IHRU">俄羅斯冰球</option>
+                        <option value="IHUS2">美國冰球</option>
+                        <option value="AFUS">美足</option>
+                    </select>
+                    <label>用途：</label>
+                    <select onchange="search()" id="AppType" name="AppType" style="height: 22px;"></select>
+                    <label>原文：</label>
+                    @Html.TextBox("SourceText", null, new { maxlength = "100" })
+                    <label>變更：</label>
+                    @Html.TextBox("ChangeText", null, new { maxlength = "100" })
+                    <label>順序：</label>
+                    <select name="Indexs" id="Indexs">
+                        @for (int i = 1; i <= 10; i++)
+                        {   string selectStr=i==10? "selected=\"selected\"":string.Empty;
+                            <option value="@i" @selectStr>@i</option>
+                        }
+                    </select>
+                    @Html.Hidden("ID")
+                    @Html.Hidden("IsAdd", true)
+                    <a class="btncss" onclick="editNameControl()" id="btn_add">新增</a>
+                </div>
+            </div>
+        }
+        <div style="clear:both"> </div>
+        @if (!Model.Any())
+        {
+            <span style="font-size:30px;">
+                無資料
+            </span>
+        }
+        else
+        {
+            <dl style="padding-top:5px;">
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>語系</li>
+                        <li>類別</li>
+                        <li>遊戲類型</li>
+                        <li>用途類型</li>
+                        <li>原始內容</li>
+                        <li>變更內容</li>
+                        <li>翻譯順序</li>
+                        <li>功能</li>
+                    </ul>
+                </dd>
+                @foreach (var item in Model)
+                {
+                <dd>
+                    <ul auotoheight="">
+                        <li>@count</li>
+                        <li>@Common.AppData.GetLangText(item.Langx)</li>
+                        <li>@Common.AppData.GetCategoryText(item.Category)</li>
+                        <li>@Common.AppData.GetGameTypeName(item.GameType)</li>
+                        <li>@Common.AppData.GetAppTypeText(item.AppType)</li>
+                        <li>@item.SourceText</li>
+                        <li>@item.ChangeText</li>
+                        <li>@item.Indexs</li>
+                        <li>
+                            @Html.Hidden("[" + count + "]" + ".ID", item.ID)
+                            <a onclick="showNameControl(this)" href="#">修改</a>
+                            <a onclick="deleteNameControl(this)" href="#">刪除</a>
+                        </li>
+                    </ul>
+                </dd>
+                    count++;
+                }
+            </dl>
+        }
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#Langx').val('@nameControl.Langx');
+        $('#Category').val('@nameControl.Category');
+        $('#GTLangx').val('@nameControl.GTLangx');
+        $('#AppType').val('@nameControl.AppType');
+        $('#Langx').val('@nameControl.Langx');
+        changeCategoryOption();
+        ResetBackGroundColor();
+    })
+    //显示名称对照
+    function showNameControl(obj) {
+        var li = $(obj).parent('li');
+        $('#SourceText').val(li.siblings('li:eq(5)').text());
+        $('#ChangeText').val(li.siblings('li:eq(6)').text());
+        $('#Indexs').val(li.siblings('li:eq(7)').text());
+        $('#IsAdd').val('False');
+        $('#ID').val($(obj).siblings('input[name$=ID]').val());
+        $('#btn_add').html('修改');
+        $("#right").scrollTop(0);
+        return false;
+    }
+    //删除名称对照
+    function deleteNameControl(obj) {
+        if (confirm('是否確認刪除?')) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteNameControl")",
+                data: { id: $(obj).siblings('input[name$=ID]').val() },
+                async: false,
+                error: function (data) {
+                    alert('删除失敗!');
+                },
+                success: function (data) {
+                    search();
+                }
+            });
+        }
+    }
+    //新增修改名称对照
+    function editNameControl() {
+        var sourceText=  $.trim($('#SourceText').val());
+        var changeText=  $.trim($('#ChangeText').val());
+        if (sourceText == '' && changeText == ''){
+            alert('原文欄不可為空!!\r\n變更欄不可為空!!');
+            return;
+        }
+        if (sourceText == '') {
+            alert('原文欄不可為空!!');
+            return;
+        }
+        if (changeText == '') {
+            alert('變更欄不可為空!!');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditNameControl")",
+            data: $('#nameControlForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('儲存失敗!');
+            },
+            success: function (data) {
+                $('#SourceText').val('');
+                $('#ChangeText').val('');
+                $('#ID').val('');
+                $('#IsAdd').val('True');
+                search();
+            }
+        });
+    }
+    //切换类别，查询
+    function changeCategory() {
+        changeCategoryOption();
+        search();
+    }
+    //切换类别时修改用途
+    function changeCategoryOption() {
+        var appType = document.getElementById('AppType');
+        appType.options.length = 0;
+        if ($('#Category').val() == 0) {
+            appType.add(new Option(" 內容", "Content"));
+            appType.add(new Option(" 隊名", "TeamName"));
+        }
+        else if ($('#Category').val() == 1) {
+            appType.add(new Option(" Last", "Last"));
+        }
+        else if ($('#Category').val() == 2) {
+            appType.add(new Option(" First", "First"));
+        }
+    }
+    //查询
+    function search() {
+        $('#SourceText').val('');
+        $('#ChangeText').val('');
+        $('#ID').val('');
+        $('#IsAdd').val('True');
+        $('#nameControlForm').submit();
+    }
+</script>

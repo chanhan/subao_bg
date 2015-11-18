@@ -1,0 +1,46 @@
+﻿@model List<Models.Marquee>
+@{
+    Models.Marquee olddata = Model[0];
+    Models.Marquee newdata = Model[1];
+}
+<div class="edit">
+    @Common.AppData.GetGameTypeName(olddata.GameType)
+    <br>
+    <div>
+        (公告類型)：
+        <span>@Common.AppData.GetMarqueeText(olddata.GameType)</span> --->
+        <span>@Common.AppData.GetMarqueeText(newdata.GameType)</span>
+    </div>
+    <div>
+        (有效時間)：
+        <span>@olddata.EffectiveTime.ToString("yyyy-MM-dd")</span> --->
+        <span>@newdata.EffectiveTime.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        (繁體內容)：
+        <span>@olddata.MessageTW</span> --->
+        <span>@newdata.MessageTW</span>
+    </div>
+    <div>
+        (简体内容)：
+        <span>@olddata.MessageCN</span> --->
+        <span>@newdata.MessageCN</span>
+    </div>
+    <div>
+        (English)：
+        <span>@olddata.MessageUS</span> --->
+        <span>@newdata.MessageUS</span>
+    </div>
+    <div>
+        (是否自動關閉)：
+        <span>@(olddata.EnableYN.ToString() == "N" ? "關閉中" : "啟動中")</span> --->
+        <span>@(newdata.EnableYN.ToString() == "N" ? "關閉中" : "啟動中")</span>
+    </div>
+    <div>
+        (是否啟動)：
+        <span>@(olddata.AutoCloseYN.ToString() == "N" ? "關閉" : (olddata.AutoCloseYN.ToString() == "Y" ? "啟動" : "跑馬燈"))</span> --->
+        <span>@(newdata.AutoCloseYN.ToString() == "N" ? "關閉" : (olddata.AutoCloseYN.ToString() == "Y" ? "啟動" : "跑馬燈"))</span>
+    </div>
+</div>
+
+

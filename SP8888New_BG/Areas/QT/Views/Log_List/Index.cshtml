@@ -1,0 +1,173 @@
+﻿@model IEnumerable<Models.ModifyRecord>
+
+@Styles.Render("~/Content/loglist")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@{
+    int count = 0;
+    List<string> list = new List<string>();
+    string identifier = string.Empty;
+}
+<script type="text/javascript">
+    //左右方向按钮
+    function gotoday(value) {
+        var sDate = document.getElementById('date').value.split('-')
+        var date = new Date(sDate[0], sDate[1] - 1, sDate[2])
+        var url = '@Html.Raw(Url.Action("Index", "Log_List", new { isCheckDate = (bool)ViewBag.checkDate, actionStatus = 0, itemCategory = 0 }))' + '&date=' + date.GetFormateAddDate(value);
+        location.href = url;
+    }
+    $(document).ready(function () {
+        //加載內容高度
+        $("dd:not(dd:first-child)").each(function () {
+            var h = $(this).find("li:last-child div").height() + 15;
+            $(this).find("li").height(h);
+            $(this).find("li:not(li:last-child)").css("line-height", h + "px");
+        });
+        $('#date').inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Html.Raw(Url.Action("Index", "Log_List", new { isCheckDate = (bool)ViewBag.checkDate, actionStatus = 0, itemCategory = 0 }))' + '&date=' + $input.val();
+            }
+        });
+        $('#ActionStatus').val('@ViewBag.action');
+        $('#ItemCategory').val('@ViewBag.item');
+    });
+</script>
+<div class="sc-tabbox">
+    <div style="clear:both"> </div>
+    <div class="tabbox">
+        <div class="tabboxdl-cz ">
+            <div class="tabdl-cz ">
+                <div class="tabdl-cz top">
+                    @using (Html.BeginForm("Index", "Log_List", FormMethod.Post, new { id = "logListForm" }))
+                    {
+                        <a class="btntime"><img src="/images/btn001.png" width="14" height="16" onclick="gotoday(-1)" /></a>
+                        @Html.TextBox("date", ViewBag.date as string, new { @class = "texttime" })
+                        <a class="btntime"><img src="/images/btn002.png" width="14" height="16" onclick="gotoday(1)" /></a>
+
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;動作：</span>
+                        <select id="ActionStatus" name="ActionStatus">
+                            <option value="0">全部類別</option>
+                            <option value="1">新增</option>
+                            <option value="3">修改</option>
+                            <option value="2">刪除</option>
+                        </select>
+                        <span> &nbsp;&nbsp;&nbsp;&nbsp;類別：</span>
+                        <select id="ItemCategory" name="ItemCategory">
+                            <option value="0">全部類別</option>
+                            <option value="1">聯盟</option>
+                            <option value="2">隊伍</option>
+                            <option value="3">球員</option>
+                            <option value="4">賽程</option>
+                            <option value="5">帳號</option>
+                            <option value="6">訊息管理</option>
+                            <option value="7">登入IP管理</option>
+                            <option value="8">名稱對應表</option>
+                            <option value="9">前台首頁</option>
+                        </select>
+                        @Html.TextBox("content", null, new { @class = "chuxuninput" })
+                        <span>日期</span>
+                        @Html.CheckBox("isCheckDate", (bool)ViewBag.checkDate);
+                        <a class="ChaXun-lm" onclick="javascript: $('#logListForm').submit();">寻找</a>
+                    }
+                </div>
+                <div style="clear:both"> </div>
+                <dl style="padding-top:5px;">
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>更動時間</li>
+                            <li>動作</li>
+                            <li>類別</li>
+                            <li>操作者</li>
+                            <li>操作IP</li>
+                            <li>內容</li>
+                        </ul>
+                    </dd>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Identifier == identifier) { continue; }
+                        <dd>
+                            <ul>
+                                <li>@(++count)</li>
+                                <li>@item.ChangeTime.ToString("yyyy-MM-dd HH:mm:ss")</li>
+                                <li>@getActionStatus(item.ActionStatus)</li>
+                                <li>@getItemCategory(item.ItemCategory)</li>
+                                <li>@item.ByWho</li>
+                                <li>@item.ByIP</li>
+                                <li>
+                                    <div>
+                                        @{list = Common.AppData.GetAreaAndController(item.GameType);}
+                                        @Html.Action(Common.AppData.GetAction(item.ItemCategory), list[1], new { records = Model.Where(p => p.Identifier == item.Identifier), Area = list[0] })
+                                    </div>
+                                </li>
+                            </ul>
+                        </dd>
+                                        identifier = item.Identifier;
+                    }
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+@functions {
+    public string getActionStatus(int i)
+    {
+        switch (i)
+        {
+            case 1:
+                return "新增";
+            case 2:
+                return "刪除";
+            case 3:
+                return "修改";
+            default:
+                return "";
+        }
+    }
+
+    public string getItemCategory(int i)
+    {
+        switch (i)
+        {
+            case 1:
+                return "聯盟";
+            case 2:
+                return "隊伍";
+            case 3:
+                return "球員";
+            case 4:
+                return "賽程";
+            case 5:
+                return "帳號";
+            case 6:
+                return "訊息管理";
+            case 7:
+                return "登入IP管理";
+            case 8:
+                return "名稱對應表";
+            case 9:
+                return "前台首頁";
+            default:
+                return "";
+        }
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $(".edit div span").css("color", "blue")
+        var alen = $(".edit div span:nth-child(1)");
+        for (var i = 0; i < alen.length; i++) {
+            var value1 = alen[i].innerText;
+            var value2 = $(".edit div span:nth-child(2)")[i].innerText;
+            if (value1.replace(/\s+/g, "") != value2.replace(/\s+/g, "")) {
+                $(".edit div span:nth-child(2)")[i].style.color = "red";
+            }
+        }
+    })
+</script>

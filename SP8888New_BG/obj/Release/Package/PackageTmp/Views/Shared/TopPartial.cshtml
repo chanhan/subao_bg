@@ -1,0 +1,14 @@
+﻿<div id="top">
+    <div id="topL"><img src="/images/HouTaiGuanLi_Dtextch.png" width="216" height="38" /></div>
+    <div id="topR">
+        <a id="Dengchu_but" onclick="NewWindow()">N</a>
+        <img src="/images/DengRuuser_icon.png" width="21" height="23" />
+        @if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+        {
+            <span id="DengRuuser_text"> @HttpContext.Current.User.Identity.Name.Split(',')[1]</span>
+        }
+        @Html.ActionLink("登出", "LogOff", "Login", new { area = "" }, new { id = "Dengchu_but" })
+     @*   @Html.RouteLink("登出", "Default", new { controller = "Login", Action = "LogOff" }, new { id = "Dengchu_but" })*@
+    </div>
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model List<Models.ViewModel.Tennis>
+@{
+    Models.ViewModel.Tennis olddata = Model[0];
+    Models.ViewModel.Tennis newdata = Model[1];
+}
+<div class="edit">
+    @Common.AppData.GetGameTypeName("TN")
+    <br>
+    【@olddata.TeamAName<text>
+        (@olddata.AllianceShowName)】 VS
+        【@newdata.TeamBName<text>
+            (@newdata.AllianceShowName)】
+            <br>
+            <br>
+            <div>
+                (大聯盟)：
+                <span>@olddata.AllianceShowName</span> --->
+                <span>@newdata.AllianceShowName</span>
+            </div>
+            <div>
+                (日期)：
+                <span>@olddata.GameDate.ToString("yyyy-MM-dd")</span> --->
+                <span>@newdata.GameDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            <div>
+                (時間)：
+                <span>@olddata.GameTime.ToString(@"hh\:mm")</span> --->
+                <span>@newdata.GameTime.ToString(@"hh\:mm")</span>
+            </div>
+            <div>
+                (选手)：
+                <span>@olddata.TeamAName<text>(@olddata.AllianceShowName)</text></span> --->
+                <span>@newdata.TeamAName<text>(@newdata.AllianceShowName)</text></span>
+            </div>
+            <div>
+                (选手)：
+                <span>@olddata.TeamBName<text>(@olddata.AllianceShowName)</text></span> --->
+                <span>@newdata.TeamBName<text>(@newdata.AllianceShowName)</text></span>
+            </div>
+            <div>
+                (賽程狀態)：
+                <span>@Common.AppData.GetStatesText(olddata.GameStates)</span> --->
+                <span>@Common.AppData.GetStatesText(newdata.GameStates)</span>
+            </div>
+            <div>
+                (顯示狀態)：
+                <span>@(olddata.IsDeleted == true ? "显示" : "隐藏")</span>--->
+                <span>@(newdata.IsDeleted == true ? "显示" : "隐藏")</span>
+            </div>
+</div>

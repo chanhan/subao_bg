@@ -1,0 +1,220 @@
+﻿@model Models.ViewModel.BKOSScoreModify
+@Styles.Render("~/Content/bkos")
+@Styles.Render("~/Content/bkosscore")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@Scripts.Render("~/bundles/datetimepicker")
+@{string display=Model.CtrlStates !=0 ? "":"none";}
+@using (Html.BeginForm("UpdateScore", "BKOS", FormMethod.Post, new { id = "bkosModifyForm" }))
+{
+    @Html.HiddenFor(m => m.GID, new { value = Model.GID })
+    @Html.HiddenFor(m => m.RunsA, new { value = Model.RunsA })
+    @Html.HiddenFor(m => m.RunsB, new { value = Model.RunsB })
+    <div class="feishuxiugai">
+        <dl>
+            <dt>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>OT1</li>
+                    <li>OT2</li>
+                    <li>OT3</li>
+                    <li>OT4</li>
+                    <li>總分</li>
+                </ul>
+            </dt>
+            <dd id="dda">
+                <ul>
+                    <li>@Model.TeamAName</li>
+                    @for (int i = 0; i < 8; i++)
+                    {
+                        <li>@Html.TextBox("score", (i <= Model.ScoresA.Count - 1 && Model.ScoresA.Count > 0) ? Model.ScoresA[i] : "", new { id = "scorea" + (i + 1), @class = "input" })</li>
+                    }
+                    <li>@Html.TextBoxFor(m => m.RA, new { @readonly = "readonly", style = "color:red" })</li>
+                </ul>
+            </dd>
+            <dd id="ddb">
+                <ul>
+                    <li>@Model.TeamBName</li>
+                    @for (int i = 0; i < 8; i++)
+                    {
+                        <li>@Html.TextBox("score", (i <= Model.ScoresB.Count - 1 && Model.ScoresB.Count > 0) ? Model.ScoresB[i] : "", new { id = "scoreb" + (i + 1), @class = "input" })</li>
+                    }
+                    <li>@Html.TextBoxFor(m => m.RB, new { @readonly = "readonly",style="color:red" })</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>目前狀態: @Model.Date.ToString("yyyy-MM-dd") @Model.Time.ToString(@"hh\:mm") @Common.AppData.GetStatesText(Model.GameStates)</li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">開賽時間:</span>
+                        @Html.TextBox("GameDate", Model.Date.ToString("yyyy-MM-dd"), new { style = " width:80px;border: 1px solid #a2c0d4;" })
+                        @Html.TextBox("GameTime", Model.Time.ToString(@"hh\:mm"), new { style = " width:50px;border: 1px solid #a2c0d4;" })
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">狀態:</span>
+                        @Html.DropDownList("GameStates", ViewBag.GameStatus as IEnumerable<SelectListItem>, "請選擇", new { @class = "fsdrp-slet" })
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <span class="titlename-span">修改項目:</span>
+                        @Html.DropDownList("ModifyItem", ViewBag.ModifyItem as SelectList, "請選擇", new { @class = "fsdrp-slet" })
+                        <a id="save" class="btncss" onclick="saveScore()">儲存</a>
+                        <a id="delete" class="btncss" onclick="Delete()" style="display: @display">刪除</a>
+                        <span style="color:red; margin-left:6px;">* 儲存前先選擇修改項目</span>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul>
+                    <li style="height: 125px;">
+                        <p>儲存說明: </p>
+                        <p>1. 儲存狀態 => 比分時間跟来源网 狀態不跟</p>
+                        <p>2. 儲存時間 => 狀態比分跟来源网 時間不跟</p>
+                        <p>3. 儲存比分 => 狀態時間跟来源网 比分不跟</p>
+                        <p>4. 儲存全部 (狀態+時間+比分) => 全不跟來源網</p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+}
+<script>
+    $(function () {
+        // 设定日期
+        $("#GameDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d'
+        });
+
+        // 设定时间
+        $("#GameTime").inputmask('hh:mm').datetimepicker({
+            datepicker: false,
+            format: 'H:i',
+            step: 1
+        });
+
+        $('input[type=text][id^=score]').inputmask('integer').css('text-align', 'left');
+
+        $('dd ul li input[name=score]').keyup(
+            function () {
+                var sum = 0;
+                var input = $(this).parents("ul").children("li").find('input[name=score]');
+                input.each(function () {
+                    if ($(this).val() != '') {
+                        sum += parseInt($(this).val(), 10);
+                    }
+                })
+                $(this).parent().siblings("li:last").find('input').val(sum);
+            }
+            );
+    })
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteScore")",
+            data: $('#bkosModifyForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('刪除失敗!');
+            },
+            success: function (data) {
+                if (data > 0) { //保存资料大于0笔
+                    //修改成功后，设定赛事为未修改状态
+                    $('#delete').hide();
+                    alert('刪除成功!');
+                }
+            }
+        });
+    }
+    function saveScore() {
+        var modifyItem = $('#ModifyItem').val();
+        if (modifyItem == '') {
+            alert('請選擇修改項目!');
+            return;
+        }
+        @*//检查时间
+        if (modifyItem == '2' || modifyItem == '4') {
+            //修改當日日期
+            var gameDate = GetDate('@Model.Date.ToString("yyyy-MM-dd")'.split('-'));
+            // 修改後日期
+            var setDate = GetDate($('#GameDate').val().split('-'));
+            // 明日日期
+            var tomorrow = GetDate('@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")'.split('-'));
+            if (gameDate.Subtract(tomorrow) == 0) {
+                if (setDate.Subtract(gameDate) > 0) {
+                    alert('開賽日期僅限調整前一天。');
+                    return;
+                }
+            } else {
+                if (Math.abs(setDate.Subtract(gameDate)) > 1) {
+                    alert('開賽日期僅限調整前後一天。');
+                    return;
+                }
+            }
+        }*@
+        var score = [];
+        $('#dda input[name=score]').each(function () {
+            if ($(this).val() != '') {
+                score.push($(this).val());
+            }
+        })
+        $('#RunsA').val(score.join(','));
+        score = [];
+        $('#ddb input[name=score]').each(function () {
+            if ($(this).val() != '') {
+                score.push($(this).val());
+            }
+        })
+        $('#RunsB').val(score.join(','));
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateScore")",
+            data: $('#bkosModifyForm').serialize(),
+            async: false,
+            error: function (data) {
+                alert('儲存失敗!');
+            },
+            success: function (data) {
+                if (data > 0) { //保存资料大于0笔
+                    //修改成功后，设定赛事为未修改状态
+                    $('#delete').show();
+                    var alertStr;
+                    if (modifyItem == '1') {
+                        alertStr = '存儲奧遜籃球狀態資料成功';
+                    }
+                    else if (modifyItem == '2') {
+                        alertStr = '存儲奧遜籃球時間資料成功';
+                    }
+                    else if (modifyItem == '3') {
+                        alertStr = '存儲奧遜籃球比分資料成功';
+                    }
+                    else if (modifyItem == '4') {
+                        alertStr = '存儲奧遜籃球全部資料成功';
+                    }
+                    alert(alertStr)
+                    window.location.href = window.location.href;
+                }
+                else {
+                    alert('沒有要保存的資料!');
+                }
+            }
+        });
+    }
+</script>

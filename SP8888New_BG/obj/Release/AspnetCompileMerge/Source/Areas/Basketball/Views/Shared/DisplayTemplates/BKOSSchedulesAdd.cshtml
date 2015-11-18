@@ -1,0 +1,46 @@
+﻿@model List<Models.ViewModel.BasketBall>
+@{
+    Models.ViewModel.BasketBall newdata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName(newdata.GameType)
+        <br>
+        <br>
+        (優先權)：
+        <font color="red">@newdata.Number</font>
+        <br>
+        (大聯盟)：
+        <font color="red">@newdata.AllianceName</font>
+        <br>
+        (日期)：
+        <font color="red">@newdata.GameDate.ToString("yyyy-MM-dd")</font>
+        <br>
+        (時間)：
+        <font color="red">@newdata.GameTime.ToString(@"hh\:mm")</font>
+        <br>
+        (先攻隊伍)：
+        <font color="red">@newdata.TeamAName<text>(@newdata.AllianceName)</text></font>
+        <br>
+        (後攻隊伍)：
+        <font color="red">@newdata.TeamBName<text>(@newdata.AllianceName)</text></font>
+        <br>
+        (賽程狀態)：
+        <span>@Common.AppData.GetStatesText(newdata.GameStates)</span>
+        <br>
+        (操盤狀態)：
+        <font color="red">@Common.AppData.GetCtrlStateText(newdata.CtrlStates, newdata.CtrlAdmin, newdata.WebID)</font>
+        <br>
+        (跟盤ID)：
+        <font color="red">@newdata.WebID</font>
+        <br>(訊息文字)：
+        <font color="red">@newdata.TrackerText</font>
+        <br>
+        (顯示狀態)：
+        <font color="red">@(newdata.IsDeleted== false ? "显示" : "隐藏")</font>
+        <br>
+        (顯示走勢圖)：
+        <font color="red">@(newdata.ShowJS== true ? "显示" : "隐藏")</font>
+        <br>
+    </b>
+</div>

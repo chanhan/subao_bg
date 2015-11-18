@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Models.ViewModel.AFBScoreRecord>
+
+@{
+    Models.ViewModel.AFB afb = ViewBag.AFB as Models.ViewModel.AFB;
+    int count = 1;
+    string title = string.Empty;  
+}
+@Styles.Render("~/Content/scoremodifyrecord")
+@Html.DropDownList("GameDate", ViewBag.Date as IEnumerable<SelectListItem>, "全部", new { @class = "fsdrp-slet", style = "width:100px;margin-left: 10px;", onchange = "showRecordByDate()" })
+<div style="clear:both"> </div>
+<div class="sc-tabbox">
+    <div style="clear:both"> </div>
+    <div class="tabboxdl-bf">
+        <div class="match-bf">
+            <dl>
+                <dt>聯盟</dt>
+                <dd>@afb.AllianceName</dd>
+            </dl>
+            <dl>
+                <dt>開賽時間</dt>
+                <dd>@afb.GameDate.ToString("yyyy-MM-dd") @afb.GameTime.ToString(@"hh\:mm")</dd>
+            </dl>
+            <dl>
+                <dt>隊伍</dt>
+                <dd>@afb.TeamAName (A) VS. @afb.TeamBName (B)</dd>
+            </dl>
+        </div>
+        <div class="tabdl2 tabdl-bf">
+            <dl>
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>變更時間</li>
+                        <li>操作者</li>
+                        <li>操作IP</li>
+                        <li>比分</li>
+                    </ul>
+                </dd>
+                @if (!Model.Any())
+                {
+                    <dd style="font-size:30px;margin-top:10px">
+                        無比分修改紀錄
+                    </dd>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        List<string> listRunsAOld = string.IsNullOrWhiteSpace(item.RunsAOld) ? new List<string>() { "", "", "", "", "" } : item.RunsAOld.Split(',').ToList();
+                        List<string> listRunsBOld = string.IsNullOrWhiteSpace(item.RunsBOld) ? new List<string>() { "", "", "", "", "" } : item.RunsBOld.Split(',').ToList();
+                        List<string> listRunsANew = string.IsNullOrWhiteSpace(item.RunsANew) ? new List<string>() { "", "", "", "", "" } : item.RunsANew.Split(',').ToList();
+                        List<string> listRunsBNew = string.IsNullOrWhiteSpace(item.RunsBNew) ? new List<string>() { "", "", "", "", "" } : item.RunsBNew.Split(',').ToList();
+                        while (listRunsAOld.Count<5)
+                        {
+                            listRunsAOld.Add("");
+                        }
+                        while (listRunsBOld.Count < 5)
+                        {
+                            listRunsBOld.Add("");
+                        }
+                        while (listRunsANew.Count < 5)
+                        {
+                            listRunsANew.Add("");
+                        }
+                        while (listRunsBNew.Count < 5)
+                        {
+                            listRunsBNew.Add("");
+                        }
+                        
+                        string id = item.ModifyTime.ToString(" yyyyMMdd") + "_" + count;
+                        <dd id="@Html.Raw(id.Trim())" class="firstlevel">
+                            <ul>
+                                <li>@(count++)</li>
+                                <li>
+                                    <p style="font-size:14px">@item.ModifyTime.ToString("yyyy-MM-dd")</p>
+                                    <p style="font-size:14px">@item.ModifyTime.ToString("HH:mm:ss")</p>
+                                </li>
+                                <li>@item.ModifyUser</li>
+                                <li>@item.IpAddr</li>
+                                <li>
+                                    <div class="xgnr">
+                                        <div class="xgqh">修改前</div>
+                                        <div class="bf-biao  bf-biao6">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @for (int i = 1; i <= listRunsAOld.Count(); i++)
+                                                {
+                                                    title = i <= 4 ? i.ToString() : "OT" + (i - 4);
+                                                    <span>@title</span>
+                                                }
+                                                <span>R</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @foreach (var score in listRunsAOld)
+                                                {
+                                                    <span>@score</span>
+                                                }
+                                                <span>@item.RAOld</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var score in listRunsBOld)
+                                                {
+                                                    <span>@score</span>
+                                                }
+                                                <span>@item.RBOld</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="xgnr">
+                                        <div class="xgqh">修改後</div>
+                                        <div class="bf-biao  bf-biao6">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @for (int i = 1; i <= listRunsANew.Count(); i++)
+                                                {
+                                                    title = i <= 4 ? i.ToString() : "OT" + (i - 4);
+                                                    <span>@title</span>
+                                                }
+                                                <span>R</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @{int aI = 0, bI = 0;}
+                                                @foreach (var score in listRunsANew)
+                                                {
+                                                    <span @Html.Raw(score != listRunsAOld[aI] ? "style='color:red'" : "")>@score</span>
+                                                    aI++;
+                                                }
+                                                <span>@item.RANew</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var score in listRunsBNew)
+                                                {
+                                                    <span @Html.Raw(score != listRunsBOld[bI] ? "style='color:red'" : "")>@score</span>
+                                                    bI++;
+                                                }
+                                                <span>@item.RBNew</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </dd>
+                    }
+                }
+            </dl>
+        </div>
+    </div>
+</div>

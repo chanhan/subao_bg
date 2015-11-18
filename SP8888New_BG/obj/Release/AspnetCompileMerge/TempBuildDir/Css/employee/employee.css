@@ -1,0 +1,31 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.tabgongchengshi dd li:first-child {
+    width: 150px;
+}
+
+.tabgongchengshi dd li:nth-child(2) {
+    width: 200px;
+}
+
+.tabgongchengshi dd li:nth-child(3) {
+    width: 440px;
+}
+.tabgongchengshi dd li:nth-child(4) {
+    width:74px;
+}
+
+.tabgongchengshi dl dd li:last-child {
+    width: 160px;
+}
+
+
+
+
+
+
+
+
+
+

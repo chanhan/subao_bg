@@ -1,0 +1,35 @@
+﻿@model Tuple<List<Models.Marquee>, List<Models.Marquee>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "MarqueeAdd" : (Model.Item3 == 2 ? "MarqueeDelete" : "MarqueeEdit");
+    List<Models.Marquee> marquee = new List<Models.Marquee>();
+    int index = 0;
+
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            marquee.Add(olditem);
+        }
+        index++;
+        marquee.Add(newitem);
+        @Html.DisplayFor(p => marquee, viewName)
+        marquee.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            marquee.Add(newitem);
+            @Html.DisplayFor(p => marquee, viewName)
+            marquee.Clear();
+        }
+    }
+}

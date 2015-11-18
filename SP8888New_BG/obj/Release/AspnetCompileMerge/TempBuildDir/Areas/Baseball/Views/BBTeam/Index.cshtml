@@ -1,0 +1,113 @@
+﻿@model  IEnumerable<Models.BaseballTeam>
+@Styles.Render("~/Content/team")
+<div class="sc-tabbox" style="margin: 0 auto">
+    <div style="clear:both"> </div>
+    <div class="tabdl2 tabteam">
+        <div id="tabdl">
+            <div id="tabdl_top">
+                <div style="float:left">
+                    <span>&nbsp;所屬聯盟：</span>
+                    @Html.DropDownList("DLLalliance", ViewBag.alliance as IEnumerable<SelectListItem>, new { onchange = "changeAlliance()", style = "width:160px" })
+                    @Html.DropDownList("DLLSourece", ViewBag.sourece as IEnumerable<SelectListItem>, new { onchange = "changeSourece()", style = "width:160px" })
+                </div>
+                <div style="float:right" id="message"></div>
+                <div style="float:right">
+                    @Html.ActionLink("新增隊伍", "Create", new { gameType = ViewBag.gameType }, new { @class = "btncss" })
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            <dl style="padding-top:5px;">
+
+                @if (Model == null || Model.Count() == 0)
+                {
+                    <dd>
+                        <span style="font-size:30px;">
+                            無隊伍資料
+                        </span>
+                    </dd>
+                }
+                else
+                {
+                    int i = 0;
+
+                    <dd>
+                        <ul>
+                            <li style="width:50px">NO</li>
+                            <li style="width:150px">隊伍名稱</li>
+                            <li style="width:150px">顯示名稱</li>
+                            <li style="width:190px">來源名稱</li>
+                            <li style="width:260px">所屬聯盟</li>
+                            <li style="width:20px">勝</li>
+                            <li style="width:20px">敗</li>
+                            <li style="width:20px">和</li>
+                            <li style="width:95px">功能</li>
+                        </ul>
+                    </dd>
+
+                    foreach (Models.BaseballTeam item in Model)
+                    {
+                        i++;
+                        <dd a="all-@item.AllianceID-@item.SourceID">
+                            <ul>
+                                <li style="width:50px">@i</li>
+                                <li style="width:150px">@item.TeamName</li>
+                                <li style="width:150px">@item.ShowName</li>
+                                <li style="width:185px;text-align:left;padding-left:10px"><p style="font-size:100%">@Html.Raw(string.Join("<br/>", (string.IsNullOrWhiteSpace(item.WebName) ? "" : item.WebName).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))</p></li>
+                                <li style="width:260px">@item.AllianceName</li>
+                                <li style="width:20px">@item.W</li>
+                                <li style="width:20px">@item.L</li>
+                                <li style="width:20px">@item.T</li>
+                                <li style="width:95px">@Html.ActionLink("修改", "Edit", new { teamID = item.TeamID })/<a href="#" onclick="deleteTeam(@item.TeamID)">刪除</a></li>
+                            </ul>
+                        </dd>
+                    }
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+<script>
+    function changeAlliance() {
+        var allianceid = $('#DLLalliance').val();
+        if (allianceid != '') {
+            $('dd[a|=all]').hide();
+            $('dd[a*=' + allianceid + ']').show();
+        } else {
+            $('dd[a|=all]').show();
+        }
+        $('#DLLSourece').val("");
+    }
+
+    function changeSourece() {
+        var Soureceid = $('#DLLSourece').val();
+        var allianceid = $('#DLLalliance').val();
+        if (Soureceid != '') {
+            $('dd[a|=all]').hide();
+            $('dd[a*=' + allianceid + "-" + Soureceid + ']').show();
+        } else {
+            $('dd[a|=all]').show();
+        }
+    }
+
+    function deleteTeam(id) {
+        if (confirm("是否確認刪除？")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete")",
+                data: { teamid: id },
+                async: false,
+                error: function (data) {
+                    alert('刪除資料失敗!');
+                },
+                success: function (data) {
+                    if (parseInt(data, 10) > 0) {
+                        alert('刪除成功!');
+                        document.location = document.location;
+                    } else {
+                        alert('刪除失敗!');
+                    }
+                }
+            });
+        }
+    }
+</script>

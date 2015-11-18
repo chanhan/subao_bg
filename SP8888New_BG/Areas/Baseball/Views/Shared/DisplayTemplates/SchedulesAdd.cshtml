@@ -1,0 +1,65 @@
+﻿@model List<Models.ViewModel.Baseball>
+@{
+    Models.ViewModel.Baseball newdata = Model[0];
+}
+<div>
+    <b>
+        (優先權)：
+        <font color="red">
+            @newdata.Number
+        </font>
+        <br>
+        @Common.AppData.GetGameTypeName(newdata.GameType)
+        <br>(大聯盟)：
+        <font color="red">
+            @newdata.Alliance
+        </font>
+        <br>
+        (日期)：
+        <font color="red">
+            @newdata.GameDate.ToString("yyyy-MM-dd")
+        </font>
+        <br>
+        (時間)：
+        <font color="red">
+            @newdata.GameTime.ToString(@"hh\:mm")
+        </font>
+        <br>
+        (先攻隊伍)：
+        <font color="red">
+            @newdata.TeamA<text>(@newdata.Alliance)</text>
+        </font>
+        <br>
+        (後攻隊伍)：
+        <font color="red">
+            @newdata.TeamB<text>(@newdata.Alliance)</text>
+        </font>
+        <br>
+        (賽程狀態)：
+        <font color="red">
+            @Common.AppData.GetStatesText(newdata.GameStates)
+        </font>
+        <br>
+        (操盤狀態)：
+        <font color="red">
+            @Common.AppData.GetCtrlStateText(newdata.CtrlStates, newdata.CtrlAdmin, newdata.WebID)
+        </font>
+        <br>
+        (跟盤ID)：
+        <font color="red">
+            @newdata.WebID
+        </font>
+        <br>(訊息文字)：
+        <font color="red">
+            @newdata.TrackerText
+        </font>
+        <br>
+        (顯示走勢圖)：
+        <font color="red">
+            @(newdata.ShowJS==true?"显示":"隐藏")
+        </font>
+        <br>
+        (補賽)：
+        <font color="red">@(newdata.IsReschedule==true?"显示":"隐藏")</font><br>
+    </b>
+</div>

@@ -1,0 +1,210 @@
+﻿@model  IEnumerable<Models.ViewModel.Baseball>
+
+@Styles.Render("~/Content/baseballschedule")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+<script type="text/javascript">
+    $(document).ready(function () {
+        //全选
+        $("input[type=checkbox][value=all]").click(function () {
+            $("input[type=checkbox][name$=" + this.name + "]").not("[style='display: none;']").prop("checked", $(this).prop("checked"));
+        });
+        //日期控件
+        $("#txbDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Url.Action("Index", new { gameType = ViewBag.gameType})' + '&date=' + $input.val();
+            }
+        });
+    });
+    //前一日 后一日
+    function GoTo(v) {
+        var sd = document.getElementById('txbDate').value;
+        if (sd != null && sd != "") {
+            var d = new Date(sd);
+            location.href = "@Url.Action("Index")?gameType=@ViewBag.gameType&date=" + d.GetFormateAddDate(v);
+        }
+    }
+    //保存设定
+    function funSetItem(si) {
+        if (si != 1 || (si == 1 && confirm("是否確認刪除所選資料？"))) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetItem")",
+                data: $('#bbForm').serialize() + "&si=" + si,
+                async: false,
+                error: function (data) {
+                    alert('儲存顯示設定資料失敗!');
+                },
+                success: function (data) {
+                    if (data["count"] > 0) {
+                        alert((si == 1 ? "删除" : "儲存") + "成功!");
+                        location.href = location.href;
+                    }
+                }
+            });
+        }
+    }
+    //创建赛程按钮
+    function funCreate() {
+        location.href = "@Url.Action("Create")?gameType=@ViewBag.gameType&GameDate=@ViewBag.date";
+    }
+</script>
+
+@using (Html.BeginForm("Index", "BBSchedules", FormMethod.Post, new { id = "bbForm" }))
+{
+    <div class="sc-tabbox" style="margin: 0 auto">
+        <div class="tabdl2 tabmeibang-mlb">
+            <div id="tabdl_top">
+                <div style="float:left">
+                    <a class="btntime"><img src="/images/btn001.png" width="14" height="16" onclick="GoTo(-1)" /></a>
+                    @Html.TextBox("txbDate", ViewBag.date as string, new { @class = "texttime" })
+                    <a class="btntime"><img src="/images/btn002.png" width="14" height="16" onclick="GoTo(1)" /></a>
+
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;所屬聯盟：</span>
+                    @Html.DropDownList("ddlAll", ViewBag.ddlAllian as IEnumerable<SelectListItem>, "全部", new { onchange = "showAllianceSchedules()", style = "margin-left:5px; height:28px;width:120px" })
+                </div>
+                <div style="float:right" id="message"></div>
+                <div style="float:right">
+                    <a class="btncss" onclick="funCreate()"> 新增賽程 </a>
+                    <a class="btncss" onclick="funSetItem(1)"> 刪除選取項目 </a>
+                    <a class="btncss" onclick="funSetItem(2)"> 儲存補賽設定  </a>
+                    <a class="btncss" onclick="funSetItem(3)"> 儲存走勢圖設定 </a>
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            <dl id="baseball" style="padding-top:5px;">
+
+                @if (Model == null || Model.Count() == 0)
+                {
+                    <dd>
+                        <span style="font-size:30px;">
+                            無賽事資料
+                        </span>
+                    </dd>
+                }
+                else
+                {
+                    <dd>
+                        <ul>
+                            <li>刪除<br /><input type="checkbox" name="IsDeleted" value="all" /></li>
+                            <li>優先權</li>
+                            <li>聯盟</li>
+                            <li>補賽<br /><input type="checkbox" name="IsReschedule" value="all" /></li>
+                            <li>顯示走勢<br /><input type="checkbox" name="ShowJS" value="all" /></li>
+                            <li>時間</li>
+                            <li>先攻隊伍</li>
+                            <li>後攻隊伍</li>
+                            <li>賽程狀態</li>
+                            <li>資料來源</li>
+                            <li>操盤狀態</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+
+                    int a = 0;
+                    foreach (Models.ViewModel.Baseball item in Model)
+                    {
+                        <dd class="baseballalliance_@item.Alliance.Replace(" ","")">
+                            <ul>
+                                <li>@Html.CheckBox("[" + a + "].IsDeleted", item.IsDeleted, new { style = (item.GameStates != "X" || item.GameDate < DateTime.Now.Date ? "display:none" : "") })</li>
+                                <li>@item.Number</li>
+                                <li>@item.Alliance</li>
+                                <li>@Html.CheckBox("[" + a + "].IsReschedule", item.IsReschedule)</li>
+                                <li>@Html.CheckBox("[" + a + "].ShowJS", item.ShowJS)</li>
+                                <li>@item.GameTime.ToString(@"hh\:mm")</li>
+                                <li>@item.TeamA<br></li>
+                                <li>@item.TeamB<br></li>
+                                <li>@Common.AppData.GetStatesText(item.GameStates) </li>
+                                <li> </li>
+                                <li>
+                                    <div style="color:red">
+                                        @Html.Raw(getGameCtrlStateHTML(item.CtrlAdmin, ViewBag.userName, item.CtrlStates, item.WebID, item.GID))
+                                    </div>
+                                </li>
+                                <li>
+                                    @Html.Hidden("[" + a + "].GID", item.GID)
+                                    @Html.ActionLink("修改", "Edit", "BBSchedules", new { area = "Baseball", gid = item.GID, gameType = item.GameType }, new { style = "" })
+
+                                    @Html.ActionLink("修改分數", "EditScore", "BBSchedules", new { area = "Baseball", gid = item.GID, gameType = item.GameType }, new { style = "", @onclick = "return checkGameStates('" + item.GameStates + "')" })
+
+                                    @if (item.IsScoreModifyRecord)
+                                    {
+                                        @Html.ActionLink("比分修改記錄", "ScoreModifyRecord", "BBSchedules", new { area = "Baseball", gid = item.GID, gameType = item.GameType }, new { style = "" })
+                                    }
+                                </li>
+                            </ul>
+                        </dd>
+                                    a++;
+                    }
+                }
+
+            </dl>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function checkGameStates(states) {
+        if (states == "X") {
+            alert("请将赛程状态改为已开赛或已结束");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function showAllianceSchedules() {
+        var allianceid = $('#ddlAll').val();
+        if (allianceid != '') {
+            $('#baseball dd[class]').hide();
+            $('#baseball .baseballalliance_' + allianceid).show();
+        } else {
+            $('#baseball div[class]').show();
+        }
+    }
+</script>
+@functions{
+    private string getGameCtrlStateHTML(string CtrlAdmin, string uName, int ctrlState, string webID, int Gid)
+    {
+        int rank;
+        if (!string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) && int.TryParse(HttpContext.Current.User.Identity.Name.Split(',')[0], out rank))
+        {
+            switch (ctrlState)
+            {
+                case 1:
+                    if (string.IsNullOrWhiteSpace(CtrlAdmin))
+                    {
+                        return String.Format("<a href=\"javascript::\" onClick=\"window.open('" + Url.Action("SchedulesFollow") + "?gid={0}','{0}','width=1080,height=450,scrollbars=yes,resizable=yes')\">操盤中</a>", Gid);
+                    }
+                    else
+                    {
+                        if (CtrlAdmin != uName)
+                        {
+                            return CtrlAdmin;
+                        }
+                        else
+                        {
+                            return String.Format("<a href=\"javascript::\" onClick=\"window.open('" + Url.Action("SchedulesFollow") + "?gid={0}','{0}','width=1080,height=450,scrollbars=yes,resizable=yes')\">{1}</a>", Gid, CtrlAdmin);
+                        }
+                    }
+                case 2:
+                    return string.Format("自動操盤({0})", webID);
+                default:
+                    if (rank != 1 && rank != 2 && rank != 3)
+                        return "未操盤";
+                    else
+                    {
+                        return String.Format("<a href=\"javascript::\" onClick=\"window.open('" + Url.Action("SchedulesFollow") + "?gid={0}','{0}','width=1080,height=450,scrollbars=yes,resizable=yes')\">未操盤</a>", Gid);
+                    }
+            }
+        }
+        else
+        {
+            return Common.AppData.GetCtrlStateText(ctrlState, CtrlAdmin, webID);
+        }
+    }
+}

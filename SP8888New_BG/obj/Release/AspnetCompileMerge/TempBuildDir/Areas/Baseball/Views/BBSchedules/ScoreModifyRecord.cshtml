@@ -1,0 +1,163 @@
+﻿@model IEnumerable<Models.ScoreModifyRecord>
+
+@{
+    ViewBag.Title = "ScoreModifyRecord";
+}
+@Styles.Render("~/Content/scoremodifyrecord")
+<!--------------------------- Start--------------------------------->
+<div class="sc-tabbox">
+    <div style="clear:both"> </div>
+    <!--/.tabbox---------start---------------->
+    <div class="tabbox">
+        <div class="tabboxdl-bf">
+            <div class="match-bf">
+                <dl>
+                    <dt>聯盟</dt>
+                    <dd>@ViewBag.sAlliance</dd>
+                </dl>
+                <dl>
+                    <dt>開賽時間</dt>
+                    <dd>@ViewBag.GameDate</dd>
+                </dl>
+                <dl>
+                    <dt>隊伍</dt>
+                    <dd>@ViewBag.dw</dd>
+                </dl>
+            </div>
+            <div class="tabdl2 tabdl-bf">
+                <dl>
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>變更時間</li>
+                            <li>操作者</li>
+                            <li style="width:110px">操作IP</li>
+                            <li style="width:724px">比分</li>
+                        </ul>
+                        @{ int i = 0;
+                        }
+                        @foreach (Models.ScoreModifyRecord item in Model)
+                        {
+                            i++;
+                            List<string> RunsAold = string.IsNullOrWhiteSpace(item.RunsAOld) ? new List<string>() { "", "", "", "", "", "", "", "", "", "" } : item.RunsAOld.Split(',').ToList();
+                            List<string> RunsAnew = string.IsNullOrWhiteSpace(item.RunsANew) ? new List<string>() { "", "", "", "", "", "", "", "", "", "" } : item.RunsANew.Split(',').ToList();
+                            List<string> RunsBold = string.IsNullOrWhiteSpace(item.RunsBOld) ? new List<string>() { "", "", "", "", "", "", "", "", "", "" } : item.RunsBOld.Split(',').ToList();
+                            List<string> RunsBnew = string.IsNullOrWhiteSpace(item.RunsBNew) ? new List<string>() { "", "", "", "", "", "", "", "", "", "" } : item.RunsBNew.Split(',').ToList();
+                            while (RunsAold.Count() < 10)
+                            {
+                                RunsAold.Add("");
+                            }
+                            while (RunsAnew.Count() < 10)
+                            {
+                                RunsAnew.Add("");
+                            }
+                            while (RunsBold.Count() < 10)
+                            {
+                                RunsBold.Add("");
+                            }
+                            while (RunsBnew.Count() < 10)
+                            {
+                                RunsBnew.Add("");
+                            }
+
+                        <dd>
+                            <ul>
+
+                                <li>@i</li>
+                                <li>
+                                    <p>@item.ModifyTime.ToString("yyyy-MM-dd")</p>
+                                    <p>@item.ModifyTime.ToString("HH:mm:ss")</p>
+                                </li>
+                                <li>@item.ModifyUser</li>
+                                <li style="width:110px">@item.IpAddr</li>
+                                <li style="width:724px">
+                                    <div class="xgnr">
+                                        <div class="xgqh" style="line-height:normal"><div style="padding-top:40px">修改前<br />@(string.IsNullOrWhiteSpace(item.StatusTextOld) ? "" : "[" + item.StatusTextOld + "]")</div></div>
+                                        <div class="bf-biao bf-biao10">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @for (int t = 1; t <= RunsAold.Count(); t++)
+                                                {
+                                                    <span>@t</span>
+                                                }
+                                                <span>R</span>
+                                                <span>H</span>
+                                                <span>E</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @foreach (var Raold in RunsAold)
+                                                {
+                                                    <span>@Raold</span>
+                                                }
+                                                <span>@item.RAOld</span>
+                                                <span>@item.HAOld</span>
+                                                <span>@item.EAOld</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var Rbold in RunsBold)
+                                                {
+                                                    <span>@Rbold</span>
+                                                }
+                                                <span>@item.RBOld</span>
+                                                <span>@item.HBOld</span>
+                                                <span>@item.EBOld</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="xgnr">
+                                        <div class="xgqh" style="line-height:normal;"><div style="padding-top:40px">修改後<br /><span @Html.Raw(item.StatusTextNew != item.StatusTextOld ? "style='color:red'" : "")>@(string.IsNullOrWhiteSpace(item.StatusTextNew) ? "" : "[" + item.StatusTextNew + "]")</span></div></div>
+                                        <div class="bf-biao bf-biao10">
+                                            <div class="bf-biaoul">
+                                                <span>&nbsp;</span>
+                                                @{int aI = 0, bI = 0;}
+                                                @for (int t = 1; t <= RunsAnew.Count(); t++)
+                                                {
+                                                    <span>@t</span>
+                                                }
+                                                <span>R</span>
+                                                <span>H</span>
+                                                <span>E</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>A</span>
+                                                @foreach (var RaNew in RunsAnew)
+                                                {
+                                                    <span @Html.Raw(RaNew != RunsAold[aI] ? "style='color:red'" : "")>@RaNew</span>
+                                                    aI++;
+                                                }
+                                                <span>@item.RANew</span>
+                                                <span>@item.HANew</span>
+                                                <span>@item.EANew</span>
+                                            </div>
+                                            <div class="bf-biaoul">
+                                                <span>B</span>
+                                                @foreach (var RbNew in RunsBnew)
+                                                {
+                                                    <span @Html.Raw(RbNew != RunsBold[bI] ? "style='color:red'" : "")>@RbNew</span>
+                                                    bI++;
+                                                }
+                                                <span>@item.RBNew</span>
+                                                <span>@item.HBNew</span>
+                                                <span>@item.EBNew</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </dd>
+                        }
+                    </dl>
+                </div>
+                <!--/.tabdl-bf end-->
+            </div>
+            <!--/.tabboxdl-bf end-->
+        </div>
+        <!--/.tabbox end--------------------->
+    </div>
+    <!--/.sc-tabbox end-->

@@ -1,0 +1,21 @@
+﻿@charset "utf-8";
+
+.tabdl-lm dd li:first-child{
+	width: 90px;
+}
+.tabdl-lm dd li:nth-child(2){
+	width: 60px;
+	}
+.tabdl-lm dd li:nth-child(3) {
+	width: 325px;
+}
+.tabdl-lm dd li:nth-child(4) {
+	width: 325px;
+}
+.tabdl-lm dd li:nth-child(5) {
+	width:200px;
+}
+.tabdl-lm dl dd  li:last-child {
+	width: 70px;
+	border-right: #A2C0D4 solid 1px;
+}

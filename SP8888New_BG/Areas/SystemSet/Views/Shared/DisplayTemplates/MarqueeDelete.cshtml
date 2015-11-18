@@ -1,0 +1,44 @@
+﻿@model List<Models.Marquee>
+@{
+    Models.Marquee oledata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName(oledata.GameType)
+        <br>
+        (公告類型)：
+        <font color="blue">
+            @Common.AppData.GetMarqueeText(oledata.GameType)
+        </font>
+        <br>
+        (有效時間)：
+        <font color="blue">
+            @oledata.EffectiveTime.ToString("yyyy-MM-dd")
+        </font>
+        <br>
+        (繁體內容)：
+        <font color="blue">
+            @oledata.MessageTW
+        </font>
+        <br>
+        (简体内容)：
+        <font color="blue">
+            @oledata.MessageCN
+        </font>
+        <br>
+        ((English)：
+        <font color="blue">
+            @oledata.MessageUS
+        </font>
+        <br>
+        (是否自動關閉)：
+        <font color="blue">
+            @(oledata.EnableYN.ToString() == "N" ? "關閉中" : "啟動中")
+        </font>
+        <br>
+        (是否啟動)：
+        <font color="blue">
+            @(oledata.AutoCloseYN.ToString() == "N" ? "關閉" : (oledata.AutoCloseYN.ToString() == "Y" ? "啟動" : "跑馬燈"))
+        </font>
+    </b>
+</div>

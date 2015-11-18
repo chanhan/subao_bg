@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SP8888New_BG", "SP8888New_BG\SP8888New_BG.csproj", "{87E8149F-205D-42E0-AD1E-7FDF860A8CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IServices", "IServices\IServices.csproj", "{A93BD870-9362-49A8-AC42-7367BA2A3393}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{FFD0BA67-7A57-4E83-BD4B-6309271987DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{BC7CCB4E-E40F-4FC2-93C6-3D2252D53857}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{D9663129-5B75-449F-B412-DD32086CA50E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://216.12.194.212:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Common\\Common.csproj
+		SccProjectName1 = Common
+		SccLocalPath1 = Common
+		SccProjectUniqueName2 = IServices\\IServices.csproj
+		SccProjectName2 = IServices
+		SccLocalPath2 = IServices
+		SccProjectUniqueName3 = Models\\Models.csproj
+		SccProjectName3 = Models
+		SccLocalPath3 = Models
+		SccProjectUniqueName4 = Services\\Services.csproj
+		SccProjectName4 = Services
+		SccLocalPath4 = Services
+		SccProjectUniqueName5 = SP8888New_BG\\SP8888New_BG.csproj
+		SccProjectName5 = SP8888New_BG
+		SccLocalPath5 = SP8888New_BG
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87E8149F-205D-42E0-AD1E-7FDF860A8CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E8149F-205D-42E0-AD1E-7FDF860A8CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E8149F-205D-42E0-AD1E-7FDF860A8CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E8149F-205D-42E0-AD1E-7FDF860A8CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93BD870-9362-49A8-AC42-7367BA2A3393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A93BD870-9362-49A8-AC42-7367BA2A3393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A93BD870-9362-49A8-AC42-7367BA2A3393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A93BD870-9362-49A8-AC42-7367BA2A3393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD0BA67-7A57-4E83-BD4B-6309271987DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD0BA67-7A57-4E83-BD4B-6309271987DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD0BA67-7A57-4E83-BD4B-6309271987DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD0BA67-7A57-4E83-BD4B-6309271987DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC7CCB4E-E40F-4FC2-93C6-3D2252D53857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC7CCB4E-E40F-4FC2-93C6-3D2252D53857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC7CCB4E-E40F-4FC2-93C6-3D2252D53857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC7CCB4E-E40F-4FC2-93C6-3D2252D53857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9663129-5B75-449F-B412-DD32086CA50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9663129-5B75-449F-B412-DD32086CA50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9663129-5B75-449F-B412-DD32086CA50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9663129-5B75-449F-B412-DD32086CA50E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

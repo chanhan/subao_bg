@@ -1,0 +1,259 @@
+﻿@model Models.ViewModel.BasketBall
+
+@{
+    bool isAdd = ViewBag.IsAdd;
+    string gameType = ViewBag.GameType;
+    string style = Model.CtrlStates == 2 || Model.CtrlStates == 3 ? "''" : "none";
+}
+@Styles.Render("~/Content/editschedule")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "scheduleEditForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl-edits  tabdl-teamedit">
+            <dl>
+                <dd>
+                    <ul>
+                        <li>優先權</li>
+                        <li>
+                            @Html.TextBox("Number", Model.Number, new { width = "80px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>大聯盟</li>
+                        <li>
+                            @Html.DropDownList("AllianceID", ViewBag.firstLevel as IEnumerable<SelectListItem>, new { onchange = "changeFirstAlliance()", style = "width:160px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>日期</li>
+                        <li>
+                            @Html.TextBox("GameDate", Model.GameDate.ToString("yyyy-MM-dd"), new { width = "130px" })
+                            <p class="redptip">*請轉換成台灣日期及時間</p>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>時間</li>
+                        <li>
+                            @Html.TextBox("GameTime", Model.GameTime.ToString(@"hh\:mm"), new { width = "100px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>先攻隊伍</li>
+                        <li>
+                            @Html.DropDownList("otherLevela", ViewBag.otherLevela as SelectList, new { onchange = "changeOtherAlliance(this)", style = "width:160px" })
+                            <span class="timelispan"></span>
+                            @Html.DropDownList("TeamAID", ViewBag.teama as IEnumerable<SelectListItem>, new { style = "width:160px" })
+                            @if (!isAdd)
+                            {
+                                <p class="redptip">目前使用來源為：@Model.GameSource</p>
+                            }
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>後攻隊伍</li>
+                        <li>
+                            @Html.DropDownList("otherLevelb", ViewBag.otherLevelb as SelectList, new { onchange = "changeOtherAlliance(this)", style = "width:160px" })
+                            <span class="timelispan"></span>
+                            @Html.DropDownList("TeamBID", ViewBag.teamb as IEnumerable<SelectListItem>, new { style = "width:160px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>賽程狀態</li>
+                        <li>
+                            @Html.DropDownList("GameStates", ViewBag.GameStates as SelectList, new { style = "width:80px" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>顯示走勢圖</li>
+                        <li>
+                            <span>
+                                @Html.CheckBox("ShowJS", Model.ShowJS, new { width = "20px", height = "20px" })
+                            </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>操盤狀態</li>
+                        <li>
+                            @Html.DropDownList("CtrlStates", ViewBag.CtrlStates as SelectList, new { onchange = "showWebid(this)", style = "width:80px" })
+
+                            <span id="webidspan" style="display:@style">
+                                跟盤ID：
+                                @Html.TextBox("WebID", Model.WebID ?? "0", new { width = "100px" })
+                            </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>訊息文字</li>
+                        <li>
+                            @Html.TextBox("TrackerText", Model.TrackerText, new { width = "100%" })
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>
+                            <a href="#" onclick="EditSchedule()" class="btncss matchaddbtn">@(isAdd ? "新 增" : "修 改")</a>
+                            @Html.Hidden("GID", Model.GID)
+                            @Html.Hidden("OrderBy", gameType == "BKUS" ? 1 : 0)
+                            @Html.Hidden("GameType", gameType)
+
+                            @*@Html.Hidden("AllianceName", Model.AllianceName)
+                                @Html.Hidden("TeamAAlliance", Model.TeamAAlliance)
+                                @Html.Hidden("TeamBAlliance", Model.TeamBAlliance)
+                                @Html.Hidden("TeamAName", Model.TeamAName)
+                                @Html.Hidden("TeamBName", Model.TeamBName)*@
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+}
+<script>
+    function showWebid(obj) {
+        if ($(obj).val() == '2') {
+            $('#webidspan').show();
+        } else {
+            $('#webidspan').hide();
+        }
+    }
+    //日期
+    $("#GameDate").inputmask('y-m-d').datetimepicker({
+        lang: 'zh-TW',
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d'
+    });
+    //时间
+    $("#GameTime").inputmask('hh:mm').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        step: 1
+    });
+    //優先權、 跟盤ID
+    $('#Number,#WebID').inputmask('integer').css('text-align', 'left');
+    //切换大联盟
+    function changeFirstAlliance() {
+        var fisrtAllianceID = $('#AllianceID').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ChangeFirstAlliance")',
+            data: { FirstAllianceID: fisrtAllianceID, gameType: '@gameType' },
+            async: false,
+            dataType: 'json',
+            error: function (data) {
+                alert('無聯盟資料!');
+            },
+            success: function (data) {
+                var alliance = data["alliance"];
+                var otherLevela = document.getElementById('otherLevela');
+                var otherLevelb = document.getElementById('otherLevelb');
+                otherLevela.options.length = 0;
+                otherLevelb.options.length = 0;
+                for (var i = 0; i < alliance.length; i++) {
+                    otherLevela.options.add(new Option(alliance[i]['AllianceName'], alliance[i]['AllianceID']));
+                    otherLevelb.options.add(new Option(alliance[i]['AllianceName'], alliance[i]['AllianceID']));
+                }
+                var team = data['team'];
+                var teama = document.getElementById('TeamAID');
+                var teamb = document.getElementById('TeamBID');
+                teama.options.length = 0;
+                teamb.options.length = 0;
+                for (var i = 0; i < team.length; i++) {
+                    teama.options.add(new Option(team[i]['ShowName'], team[i]['TeamID']));
+                    teamb.options.add(new Option(team[i]['ShowName'], team[i]['TeamID']));
+                }
+            }
+        });
+
+    }
+    //切换其他联盟
+    function changeOtherAlliance(obj) {
+        var fisrtAllianceID = $('#AllianceID').val();
+        var otherAllianceID = $(obj).val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ChangeOtherAlliance")',
+            data: { FirstAllianceID: fisrtAllianceID, OtherAlliance: otherAllianceID, gameType: '@gameType' },
+            async: false,
+            dataType: 'json',
+            error: function (data) {
+                alert('無隊伍資料!');
+            },
+            success: function (data) {
+                var team = data['team'];
+                var teama = $(obj).parent('li').children('select').last()[0];
+                teama.options.length = 0;
+                for (var i = 0; i < team.length; i++) {
+                    teama.options.add(new Option(team[i]['ShowName'], team[i]['TeamID']));
+                }
+            }
+        });
+    }
+    var isClick = false;
+    function EditSchedule() {
+        if (isClick) {
+            return false;
+        }
+        isClick = true;
+        if ($('#CtrlStates').val() == '2' && $.trim($('#WebID').val()) == '') {
+            alert('請輸入跟盤編號');
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("EditSchedule")',
+            data: $('#scheduleEditForm').serialize(),
+            async: false,
+            dataType: 'json',
+            error: function (data) {
+                alert('無隊伍資料!');
+                isClick = false;
+            },
+            success: function (data) {
+                switch (data) {
+                    case -3:
+                        alert('隊伍重覆選取!!');
+                        isClick = false;
+                        break;
+                    case -2:
+                        alert('選取大聯盟已不存在!!');
+                        isClick = false;
+                        break;
+                    case -1:
+                        alert('選取先攻隊伍已不存在!!');
+                        isClick = false;
+                        break;
+                    case 0:
+                        alert('選取後攻隊伍已不存在!!');
+                        isClick = false;
+                        break;
+                    default:
+                        location.href = '@Html.Raw(Url.Action("Index",new {date=Model.GameDate.ToString("yyyy-MM-dd"),gameType=gameType}))';
+                        break;
+                }                
+            }
+        });
+    }
+</script>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Models.IceHockeyAlliance>
+
+@{
+    ViewBag.Title = "聯盟管理";
+}
+@Styles.Render("~/Content/alliance")
+<script>
+    if ($.trim("@ViewBag.msg") != "") {
+        alert("@ViewBag.msg")
+    }
+</script>
+<div class="sc-tabbox" style="margin: 0 auto">
+    <div style="clear:both"> </div>
+    <div class="tabdl2 taballiance">
+        <div id="tabdl_top">
+            <div style="float:left">
+                <span>&nbsp;所屬聯盟：</span>
+                @Html.DropDownList("DLLalliance", ViewBag.alliance as IEnumerable<SelectListItem>, new { onchange = "changeAlliance()", style = "width:160px" })
+            </div>
+            <div style="float:right" id="message"></div>
+            <div style="float:right">
+                @Html.ActionLink("新增聯盟", "Create", new { gameType = ViewBag.gameType }, new { @class = "btncss" })
+            </div>
+        </div>
+        <div style="clear:both"> </div>
+        <dl style="padding-top:5px;">
+
+            @if (Model == null || Model.Count() == 0)
+            {
+                <dd>
+                    <span style="font-size:30px;">
+                        無聯盟資料
+                    </span>
+                </dd>
+            }
+            else
+            {
+                <dd>
+                    <ul>
+                        <li>序號</li>
+                        <li>聯盟等級</li>
+                        <li>聯盟名稱</li>
+                        <li>所屬聯盟</li>
+                        <li>聯盟鏈接網址</li>
+                        <li>功能</li>
+                    </ul>
+                </dd>
+                int i = 0;
+                foreach (Models.IceHockeyAlliance item in Model)
+                {
+                    i++;
+                    string a = item.LeverOther == "->" ? item.AllianceName.Replace(" ", "").Replace(":", "") : item.LeverOther.Replace(" ", "").Replace(":", "");
+                    <dd a="all-@a">
+                        <ul>
+                            <li>@i</li>
+                            <li>@item.Lever</li>
+                            <li>@item.ShowName</li>
+                            <li>@item.LeverOther</li>
+                            <li><a onclick="javascript: window.open('@item.AllianceUrl')" title="@item.AllianceUrl">@item.AllianceUrl</a></li>
+                            <li>@Html.ActionLink("修改", "Edit", new { allianceID = @item.AllianceID })</li>
+                        </ul>
+                    </dd>
+                }
+            }
+        </dl>
+    </div>
+
+</div>
+<script>
+    function changeAlliance() {
+        var allianceid = $('#DLLalliance').val();
+        if (allianceid != '') {
+            $('dd[a|=all]').hide();
+            $('dd[a*=' + allianceid + ']').show();
+        } else {
+            $('dd[a|=all]').show();
+        }
+    }
+</script>

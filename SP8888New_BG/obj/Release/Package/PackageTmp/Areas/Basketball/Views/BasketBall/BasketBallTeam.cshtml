@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Models.ViewModel.BasketBallAllianceTeam>
+@Styles.Render("~/Content/team")
+@{
+    string gameType = ViewBag.GameType;
+    int count = 1;
+}
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "teamForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl2 tabteam">
+            <div id="tabdl-top">
+                <div style="float: left;">
+                    <span>&nbsp;所屬聯盟：</span>@Html.DropDownList("alliance", ViewBag.alliance as IEnumerable<SelectListItem>, "全部", new { onchange = "showTeam(this)", @class = "selectstyle1", style = "width: 160px;" })
+                    <span>&nbsp;資料來源：</span>@Html.DropDownList("sourceType", ViewBag.sourceType as IEnumerable<SelectListItem>, "全部", new { onchange = "showTeamBySource(this)", @class = "selectstyle1", style = "width: 160px;" })
+                </div>
+                <div style="float:right">
+                    @Html.ActionLink("新增隊伍", "UpdateTeam", new { gameType = gameType }, new { @class = "btncss" })
+                </div>
+            </div>
+
+            <div style="clear:both"> </div>
+            @if (!Model.Any())
+            {
+                <span style="font-size:30px;">
+                    無隊伍資料
+                </span>
+            }
+            else
+            {
+                <dl style="padding-top:5px;">
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>隊伍名稱</li>
+                            <li>顯示名稱</li>
+                            <li>來源名稱</li>
+                            <li>所屬聯盟</li>
+                            <li>勝</li>
+                            <li>敗</li>
+                            <li>和</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+                    @foreach (var item in Model)
+                    {
+                        <dd title="team_@item.AllianceID" data="source_@item.SourceID">
+                            <ul>
+                                <li>
+                                    @count
+                                </li>
+                                <li>
+                                    @item.TeamName
+                                </li>
+                                <li>
+                                    @item.ShowName
+                                </li>
+                                <li>
+                                    @Html.Raw((string.IsNullOrEmpty(item.WebName) ? string.Empty : item.WebName.Replace(",", "<br>")))
+                                </li>
+                                <li>
+                                    @item.AllianceName
+                                </li>
+                                <li>
+                                    @item.W
+                                </li>
+                                <li>
+                                    @item.L
+                                </li>
+                                <li>
+                                    @item.T
+                                </li>
+                                <li>
+                                    @Html.Hidden("GameType", gameType)
+                                    @Html.ActionLink("修改", "UpdateTeam", new { gameType = item.GameType, teamid = item.TeamID })
+                                    @Html.ActionLink("刪除", null, null, new { onclick = string.Format("return deleteTeam('{0}','{1}')", item.GameType, item.TeamID) })
+                                </li>
+                            </ul>
+                        </dd>
+                        count++;
+                    }
+                </dl>
+            }
+        </div>
+    </div>
+}
+<script>
+    $(function () {
+        ResetBackGroundColor();
+    })
+    function deleteTeam(gameType, teamID) {
+        if (confirm('是否確認刪除')) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteTeam")',
+                data: { gameType: gameType, teamid: teamID },
+                async: false,
+                dataType: 'json',
+                error: function (data) {
+                    alert('刪除失敗');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        window.location.href = window.location.href;
+                    } else {
+                        alert('刪除失敗');
+                    }
+                }
+            });
+        }
+        return false;
+    }
+    function showTeam(obj) {
+        var allianceid = $(obj).val();
+        if (allianceid != '') {
+            $('dd[title^=team]').hide();
+            $('dd[title=team_' + allianceid + ']').show();
+        } else {
+            $('dd[title^=team]').show();
+        }
+        ResetIndex();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ChangeSource")',
+            data: { AllianceID: allianceid, gameType: '@gameType' },
+            async: false,
+            dataType: 'json',
+            error: function (data) {
+            },
+            success: function (data) {
+                var source = document.getElementById('sourceType');
+                source.options.length = 0;
+                source.options.add(new Option('全部', ''));
+                for (var i = 0; i < data.length; i++) {
+                    source.options.add(new Option(data[i]['GameSource'], data[i]['SourceID']));
+                }
+            }
+        });
+    }
+    function showTeamBySource(obj) {
+        var sourceid = $(obj).val();
+        if (sourceid != '') {
+            $('dd[data^=source]').hide();
+            $('dd[data=source_' + sourceid + ']').show();
+        } else {
+            $('dd[data^=source]').show();
+        }
+        ResetIndex();
+    }
+</script>

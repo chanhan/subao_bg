@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Models.BasketballAlliance>
+@Styles.Render("~/Content/alliance")
+@{
+    int count = 1;
+}
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "allianceForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl2 taballiance">
+            <div id="tabdl-top">
+                <div style="float: left;">
+                    <span> 所屬大聯盟:</span>
+                    @Html.DropDownList("FirstAlliance", ViewBag.FirstAlliance as IEnumerable<SelectListItem>, "全部", new { onchange = "showAlliace(this)", @class = "selectstyle1", style = "width: 160px;" })
+                </div>
+                <div style="float:right">
+                    @Html.ActionLink("新增聯盟", "UpdateAlliance", new { gameType = ViewBag.GameType as string }, new { @class = "btncss" })
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            @if (!Model.Any())
+            {
+                <span style="font-size:30px;">
+                    無聯盟資料
+                </span>
+            }
+            else
+            {
+                <dl style="padding-top:5px;">
+                    <dd>
+                        <ul>
+                            <li>序號</li>
+                            <li>聯盟等級</li>
+                            <li>聯盟名稱</li>
+                            <li>所屬聯盟</li>
+                            <li>聯盟鏈接網址</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+                    @foreach (var item in Model)
+                    {
+                        string id = !string.IsNullOrEmpty(item.LeverOther) ? item.LeverOther : item.AllianceID.ToString();
+                        <dd title="alliance_@id">
+                            <ul>
+                                <li>
+                                    @count
+                                    @*  @Html.Hidden("[" + count + "].AllianceID", item.AllianceID)*@
+                                </li>
+                                <li>
+                                    @item.Lever
+                                </li>
+                                <li>
+                                    @item.AllianceName
+                                </li>
+                                <li>
+                                    @showAllAlliance(item)
+                                </li>
+                                <li>
+                                    @item.AllianceUrl
+                                </li>
+                                <li>
+                                    @Html.ActionLink("修改聯盟", "UpdateAlliance", new { gameType = item.GameType, allianceid = item.AllianceID })
+                                </li>
+                            </ul>
+                        </dd>
+                        count++;
+                    }
+                </dl>
+            }
+        </div>
+    </div>
+}
+@helper showAllAlliance(Models.BasketballAlliance alliance)
+{
+    if (!string.IsNullOrEmpty(alliance.LeverOther))
+    {
+        List<Models.BasketballAlliance> alliances = Model.ToList();
+        string[] leverOther = alliance.LeverOther.Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+        List<string> name = new List<string>();
+        for (int i = 0; i < leverOther.Length; i++)
+        {
+            name.Add(alliances.Find(p => p.AllianceID.ToString() == leverOther[i]).AllianceName);
+        }
+        @(string.Join("->", name))
+    }
+}
+<script>
+    $(function () {
+        ResetBackGroundColor();
+    })
+    function showAlliace(obj) {
+        var allianceid = $(obj).val();
+        if (allianceid != '') {
+            $('dd[title^=alliance]').show();
+            $('dd[title^=alliance]').each(function () {
+                var levelother = $(this).prop('title').split('_')[1].split('*');
+                if (levelother.indexOf(allianceid) < 0) {
+                    $(this).hide();
+                }
+            });
+            $('#alliance_' + allianceid).show();
+        } else {
+            $('dd[title^=alliance]').show();
+        }
+        ResetIndex();
+    }
+</script>

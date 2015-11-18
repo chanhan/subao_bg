@@ -1,0 +1,314 @@
+﻿@model IEnumerable<Models.Marquee>
+
+@{
+    bool isAdd = ViewBag.isAdd;
+    int count = 0;
+    string btnText = isAdd ? "新增" : "修改";
+}
+@Styles.Render("~/Content/marquee")
+@using (Html.BeginForm("UpDateMarquee", "Marquee", FormMethod.Post, new { id = "marqueeForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl-edits  tabdl-teamedit" id="div_marquee">
+            <dl>
+                <dd>
+                    <ul>
+                        <li> 訊息管理</li>
+                        <li>
+                            <select id="gameType" name="gameType" style="width: 90px;" onchange="serachMarquee(this)">
+                                <option value="AAAA">全站公告</option>
+                                <option value="BB">棒球公告</option>
+                                <option value="BK">籃球公告</option>
+                                <option value="SB">足球公告</option>
+                                <option value="AF">美足公告</option>
+                                <option value="IH">冰球公告</option>
+                                <option value="TN">網球公告</option>
+                            </select>
+                            @Html.Hidden("isAdd", isAdd)
+                            @Html.Hidden("id")
+                            @Html.Hidden("EffectiveTime")
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li style="border-bottom: #A2C0D4 solid 1px;"></li>
+                        <li style="border-bottom: #A2C0D4 solid 1px;">
+                            <a class="btncss" id="btn_new" onclick="AddMarquee(this)">添加新讯息</a>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>有效時間</li>
+                        <li>
+                            @Html.DropDownList("year", ViewBag.year as IEnumerable<SelectListItem>, null, new { @class = "fsdrp-slet", style = "width:80px;", onchange = "showRecordByDate()" })
+                            年
+                            <select id="month" style="width: 50px;" class="fsdrp-slet">
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@string.Format("{0:00}",i)">@i</option>
+                                }
+                            </select>月
+                            <select id="day" style="width: 50px;" class="fsdrp-slet">
+                                @for (int i = 1; i <= 31; i++)
+                                {
+                                    <option value="@string.Format("{0:00}",i)">@i</option>
+                                }
+                            </select>日
+                            <a class="btncss" id="btnweek" onclick="addDay(7)">一周</a>
+                            <a class="btncss" id="btnmonth" onclick="addMonth(1)">一月</a>
+                            <a class="btncss" id="btnforever" onclick="addForever()">無限期</a>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>訊息內容</li>
+                        <li>
+                            <div class="languagediv">
+                                <span class="languagename"> 繁體：</span>
+                                @Html.TextArea("messageTW", new { cols = "20", rows = "2", @class = "language-textarea" })
+                            </div>
+                            <div class="languagediv">
+                                <span class="languagename"> 简体：</span>
+                                @Html.TextArea("messageCN", new { cols = "20", rows = "2", @class = "language-textarea" })
+                            </div>
+                            <div class="languagediv">
+                                <span class="languagename"> English：</span>
+                                @Html.TextArea("messageUS", new { cols = "20", rows = "2", @class = "language-textarea" })
+                            </div>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>是否自動關閉</li>
+                        <li>
+                            <span>
+                                <input type="radio" value="N" name="AutoCloseYN" id="chk_AutoCloseN" checked="checked">
+                                <label>否</label>
+                            </span>
+                            <span>
+                                <input type="radio" value="Y" name="AutoCloseYN" id="chk_AutoCloseY">
+                                <label>是</label>
+                            </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>是否啟動</li>
+                        <li>
+                            <span>
+                                <input type="radio" value="Y" name="EnableYN" id="chk_EnableY" checked="checked">
+                                <label>啟動</label>
+                            </span>
+                            <span>
+                                <input type="radio" value="M" name="EnableYN" id="chk_EnableM">
+                                <label>跑馬燈</label>
+                            </span>
+                            <span>
+                                <input type="radio" value="N" name="EnableYN" id="chk_EnableN">
+                                <label>關閉</label>
+                            </span>
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>
+                            <a class="btncss" id="btn_edit" onclick="editMarquee()">@btnText</a>
+                            <a class="btncss" id="btn_del" onclick="deleteMarquee()">刪除</a>
+                            <a class="btncss" id="btn_cancel" onclick="window.location.href = window.location.href;">取消</a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div style="clear:both"> </div>
+        @if (!Model.Any())
+        {
+            <span style="font-size:30px;">
+                無訊息資料
+            </span>
+        }
+        else
+        {
+            <div class="tabdl2 sheding-xunxi" style="margin-top: 10px;">
+                <dl>
+                    <dd>
+                        <ul>
+                            <li>發佈時間</li>
+                            <li>類型</li>
+                            <li>繁體</li>
+                            <li>简体</li>
+                            <li>English</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+                    @foreach (var item in Model)
+                    {
+                        <dd>
+                            <ul>
+                                <li>@item.ChgTime.ToString("yyyy-MM-dd")</li>
+                                <li>@Common.AppData.GetMarqueeText(item.GameType)</li>
+                                <li auotoheight="">@item.MessageTW</li>
+                                <li auotoheight="">@item.MessageCN</li>
+                                <li auotoheight="">@item.MessageUS</li>
+                                <li>
+                                    @Html.Hidden("[" + count + "].ID", item.ID, new { id = "[" + count + "].ID" })
+                                    @Html.Hidden("[" + count + "].GameType", item.GameType, new { id = "[" + count + "].GameType" })
+                                    @Html.Hidden("[" + count + "].EnableYN", item.EnableYN, new { id = "[" + count + "].EnableYN" })
+                                    @Html.Hidden("[" + count + "].AutoCloseYN", item.AutoCloseYN, new { id = "[" + count + "].AutoCloseYN" })
+                                    @Html.Hidden("[" + count + "].EffectiveTime", item.EffectiveTime.ToString("yyyy-MM-dd"), new { id = "[" + count + "].EffectiveTime" })
+                                    <a onclick="showMarquee(this)">修改</a>
+                                    <a @(item.EnableYN == "N" ? "style=color:red" : string.Empty) onclick="setEnableMarquee(this)">@(item.EnableYN == "N" ? "關閉中" : "啟動中")</a>
+                                </li>
+                            </ul>
+                        </dd>
+                        count++;
+                    }
+                </dl>
+            </div>
+        }
+    </div>
+}
+<script>
+    $(function () {
+        ResetBackGroundColor();
+        $('#gameType').val('@ViewBag.gameType');
+        $('#year').val('@DateTime.Now.ToString("yyyy")');
+        $('#month').val('@DateTime.Now.ToString("MM")');
+        $('#day').val('@DateTime.Now.ToString("dd")');
+        @if (isAdd)
+        {
+        <text>
+        $('#div_marquee dl dd:gt(1)').hide();
+        $('#div_marquee dl dd:eq(1)').show();
+        $('#btn_del').hide();
+        </text>
+                }
+        else
+        {
+      <text>
+        $('#div_marquee dl dd:gt(1)').show();
+        $('#div_marquee dl dd:eq(1)').hide();
+        $('#btn_del').show();
+        </text>
+                }
+    })
+    //无期限增加日期
+    function addForever() {
+        $('#year').val('@DateTime.Now.AddYears(2).ToString("yyyy")');
+        $('#month').val('12');
+        $('#day').val('31');
+    }
+    //日期增加天数
+    function addDay(value) {
+        var date = new Date($('#year').val(), $('#month').val() - 1, $('#day').val());
+        date.addDay(value);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        var day = date.getDate();
+        day = day < 10 ? "0" + day : day;
+        $('#year').val(year);
+        $('#month').val(month);
+        $('#day').val(day);
+    }
+    //日期增加月数
+    function addMonth(value) {
+        var date = new Date($('#year').val(), $('#month').val() - 1, $('#day').val());
+        date.addMonth(value);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        var day = date.getDate();
+        day = day < 10 ? "0" + day : day;
+        $('#year').val(year);
+        $('#month').val(month);
+        $('#day').val(day);
+    }
+    //显示讯息
+    function showMarquee(obj) {
+        $('#gameType').val($(obj).siblings('input[name$=GameType]').val());
+        var autoClose = $(obj).siblings('input[name$=AutoCloseYN]').val();
+        $('#chk_AutoCloseN').prop('checked', autoClose == 'N');
+        $('#chk_AutoCloseY').prop('checked', autoClose == 'Y');
+        var enable = $(obj).siblings('input[name$=EnableYN]').val();
+        $('#chk_EnableY').prop('checked', enable == 'Y');
+        $('#chk_EnableM').prop('checked', enable == 'M');
+        $('#chk_EnableN').prop('checked', enable == 'N');
+        var date = $(obj).siblings('input[name$=EffectiveTime]').val().split('-');
+        $('#year').val(date[0]);
+        $('#month').val(date[1]);
+        $('#day').val(date[2]);
+        var ul = $(obj).parents('ul');
+        $('#messageTW').val(ul.children('li:eq(2)').text());
+        $('#messageCN').val(ul.children('li:eq(3)').text());
+        $('#messageUS').val(ul.children('li:eq(4)').text());
+        $('#id').val($(obj).siblings('input[name$=ID]').val());
+        $('#isAdd').val('False');
+        $('#btn_edit').html('修改');
+        $('#btn_del').show();
+        $('#btn_new').click();
+    }
+    //新增修改讯息
+    function editMarquee() {
+        $('#EffectiveTime').val($('#year').val() + '-' + $('#month').val() + '-' + $('#day').val())
+        $('#marqueeForm').submit();
+    }
+    //添加讯息按钮
+    function AddMarquee(obj) {
+        $(obj).parents('dd').siblings('dd:gt(0)').show();
+        $(obj).parents('dd').hide();
+    }
+    //开启、关闭讯息
+    function setEnableMarquee(obj) {
+        var id = $(obj).siblings('input[name$=ID]').val();
+        var enableYN = $(obj).siblings('input[name$=EnableYN]').val();
+        if (enableYN == 'N') enableYN = 'Y';
+        else enableYN = 'N';
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetEnableMarquee")",
+            data: { id: id, EnableYN: enableYN },
+            async: false,
+            error: function (data) {
+                alert('設置失敗！');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    window.location.href = window.location.href;
+                }
+            }
+        });
+    }
+    //删除讯息
+    function deleteMarquee(obj) {
+        if (confirm('是否確認刪除')) {
+            var id = $('#id').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteMarquee")",
+                data: { id: id },
+                async: false,
+                error: function (data) {
+                    alert('删除失敗！');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        window.location.href = window.location.href;
+                    }
+                }
+            });
+        }
+    }
+    //切换讯息类型查询
+    function serachMarquee(obj) {
+        if ($('#btn_new').is(':visible')) {
+            window.location.href = '@Url.Action("Index")' + '?gameType=' + $(obj).val();
+        }
+    }
+</script>

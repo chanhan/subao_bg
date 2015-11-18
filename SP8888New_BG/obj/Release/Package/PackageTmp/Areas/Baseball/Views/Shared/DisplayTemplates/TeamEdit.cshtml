@@ -1,0 +1,50 @@
+﻿@model List<Models.BaseballTeam>
+@{
+    Models.BaseballTeam olddata = Model[0];
+    Models.BaseballTeam newdata = Model[1];
+}
+<div class="edit">
+    @Common.AppData.GetGameTypeName(olddata.GameType)
+    <br>
+    <div>
+        (隊伍名稱)：
+        <span>@olddata.TeamName</span> --->
+        <span>@newdata.TeamName</span>
+    </div>
+    <div>
+        (顯示名稱)：
+        <span>@olddata.ShowName</span> --->
+        <span>@newdata.ShowName</span>
+    </div>
+    <div>
+        (來源名稱)：
+        <span>@olddata.WebName</span> --->
+        <span>@newdata.WebName</span>
+    </div>
+    <div>
+        (所屬聯盟)：
+        <span>@olddata.AllianceName</span> --->
+        <span>@newdata.AllianceName</span>
+    </div>
+    <div>
+        (勝)：
+        <span>@olddata.W</span> --->
+        <span>@newdata.W</span>
+    </div>
+    <div>
+        (敗)：
+        <span>@olddata.L</span> --->
+        <span>@newdata.L</span>
+    </div>
+    <div>
+        (和)：
+        <span>@olddata.T</span> --->
+        <span>@newdata.T</span>
+    </div>
+    <div>
+        (來源)：
+        <span>@olddata.SourceID</span> --->
+        <span>@newdata.SourceID</span>
+    </div>
+</div>
+

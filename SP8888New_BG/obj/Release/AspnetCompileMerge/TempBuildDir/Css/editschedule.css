@@ -1,0 +1,76 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/* .tabdl-madd   修改赛程*/
+.tabdl-madd dl dd {
+    width: 925px;
+    color: rgb(67, 67, 67);
+    overflow: hidden;
+}
+
+.tabdl-madd dl ul li {
+    padding: 0px 5px;
+    line-height: 45px;
+    overflow: hidden;
+    border-top-color: rgb(162, 192, 212);
+    border-left-color: rgb(162, 192, 212);
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-left-style: solid;
+    float: left;
+}
+
+.tabdl-madd dl ul li:first-child {
+    width: 90px;
+    text-align: right;
+    color: rgb(73, 95, 110);
+    padding-right: 10px;
+    background-color: rgb(227, 237, 237);
+}
+
+.tabdl-madd dl dd ul li:last-child {
+    width: 700px;
+    border-right-color: rgb(162, 192, 212);
+    border-right-width: 1px;
+    border-right-style: solid;
+    background-color: rgb(255, 255, 255);
+}
+
+.tabdl-madd dl dd ul li:last-child input {
+    height: 55%;
+}
+
+.tabdl-madd dl dd ul li:last-child select {
+    height: 65%;
+}
+
+.tabdl-madd dl dd ul li:last-child option {
+    padding: 5px 0px;
+}
+
+.matchaddbtn {
+    width: 65px;
+    height: 26px;
+    color: rgb(17, 110, 165);
+    line-height: 26px;
+    display: inline-block;
+}
+
+.tabdl-madd dl dd:last-child ul li {
+    width: 801px;
+    text-align: center;
+    border-bottom-color: rgb(162, 192, 212);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    background-color: rgb(232, 245, 245);
+}
+
+.redptip {
+    color: rgb(255, 44, 0);
+    padding-left: 5px;
+    display: inline-block;
+}
+
+.timelispan {
+    padding: 0px 3px;
+}

@@ -1,0 +1,22 @@
+﻿@model List<Models.Employee>
+@{
+    Models.Employee olddata = Model[0];
+    Models.Employee newdata = Model[1];
+}
+<div class="edit">
+    <div>
+        工程師帳號：
+        <span>@olddata.EmployeeName</span> --->
+        <span>@newdata.EmployeeName</span>
+    </div>
+    <div>
+        工程師
+        <span>@Common.AppData.GetEmployeeRankName(olddata.Rank)</span> --->
+        <span>@Common.AppData.GetEmployeeRankName(newdata.Rank)</span>
+    </div>
+    <div>
+        (密碼)：
+        <span>*****</span> --->
+        <span>******</span>
+    </div>
+</div>

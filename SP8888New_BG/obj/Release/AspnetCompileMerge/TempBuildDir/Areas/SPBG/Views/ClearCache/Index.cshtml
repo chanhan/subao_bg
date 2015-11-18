@@ -1,0 +1,19 @@
+﻿@{
+    bool isClear = (bool)ViewBag.isClear;
+}
+<div style="margin-top:10px;margin-left:10px">
+    <a class="btncss" onclick="window.location.href = '@Url.Action("Index", new { act = "clear" })'">清除賽事緩存</a>
+    <a class="btncss" onclick="window.location.href = '@Url.Action("Index", new { act = "readallteam" })'">清除隊伍緩存</a>
+    <a class="btncss" onclick="window.location.href = '@Url.Action("Index", new { act = "fullnameclear" })'">清除足球聯盟緩存</a>
+</div>
+
+@if (isClear)
+{
+    <text>
+        <script>
+            $(function () {
+                alert('清除緩存成功')
+            })
+        </script>
+    </text>
+}

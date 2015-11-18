@@ -1,0 +1,137 @@
+﻿@model Models.AFBTeam
+
+@Styles.Render("~/Content/updateteam")
+@Scripts.Render("~/bundles/jqueryform")
+@{
+    bool isAdd = ViewBag.IsAdd;
+    string Text = isAdd ? "新增" : "修改";
+    string gameType=   ViewBag.gameType;
+}
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "updateTeam", enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("IsAdd", isAdd);
+    @Html.Hidden("GameType", Model.GameType);
+    @Html.Hidden("TeamID", Model.TeamID);
+  <div class="sc-tabbox">
+      <div class="tabdl-edits  tabdl-teamedit">
+          <dl>
+              <dd>
+                  <ul>
+                      <li>
+                          隊伍名稱
+                      </li>
+                      <li>
+                          @Html.TextBox("TeamName", Model.TeamName, new { @class = "teamedit-intext01" })
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>顯示名稱</li>
+                      <li>
+                          <div class="text-score">
+                              @Html.TextBox("ShowName", Model.ShowName, new { @class = "teamedit-intext01" })
+                          </div>
+                          <p class="tipp">
+                              須與公司後台[球隊名-繁體]一致
+                              影響速報盤口/走勢圖/變動紀錄
+                          </p>
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>來源名稱</li>
+                      <li>
+                          @Html.TextArea("WebName", string.IsNullOrEmpty(Model.WebName) ? string.Empty : Model.WebName.Replace(",", "\r\n"), new { style = "height:60px;", cols = "20", rows = "2" })
+                          <p class="tipp">
+                              與來源網比對用, 不允許修改
+                              (一行為一個來源)
+                          </p>
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>所屬聯盟</li>
+                      <li>
+                          @Html.DropDownList("AllianceID", ViewBag.alliance as IEnumerable<SelectListItem>, new { onchange = "showTeam(this)", @class = "teamedit-select" })
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>勝</li>
+                      <li>
+                          @Html.TextBox("W", Model.W, new { @class = "teamedit-intext" })
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>敗</li>
+                      <li>
+                          @Html.TextBox("L", Model.L, new { @class = "teamedit-intext" })
+                      </li>
+                  </ul>
+              </dd>
+              <dd>
+                  <ul>
+                      <li>和</li>
+                      <li>
+                          @Html.TextBox("T", Model.T, new { @class = "teamedit-intext" })
+                      </li>
+                  </ul>
+              </dd>
+              @*<dd>
+                  <ul>
+                      <li style="width:120px;height:128px">
+                          <img style="width:100%;height:100%;" id="image" alt="請選擇圖片" src="@ViewBag.ExistImage" />
+                      </li>
+                      <li style="height:128px">
+                          @Html.TextBox("TeamImage", null, new { type = "file", @class = "team-file", onchange = "PreviewImage('image',this)" })
+                      </li>
+                  </ul>
+              </dd>*@
+              <dd>
+                  <ul>
+                      <li>
+                          <a  class="btncss" onclick="UpDateTeam()">@Text</a>
+                      </li>
+                  </ul>
+              </dd>
+
+          </dl>
+      </div>
+    </div>
+
+}
+<script>
+       @if(!isAdd){
+            <text>
+    $(function () {
+        $('#WebName').attr('readonly', 'readonly');
+    })
+    </text>
+         }
+    function UpDateTeam() {
+        var options = {
+            url: '@Url.Action("UpdateTeam")',
+            success: function (responseText, statusText, xhr, $form) {
+                if (responseText['count'] > 0) {
+                    if (responseText['path'] != undefined) {
+                        $('#image').attr('src', responseText['path']);
+                    }
+                    location.href='@Url.Action("AFBTeam", new { gameType=gameType})';
+                } else if (responseText['count'] == -1) {
+                    alert('存在重複的隊伍名稱');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest);
+            }
+        };
+        $("#updateTeam").ajaxSubmit(options);
+        return false;
+    }
+</script>

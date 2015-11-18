@@ -1,0 +1,160 @@
+﻿@model  IEnumerable<Models.ViewModel.IceHockey>
+
+@Styles.Render("~/Content/schedule")
+@Styles.Render("~/Content/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/inputmask")
+<script type="text/javascript">
+    $(document).ready(function () {
+        //全选
+        $("input[type=checkbox][value=all]").click(function () {
+            $("input[type=checkbox][name$=" + this.name + "]").not("[style='display: none;']").prop("checked", $(this).prop("checked"));
+        });
+        //日期控件
+        $("#txbDate").inputmask('y-m-d').datetimepicker({
+            lang: 'zh-TW',
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d',
+            onChangeDateTime: function (dp, $input) {
+                location.href = '@Url.Action("Index", new { gameType = ViewBag.gameType})' + '&date=' + $input.val();
+            }
+        });
+    });
+    function GoTo(v) {
+        var sd = document.getElementById('txbDate').value;
+        if (sd != null && sd != "") {
+            var d = new Date(sd);
+            location.href = "@Url.Action("Index")?gameType=@ViewBag.gameType&date=" + d.GetFormateAddDate(v);
+        }
+    }
+    function funSetItem(si) {
+        if (si != 1 || (si == 1 && confirm("是否確認刪除所選資料？"))) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetItem")",
+                data: $('#bbForm').serialize() + "&si=" + si,
+                async: false,
+                error: function (data) {
+                    alert('儲存顯示設定資料失敗!');
+                },
+                success: function (data) {
+                    if (data["count"] > 0) {
+                        alert((si == 1 ? "删除" : "儲存") + "成功!");
+                        location.href = location.href;
+                    }
+                }
+            });
+        }
+    }
+
+    function funCreate() {
+        location.href = "@Url.Action("Create")?gameType=@ViewBag.gameType&GameDate=@ViewBag.date";
+    }
+    function checkGameStates(states) {
+        if (states == "X") {
+            alert("请将赛程状态改为已开赛或已结束");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    function showAllianceSchedules() {
+        var allianceid = $('#ddlAll').val();
+        if (allianceid != '') {
+            $('#icehockey dd[class]').hide();
+            $('#icehockey .icehockeyalliance_' + allianceid).show();
+        } else {
+            $('#icehockey div[class]').show();
+        }
+    }
+</script>
+
+@using (Html.BeginForm("Index", "BBSchedules", FormMethod.Post, new { id = "bbForm" }))
+{
+    <div class="sc-tabbox" style="margin: 0 auto">
+        <div class="tabdl2 tabbasketball">
+            <div id="tabdl_top">
+                <div style="float:left">
+                    <a class="btntime"><img src="/images/btn001.png" width="14" height="16" onclick="GoTo(-1)" /></a>
+                    @Html.TextBox("txbDate", ViewBag.date as string, new { @class = "texttime" })
+                    <a class="btntime"><img src="/images/btn002.png" width="14" height="16" onclick="GoTo(1)" /></a>
+
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;所屬聯盟：</span>
+                    @Html.DropDownList("ddlAll", ViewBag.ddlAllian as IEnumerable<SelectListItem>, "全部", new { onchange = "showAllianceSchedules()", style = "margin-left:5px; height:28px;width:120px" })
+                </div>
+                <div style="float:right" id="message"></div>
+                <div style="float:right">
+                    <a class="btncss" onclick="funCreate()"> 新增賽程 </a>
+                    <a class="btncss" onclick="funSetItem(1)"> 刪除選取項目 </a>
+                    <a class="btncss" onclick="funSetItem(3)"> 儲存走勢圖設定 </a>
+                </div>
+            </div>
+            <div style="clear:both"> </div>
+            <dl id="icehockey" style="padding-top:5px;">
+
+                @if (Model == null || Model.Count() == 0)
+                {
+                    <dd>
+                        <span style="font-size:30px;">
+                            無賽事資料
+                        </span>
+                    </dd>
+                }
+                else
+                {
+                    <dd>
+                        <ul>
+                            <li>刪除<br /><input type="checkbox" name="Display" value="all" /></li>
+                            <li>優先權</li>
+                            <li>聯盟</li>
+                            <li>顯示走勢<br /><input type="checkbox" name="ShowJS" value="all" /></li>
+                            <li>時間</li>
+                            <li>先攻隊伍</li>
+                            <li>後攻隊伍</li>
+                            <li>賽程狀態</li>
+                            <li>資料來源</li>
+                            <li>操盤狀態</li>
+                            <li>功能</li>
+                        </ul>
+                    </dd>
+
+                    int a = 0;
+                    foreach (Models.ViewModel.IceHockey item in Model)
+                    {
+                        <dd class="icehockeyalliance_@item.Alliance.Replace(" ","")">
+                            <ul>
+                                <li>@Html.CheckBox("[" + a + "].Display", !item.Display, new { style = (item.GameStates != "X" || item.GameDate < DateTime.Now.Date ? "display:none" : "") })</li>
+                                <li>@item.Number</li>
+                                <li>@item.Alliance</li>
+                                <li>@Html.CheckBox("[" + a + "].ShowJS", item.ShowJS)</li>
+                                <li>@item.GameTime.ToString(@"hh\:mm")</li>
+                                <li>@item.TeamA<br></li>
+                                <li>@item.TeamB<br></li>
+                                <li>@Common.AppData.GetStatesText(item.GameStates) </li>
+                                <li> </li>
+                                <li><div style="color:red">@Common.AppData.GetCtrlStateText(item.CtrlStates, item.CtrlAdmin, item.WebID)</div></li>
+                                <li>
+                                    @Html.Hidden("[" + a + "].GID", item.GID)
+
+                                    @Html.ActionLink("修改", "Edit", "IHSchedules", new { area = "IceHockey", gid = item.GID, gameType = item.GameType }, new { style = "" })
+
+                                    @Html.ActionLink("修改分數", "EditScore", "IHSchedules", new { area = "IceHockey", gid = item.GID, gameType = item.GameType }, new { style = "", @onclick = "return checkGameStates('" + item.GameStates + "')" })
+                                    <br />
+                                    @if (item.IsScoreModifyRecord)
+                                    {
+                                        @Html.ActionLink("比分修改記錄", "ScoreModifyRecord", "IHSchedules", new { area = "IceHockey", gid = item.GID, gameType = item.GameType }, new { style = "" })
+                                    }
+                                </li>
+                            </ul>
+                        </dd>
+                                    a++;
+                    }
+                }
+            </dl>
+        </div>
+
+    </div>
+}

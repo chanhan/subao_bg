@@ -1,0 +1,97 @@
+﻿@model Models.ViewModel.CornerTeamName
+
+@using (Html.BeginForm(ViewBag.IsUpdate ? "EditJQ" : "CreateJQ", "Football", FormMethod.Post, new { id = "teamForm" }))
+{
+    <div class="sc-tabbox">
+        <div class="tabdl2" id="thisTab">
+            <div id="tabdl-top">
+
+            </div>
+            <div style="clear: both;"></div>
+            <dl style="padding-top: 5px;">
+                <dd>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>體彩網隊伍名稱:</li>
+                        <li>
+                            @Html.TextBox("SpName", Model == null ? "" : Model.SpName as string)
+                            @Html.Hidden("HdlSpName", Model == null ? "" : Model.SpName as string)
+                        </li>
+                    </ul>
+                </dd>
+                <dd>
+                    <ul>
+                        <li>大球后台隊伍名稱:</li>
+                        <li>
+                            @Html.TextBox("TsName", Model == null ? "" : Model.TsName as string)
+                            @Html.Hidden("HdlTsName", Model == null ? "" : Model.TsName as string)
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div class="Pagination">
+            <a class="btncss" id="xgBtn">@( ViewBag.IsUpdate ? "修 改" : "新 增")</a>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    var isClick = false;
+    $(document).ready(function () {
+        $("#xgBtn").click(function () {
+            if (isClick) {
+                return false;
+            }
+            isClick = true;
+            $.ajax({
+                type: "post",
+                url: "@(ViewBag.IsUpdate ? Url.Action("EditJQ") : Url.Action("CreateJQ"))",
+                data: $("#teamForm").serialize(),
+                dataType: "Json",
+                success: function (data) {
+                    if (data == "ok") {
+                        alert("@(ViewBag.IsUpdate?"修改":"新增")成功");
+                        window.location = '@Url.Action("FoolballCorner")';
+                    }
+                    else {
+                        alert("儲存發生異常,請聯繫工程師" + data);
+                        isClick = false;
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<style type="text/css">
+    #thisTab dd li:first-child {
+        width: 30%;
+    }
+
+    #thisTab dd li:nth-child(2) {
+        width: 50%;
+        text-align: left;
+    }
+
+    #thisTab dd li {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .Pagination {
+        text-align: center;
+        width: 797px;
+        margin-top: 55px;
+    }
+
+    input {
+        height: 24px;
+        line-height: 24px;
+        width: 80%;
+    }
+</style>

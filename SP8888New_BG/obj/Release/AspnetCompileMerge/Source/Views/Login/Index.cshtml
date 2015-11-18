@@ -1,0 +1,66 @@
+﻿@model Models.ViewModel.LoginModel
+@{
+  Layout = null;
+  bool isload=  ViewBag.isload;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登錄頁面</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+        @if(isload){
+        <text>
+        $(function () {
+            alert('此帳號已被重覆登入，請重新登入...');
+        })
+        </text>
+        }
+        function Login() {
+            document.getElementById('loginForm').submit();
+        }
+        document.onkeydown = function (e) {
+            var e = e || event;
+            var keyNum = e.which || e.keyCode;
+            if (keyNum == 13) {
+                Login();
+            }
+        }
+    </script>
+</head>
+<body style="background: #4b6c9e">
+    @using (Html.BeginForm("LogOn", "Login", FormMethod.Post, new { id = "loginForm" }))
+    {
+        <div class="LoginBox">
+            <dl id="Login" style="margin-top: 0px; padding: 0">
+                <dt style="margin-bottom: 10px;">
+                    <img src="/images/Login_icon001.png" width="60" height="61" />
+                    <img src="/images/HouTaiGuanLi_textch.png" width="164" height="26" style="margin-left: 33px; margin-top: 32px;" />
+                </dt>
+                <dd><span class="loginicon" id="IcoUserName"></span>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "ShuRu_input", placeholder = "帳號" })
+                </dd>
+                <dd class="tips" id="tipsName">
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </dd>
+                <dd><span class="loginicon" id="IcoPassword"></span>
+                    @Html.TextBoxFor(p => p.Password, new { @class = "ShuRu_input",type="password", placeholder = "密碼" })
+                </dd>
+                <dd class="tips" id="tipsPwd">
+                    @Html.ValidationMessageFor(model => model.Password)
+                </dd>
+                <dd class="tips">
+                    @ViewBag.LoginFailed
+                </dd>
+                <dd style="margin-top: 17px;">
+                    <a class="DengRu_but" id="btnOk" onclick="Login()">登&nbsp;入</a>
+                </dd>
+            </dl>
+        </div>
+    }
+</body>
+</html>

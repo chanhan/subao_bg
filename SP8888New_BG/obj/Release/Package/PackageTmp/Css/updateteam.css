@@ -1,0 +1,42 @@
+﻿@charset "utf-8";
+/* CSS Document *
+
+/* .tabdl-teamedit*/
+.tabdl-teamedit dl ul li:first-child {
+    text-align: center;
+
+}
+
+.tabdl-teamedit dl dd ul li:last-child option {
+    padding: 5px 0;
+}
+
+
+.tipp {
+    font-size: 12px;
+    color: red;
+    padding-top: 5px;
+    padding-left: 6px;
+}
+
+.team-file {
+    width: 300px;
+    height: 30px;
+}
+
+.teamedit-intext {
+    height: 30px;
+    width: 70px;
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.teamedit-intext01 {
+    height: 27px;
+    width: 250px;
+    padding: 0 5px;
+}
+
+.teamedit-select {
+    height: 98%;
+}

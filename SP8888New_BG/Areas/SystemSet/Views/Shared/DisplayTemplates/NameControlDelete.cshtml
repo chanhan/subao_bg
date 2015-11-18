@@ -1,0 +1,39 @@
+﻿@model List<Models.NameControl>
+@{
+    Models.NameControl olddata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        <br>
+        (語系)：
+        <font color="blue">@Common.AppData.GetLangText(olddata.Langx)</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (類別)：
+        <font color="blue">@Common.AppData.GetCategoryText(olddata.Category)</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (遊戲類型)：
+        <font color="blue">@Common.AppData.GetGameTypeName(olddata.GTLangx)</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (用途類型)：
+        <font color="blue">@Common.AppData.GetAppTypeText(olddata.AppType)</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (原始內容)：
+        <font color="blue">@olddata.SourceText</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (變更內容)
+        <font color="blue">@olddata.ChangeText</font>
+        <br />
+        @Common.AppData.GetGameTypeName(olddata.GTLangx) -@olddata.SourceText
+        (翻譯順序)：
+        <font color="blue">@olddata.Indexs</font>
+        <br />
+    </b>
+</div>
+
+

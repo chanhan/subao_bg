@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.NameControl>, List<Models.NameControl>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "NameControlAdd" : (Model.Item3 == 2 ? "NameControlDelete" : "NameControlEdit");
+    List<Models.NameControl> name = new List<Models.NameControl>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            name.Add(olditem);
+        }
+        index++;
+        name.Add(newitem);
+        @Html.DisplayFor(p => name, viewName)
+        name.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            name.Add(newitem);
+            @Html.DisplayFor(p => name, viewName)
+            name.Clear();
+        }
+    }
+}

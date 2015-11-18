@@ -1,0 +1,19 @@
+﻿@model List<Models.ViewModel.BKOSTeam>
+@{
+    Models.ViewModel.BKOSTeam olddata = Model[0];
+}
+<div>
+    <b>
+        @Common.AppData.GetGameTypeName("BKOS")
+        <br>
+        (聯盟)：
+        <font color="blue">@olddata.AllianceName</font>
+        <br>
+        (隊伍)：
+        <font color="blue">@olddata.TeamName</font>
+        <br>
+        (顯示名稱)：
+        <font color="blue">@olddata.ShowName</font>
+        <br>
+    </b>
+</div>

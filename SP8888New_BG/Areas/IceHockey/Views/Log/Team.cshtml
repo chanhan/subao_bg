@@ -1,0 +1,34 @@
+﻿@model Tuple<List<Models.IceHockeyTeam>, List<Models.IceHockeyTeam>, int>
+@{
+    Layout = null;
+    string viewName = Model.Item3 == 1 ? "TeamAdd" : (Model.Item3 == 2 ? "TeamDelete" : "TeamEdit");
+    List<Models.IceHockeyTeam> ice = new List<Models.IceHockeyTeam>();
+    int index = 0;
+}
+@if (Model.Item2.Any())
+{
+    foreach (var newitem in Model.Item2)
+    {
+        if (Model.Item1.Any())
+        {
+            var olditem = Model.Item1[index];
+            ice.Add(olditem);
+        }
+        index++;
+        ice.Add(newitem);
+        @Html.DisplayFor(p => ice, viewName)
+        ice.Clear();
+    }
+}
+else
+{
+    if (Model.Item1.Any())
+    {
+        foreach (var newitem in Model.Item1)
+        {
+            ice.Add(newitem);
+            @Html.DisplayFor(p => ice, viewName)
+            ice.Clear();
+        }
+    }
+}

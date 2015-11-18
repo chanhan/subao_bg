@@ -1,0 +1,86 @@
+﻿@model IEnumerable<KeyValuePair<string, string>>
+@Styles.Render("~/Content/bkosmain")
+<div class="sc-tabbox">
+    <div class="tabdl2" id="thisTab">
+        <div id="tabdl-top">
+            <div style="float: left;">
+                @Html.ActionLink("新增隊伍", "FoolballCornerUpdate", null, new { @class = "btncss" })
+            </div>
+            <div id="message" style="float: right;"></div>
+            <div style="float: right;">
+                <label>关键字:</label>
+                @Html.TextBox("textKey", (string)ViewBag.keyW, new { @class = "chuxuninput" })
+                <a class="btncss" id="cxBtn">查 詢</a>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <dl style="padding-top: 5px;">
+            <dd>
+                <ul>
+                    <li> </li>
+                    <li>體彩網隊伍名稱</li>
+                    <li>大球后台隊伍名稱</li>
+                    <li>操作</li>
+                </ul>
+            </dd>
+            @foreach (KeyValuePair<string, string> item in Model)
+            {
+                <dd>
+                    <ul>
+                        <li></li>
+                        <li>@item.Key</li>
+                        <li>@item.Value</li>
+                        <li>
+                            @Html.ActionLink("修改", "FoolballCornerUpdate", new { SpName = item.Key, TsName = item.Value, operation = "update" }, null)
+                            /<a onclick="deletejq('@item.Key','@item.Value')">刪除</a>
+                        </li>
+                    </ul>
+                </dd>
+            }
+        </dl>
+    </div>
+    <div class="Pagination">
+        @Html.PageList((int)ViewBag.iCurrentPage, (int)ViewBag.iPageSize, (int)ViewBag.iCountPage, (string)ViewBag.keyW)
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#cxBtn").click(function () {
+            location.href = '@Url.Action("FoolballCorner")' + '?key=' + $.trim($('#textKey').val());
+        });
+    });
+
+    function deletejq(sp, ts) {
+        if (confirm("是否確定刪除【" + sp + "】？")) {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("DeleteJQ")",
+                data: { SpName: sp, TsName: ts },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "ok") {
+                        alert("已成功刪除");
+                        window.location = '@Url.Action("FoolballCorner")';
+                    }
+                    else {
+                        alert("刪除失敗");
+                    }
+                }
+            });
+        }
+    }
+</script>
+<style type="text/css">
+    #thisTab dd li:first-child {
+        width: 30px;
+    }
+
+    #thisTab dd li:nth-child(2), #thisTab dd li:nth-child(3), #thisTab dd li:nth-child(4) {
+        width: 30%;
+    }
+
+    #thisTab dd li {
+        height: 30px;
+        line-height: 30px;
+    }
+</style>
