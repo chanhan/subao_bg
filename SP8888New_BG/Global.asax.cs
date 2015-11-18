@@ -26,7 +26,7 @@ namespace SP8888New_BG
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
-
+            //ICO注入
             builder.RegisterAssemblyTypes(Assembly.Load("Services"))
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
